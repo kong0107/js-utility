@@ -1,10 +1,10 @@
 /**
- * @func fetch2
+ * @func fetchStrict
  * @desc 改寫 `fetch()`，使 HTTP 錯誤的情形（例如`404`）也會 reject 。
  * @param {...*} args 與 `fetch()` 相同。
  * @returns {Promise.<Response>}
  */
- const fetch2 = (...args) => fetch(...args).then(response => {
+ const fetchStrict = (...args) => fetch(...args).then(response => {
     if(response.ok) return response;
     throw new ReferenceError(response.statusText);
 });
@@ -15,7 +15,7 @@
  * @param {...*} args 與 `fetch()` 相同。
  * @returns {Promise.<Object>}
  */
-const fetchJSON = (...args) => fetch2(...args).then(res => res.json());
+const fetchJSON = (...args) => fetchStrict(...args).then(res => res.json());
 
 /**
  * @func fetchText
@@ -23,7 +23,7 @@ const fetchJSON = (...args) => fetch2(...args).then(res => res.json());
  * @param {...*} args 與 `fetch()` 相同。
  * @returns {Promise.<string>}
  */
-const fetchText = (...args) => fetch2(...args).then(res => res.text());
+const fetchText = (...args) => fetchStrict(...args).then(res => res.text());
 
 /**
  * @func fetchDOM

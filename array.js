@@ -1,9 +1,11 @@
 /**
  * Functions in this file could be assigned to `Array.prototype`,
  * and then you can use from an array.
+ * Assign what you want by yourself or call `addToArrayPrototype()` which is declared at the end of this file.
  *
  * @example
     // sequentially fetch resources and then resolves to responses.
+    Array.prototype.mapAsync = mapAsync; // run once
     [url1, url2].mapAsync(fetch);
 
  * If you don't like to change prototype, the using these function directly is also possible.
@@ -82,3 +84,12 @@ async function reduceRightAsync(callback, initial, target = this) {
 }
 
 const someAsync = (c, t) => findIndexAsync(c, t).then(r => r !== -1);
+
+function addToArrayPrototype() {
+    Object.assign(Array.prototype, {
+        everyAsync, filterAsync,
+        findAsync, findIndexAsync, findLastAsync, findLastIndexAsync,
+        forEachAsync, mapAsync, reduceAsync, reduceRightAsync,
+        someAsync
+    });
+}

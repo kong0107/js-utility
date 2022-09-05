@@ -3,14 +3,20 @@
  * @param {string | string[]} selectors
  * @param {Element | Document} [base = document]
  * @returns {Element | null}
+ *
+ * @example /// equivalent to document.querySelector("button")
+    $("button");
  */
 const $ = (s, b = document) => b.querySelector(s);
 
 /**
- * Alias of `querySelectorAll` but returns an array.
+ * Calls `querySelectorAll` and convert the result to an array.
  * @param {string | string[]} selectors
  * @param {Element | Document} [base = document]
  * @returns {Element[]}
+ *
+ * @example /// returns all trimmed values of <input>'s in `.myForm`.
+    $$(".myForm input").map(input => input.value.trim());
  */
 const $$ = (s, b = document) => [...b.querySelectorAll(s)];
 
@@ -22,10 +28,13 @@ const $$ = (s, b = document) => [...b.querySelectorAll(s)];
  * @returns {Node | null} node
  *
  * If `lastChildOfBody` is `false`, the whole `HTMLDocument` is returned.
- * In this case, their would exist `<html>`, `<head>`, and `<body>`
- * even `html` string contains no such things.
+ * If `lastChildOfBody` is `true`, the last child (may be a text node) in `<body>` (may be auto-inserted by browsers) would be returned.
  *
- * If `lastChildOfBody` is `true`, the last child (may be a text node) in `<body>` would be returned.
+ * Browsers may unexpectedly add essential tags such as `<html>`, `<head>`, and `<body>`,
+ * even given `html` string contains no such tags.
+ *
+ * Uncomplete html structure, for example, `<tr>` as the root node of the `html` string,
+ * may cause browsers not creating elements.
  *
  * @example
     // returns an `Element` whose `tagName` is "em" and has string "hi" as its text content.
