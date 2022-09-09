@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kong-util</title>
+    <script src="./dist/all.js"></script>
+    <script>
+        wait(1000).then(() => console.log("traditional mode works."));
+    </script>
+    <script type="module">
+        import kongUtil from "./mod/all.mjs";
+        kongUtil.wait(500).then(() => console.log("module mode works."));
+    </script>
+</head>
+<body>
+    <h1>kong-util demo</h1>
+    Try clicking these buttons:
+    <ol>
+        <li><button>listen for clicking</button></li>
+        <li><button>listen for clicking but alerts with a delay</button></li>
+        <li><button>waitFor() only for once</button></li>
+        <li><button>click this and the next one in one second</button></li>
+        <li><button>click the above one before clicking me</button></li>
+    </ol>
+    <script>
+        const buttons = $$("button");
+        // an alias of `document.querySelectorAll()`
+
+        listen(buttons[0], "click", () => alert("You've clicked the first button"));
+        // a shortcut to `EventTarget.addEventListener()`
+
+        listen(buttons[1], "click", async () => {
+            await wait(1000);
+            alert("You've clicked the second button about half a second before.");
+        });
+        // a shortcut to `EventTarget.addEventListener()`
+
+        waitFor(buttons[2], "click")
+        .then(() => alert("You've clicked the third button for the first time.\nThis message would not be shown again without refreshing the page."));
+        // a promise is pending for an event; this triggers only once.
+
+        listen(buttons[3], "click", () => {
+            waitFor(buttons[4], "click", 1000)
+            .then(() => alert("success!"))
+            .catch(() => alert("you fail..."));
+        });
+        // combination of a listener and a promise.
+
+        Promise.all(
+            buttons.map(btn => waitFor(btn, "click"))
+        )
+        .then(() => $("body").append(parseHTML("<p>All <EM>buttons</em> are <mark>clicked</mark> at least once.</P>")));
+        // promises waiting for their respective events
+    </script>
+</body>
+</html>

@@ -27,28 +27,37 @@ export function wait(ms) {
 }
 
 /**
- * Resolves until the callback runs or the promise resolve, or rejects until `timeLimit` milliseconds passed. Also an alias of `waitForEvent`.
+ * Resolves until the callback runs or the promise resolve, or rejects until `timeLimit` milliseconds passed. Also a shortcut to `waitForEvent`.
  * @param {Promise | Function | Object} sth - if neither a promise nor a function, then `waitForEvent` is used.
  * @param {number | string} [timeLimit] non-positive number and NaN would cause the promise never reject
  * @param {*} [reason = new Error("timeout")] rejected reason
  * @returns {Promise}
  *
  * @example /// rejects if `fetch()` does not resolves in 1 second.
-    await waitFor(fetch(myURL), 1000);
+    waitFor(fetch(myURL), 1000)
+    .then(resp => console.log("success"), err => console.error(err));
  *
  * @example /// similar to "promisify and run", but callbacks could be not error-first
     waitFor(cb => chrome.runtime.sendMessage(myMessage, cb))
-    .then(response => doSomething(response));
+    .then(resp => doSomething(resp));
+ *
+ * @example /// rejects if no click to `document.body` in 1 second
+    waitFor({target: document.body, type: "click"}, 1000)
+    .then(() => console.log("a click event in 1 second is detected"));
+ *
+ * @example /// same as above
+    waitForEvent(document.body, "click", 1000)
+    .then(() => console.log("a click event in 1 second is detected"));
  *
  */
 export function waitFor(sth, timeLimit, reason = new Error("timeout")) {
     let exe;
     if(sth instanceof Promise) exe = r => sth.then(r);
     else if(sth instanceof Function) exe = r => sth(r);
-    else if(typeof waitForEvent === "function") {
-        if(typeof sth === "string") return waitForEvent(...arguments);
-        const {type, target, ...options} = sth;
-        return waitForEvent(type, target, options, timeLimit, reason);
+    else {
+        if(sth instanceof EventTarget) return waitForEvent(...arguments);
+        const {target, type, ...options} = sth;
+        return waitForEvent(target, type, options, timeLimit, reason);
     }
     if(exe) return new Promise((resolve, reject) => {
         exe(resolve);

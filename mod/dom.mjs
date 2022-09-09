@@ -22,52 +22,52 @@ export const $$ = (s, b = document) => [...b.querySelectorAll(s)];
 
 /**
  * @func parseHTML
- * @desc shortcut to `DOMParser.parseFromString` but defaults to output `document.body.lastChild`
- * @param {string} html
- * @param {boolean} [lastChildOfBody = true]
+ * @desc shortcut to `DOMParser.parseFromString`
+ * @param {string} html -
+ * @param {boolean} [lastChildOfBody = false] -
+ *    if true, only the `document.body.lastChild` is returned, but it may be `null`;
+ *    if false, the whole `HTMLDocument` is returned.
  * @returns {Node | null} node
  *
- * If `lastChildOfBody` is `false`, the whole `HTMLDocument` is returned.
- * If `lastChildOfBody` is `true`, the last child (may be a text node) in `<body>` (may be auto-inserted by browsers) would be returned.
- *
+ * Incomplete HTML string may lead to unexpected result.
  * Browsers may unexpectedly add essential tags such as `<html>`, `<head>`, and `<body>`,
  * even given `html` string contains no such tags.
  *
- * Uncomplete html structure, for example, `<tr>` as the root node of the `html` string,
- * may cause browsers not creating elements.
+ * Another example of this phenomenon: `<tr>` as the root node of the `html` string,
+ * may cause browsers not creating elements but the text nodes within them.
  *
  * @example
-    // returns an `Element` whose `tagName` is "em" and has string "hi" as its text content.
+    /// returns an `Element` whose `tagName` is "em" and has string "hi" as its text content.
     parseHTML("<EM>hi!</em>");
 
  * @example
-    // returns a `HTMLDocument` which could be represented by "<html><head></head><body><em>HI</em></body></html>".
+    /// returns a `HTMLDocument` which could be represented by "<html><head></head><body><em>HI</em></body></html>".
     parseHTML("<EM>hi!</em>", false);
 
  * @example
-    // returns a `HTMLDocument` which could be represented by "<html><head><title>title</title></head><body><p>paragraph</p></body></html>".
+    /// returns a `HTMLDocument` which could be represented by "<html><head><title>title</title></head><body><p>paragraph</p></body></html>".
     parseHTML("<title>title</title><p>paragraph</p>", false);
 
  * @example
-    // returns `null` because `<title>` is automatically inserted into `<head>` and thus nothing in `<body>`.
+    /// returns `null` because `<title>` is automatically inserted into `<head>` and thus nothing in `<body>`.
     parseHTML("<title>my title</title>");
 
  * @example
-    // returns a text node "QQ" because `<tr>` is not allowed to exist outsied `<table>`.
+    /// returns a text node "QQ" because `<tr>` is not allowed to exist outsied `<table>`.
     parseHTML("<tr><td>QQ</td></tr>");
 
  * @example
-    // returns a text node " " because there exist a space at the end of `html` string.
+    /// returns a text node " " because there exist a space at the end of `html` string.
     parseHTML("<p>first</p><p>second</p> ");
 
  * @example
-    // returns what you may want in the previous example.
+    /// returns what you may want in the previous example.
     parseHTML("<div><p>first</p><p>second</p> </div>");
  *
  */
 export const parseHTML = (() => {
     let parser;
-    return (html, lastChildOfBody = true) => {
+    return (html, lastChildOfBody = false) => {
         if(typeof DOMParser === "undefined") throw ReferenceError("DOMParser is not defined");
         if(!parser) parser = new DOMParser();
         const doc = parser.parseFromString(html, "text/html");

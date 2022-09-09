@@ -10,38 +10,35 @@ export const listen = (target, ...args) => target.addEventListener(...args);
 
 /**
  * Resolves to the event dispatched to `target`, or rejects if `timeLimit` milliseconds passed.
- * @param {string} type
  * @param {EventTarget} target
- * @param {Object} options - used in `EventTarget.addEventListener()`
- * @param {number | string} [timeLimit] non-positive number and NaN would cause the promise never reject
- * @param {*} [reason = new Error("timeout")] rejected reason
+ * @param {string} type
+ * @param {Object | boolean} [options] - used in `EventTarget.addEventListener()`
+ * @param {number | string} [timeLimit] - non-positive number and NaN would cause the promise never reject
+ * @param {*} [reason = new Error("timeout")] - rejected reason; meaningless if `timeLimit` is invalid
  * @returns {Promise.<Event>}
  *
  * @example /// rejects if no click to `document.body` in 1 second
-    waitForEvent({type: "click", target: document.body}, 1000)
+    waitForEvent(document.body, "click", 1000)
     .then(() => console.log("a click event in 1 second is detected"));
-    .catch(() => console.log("timeout"));
-
- * @example /// same as above
-    waitForEvent("click", document.body, null, 1000)
-    .then(() => console.log("a click event in 1 second is detected"))
-    .catch(() => console.log("timeout"));
  *
  */
-export function waitForEvent(type, target, options, timeLimit, reason = new Error("timeout")) {
-    let controller;
-    if(typeof options !== object) options = {capture: !!options};
-    options = Object.assign({}, options, {once: true}); // don't modify the origin object
-    if(timeLimit > 0 && !(options.signal instanceof AbortSignal)) {
-        controller = new AbortController();
-        options.signal = controller.signal;
+export function waitForEvent(target, type, ...rest) {
+    let options, timeLimit, reason;
+    if(rest.length && isNaN(rest[0])) {
+        options = (typeof rest[0] === "object")
+            ? Object.assign({}, rest[0])
+            : {capture: !!rest[0]}
+        ;
+        rest.splice(0, 1);
     }
+    else options = {capture: false};
+    options.once = true;
+    timeLimit = rest[0] || 0;
+    reason = rest[1] || new Error("timeout");
+
     return new Promise((resolve, reject) => {
         listen(target, type, resolve, options);
-        if(timeLimit > 0) setTimeout(() => {
-            reject(reason);
-            if(controller) controller.abort(reason);
-        }, timeLimit);
+        if(timeLimit > 0) setTimeout(reject, timeLimit, reason);
     });
 }
 

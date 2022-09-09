@@ -3,7 +3,8 @@ import {parseHTML} from "./dom.mjs";
 /**
  * @func fetchStrict
  * @desc 改寫 `fetch()`，使 HTTP 錯誤的情形（例如`404`）也會 reject 。
- * @param {...*} args 與 `fetch()` 相同。
+ * @param {string | URL | Request} resource
+ * @param {Object} options 與 `fetch()` 相同。
  * @returns {Promise.<Response>}
  */
 export const fetchStrict = (...args) => fetch(...args).then(response => {
