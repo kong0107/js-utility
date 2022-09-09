@@ -18,11 +18,11 @@ export const $ = (s, b = document) => b.querySelector(s);
  * @example /// returns all trimmed values of <input>'s in `.myForm`.
     $$(".myForm input").map(input => input.value.trim());
  */
-const $$ = (s, b = document) => [...b.querySelectorAll(s)];
+export const $$ = (s, b = document) => [...b.querySelectorAll(s)];
 
 /**
  * @func parseHTML
- * @desc Parse HTML into DOM
+ * @desc shortcut to `DOMParser.parseFromString` but defaults to output `document.body.lastChild`
  * @param {string} html
  * @param {boolean} [lastChildOfBody = true]
  * @returns {Node | null} node
@@ -65,16 +65,22 @@ const $$ = (s, b = document) => [...b.querySelectorAll(s)];
     parseHTML("<div><p>first</p><p>second</p> </div>");
  *
  */
-const parseHTML = (() => {
+export const parseHTML = (() => {
     if(typeof DOMParser === "undefined") return;
-    let domParser;
+    let parser;
     return (html, lastChildOfBody = true) => {
-        if(!domParser) domParser = new DOMParser();
-        const doc = domParser.parseFromString(html, "text/html");
+        if(!parser) parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
         return lastChildOfBody ? doc.body.lastChild : doc;
     }
 })();
 
-export default {
+
+const output = {
    $, $$, parseHTML
 };
+
+if(typeof window === "object" && window === globalThis)
+    Object.assign(window, output);
+
+export default output;

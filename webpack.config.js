@@ -2,10 +2,16 @@ const path = require("path");
 
 module.exports = {
     mode: "production",
-    entry: "./src/index.js",
+    entry: {
+        array: "./src/array.js",
+        async: "./src/async.js",
+        dom: "./src/dom.js",
+        web: "./src/web.js",
+        all: "./src/all.js"
+    },
     output: {
-        filename: "all.js",
         path: path.resolve(__dirname, "dist"),
-        publicPath: "./"
-    }
+        // publicPath: "./"
+    },
+    // watch: true
 };

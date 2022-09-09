@@ -1,10 +1,12 @@
+import {parseHTML} from "./dom";
+
 /**
  * @func fetchStrict
  * @desc 改寫 `fetch()`，使 HTTP 錯誤的情形（例如`404`）也會 reject 。
  * @param {...*} args 與 `fetch()` 相同。
  * @returns {Promise.<Response>}
  */
-const fetchStrict = (...args) => fetch(...args).then(response => {
+export const fetchStrict = (...args) => fetch(...args).then(response => {
     if(response.ok) return response;
     throw new ReferenceError(response.statusText);
 });
@@ -15,7 +17,7 @@ const fetchStrict = (...args) => fetch(...args).then(response => {
  * @param {...*} args 與 `fetch()` 相同。
  * @returns {Promise.<Object>}
  */
-const fetchJSON = (...args) => fetchStrict(...args).then(res => res.json());
+export const fetchJSON = (...args) => fetchStrict(...args).then(res => res.json());
 
 /**
  * @func fetchText
@@ -23,7 +25,7 @@ const fetchJSON = (...args) => fetchStrict(...args).then(res => res.json());
  * @param {...*} args 與 `fetch()` 相同。
  * @returns {Promise.<string>}
  */
-const fetchText = (...args) => fetchStrict(...args).then(res => res.text());
+export const fetchText = (...args) => fetchStrict(...args).then(res => res.text());
 
 /**
  * @func fetchDOM
@@ -31,12 +33,17 @@ const fetchText = (...args) => fetchStrict(...args).then(res => res.text());
  * @param {...*} args 與 `fetch()` 相同。
  * @returns {Promise.<HTMLDocument>}
  */
-const fetchDOM = (...args) => fetchText(...args).then(parseHTML);
+export const fetchDOM = (...args) => fetchText(...args).then(parseHTML);
 
 
-export default {
+const output = {
     fetchStrict,
     fetchJSON,
     fetchText,
     fetchDOM
 };
+
+if(typeof window === "object" && window === globalThis)
+    Object.assign(window, output);
+
+export default output;

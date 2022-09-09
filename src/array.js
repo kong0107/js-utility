@@ -19,11 +19,11 @@
  *
  */
 
-async function everyAsync(callback, target = this) {
+export async function everyAsync(callback, target = this) {
     return (await mapAsync(callback, target)).every(x => x);
 }
 
-async function filterAsync(callback, target = this) {
+export async function filterAsync(callback, target = this) {
     const results = [];
     for(let i = 0; i < target.length; ++i)
         if(await callback(target[i], i, target))
@@ -31,35 +31,35 @@ async function filterAsync(callback, target = this) {
     return results;
 }
 
-async function findAsync(callback, target = this, returnIndex) {
+export async function findAsync(callback, target = this, returnIndex) {
     for(let i = 0; i < target.length; ++i)
         if(await callback(target[i], i, target))
             return returnIndex ? i : target[i];
     return returnIndex ? -1 : undefined;
 }
-const findIndexAsync = (c, t) => findAsync(c, t, true);
+export const findIndexAsync = (c, t) => findAsync(c, t, true);
 
-async function findLastAsync(callback, target = this, returnIndex) {
+export async function findLastAsync(callback, target = this, returnIndex) {
     for(let i = target.length - 1; i >= 0; --i)
         if(await callback(target[i], i, target))
             return returnIndex ? i : target[i];
     return returnIndex ? -1 : undefined;
 }
-const findLastIndexAsync = (c, t) => findLastAsync(c, t, true);
+export const findLastIndexAsync = (c, t) => findLastAsync(c, t, true);
 
-async function forEachAsync(callback, target = this) {
+export async function forEachAsync(callback, target = this) {
     for(let i = 0; i < target.length; ++i)
         await callback(target[i], i, target);
 }
 
-async function mapAsync(callback, target = this) {
+export async function mapAsync(callback, target = this) {
     const results = [];
     for(let i = 0; i < target.length; ++i)
         results.push(await callback(target[i], i, target));
     return results;
 }
 
-async function reduceAsync(callback, initial, target = this) {
+export async function reduceAsync(callback, initial, target = this) {
     let acc = initial, startingIndex = 0;
     if(typeof initial === "undefined") {
         if(!target.length) throw new TypeError("Reduce of empty array with no initial value");
@@ -71,7 +71,7 @@ async function reduceAsync(callback, initial, target = this) {
     return acc;
 }
 
-async function reduceRightAsync(callback, initial, target = this) {
+export async function reduceRightAsync(callback, initial, target = this) {
     let acc = initial, startingIndex = target.length - 1;
     if(typeof initial === "undefined") {
         if(!target.length) throw new TypeError("Reduce of empty array with no initial value");
@@ -83,7 +83,7 @@ async function reduceRightAsync(callback, initial, target = this) {
     return acc;
 }
 
-const someAsync = (c, t) => findIndexAsync(c, t).then(r => r !== -1);
+export const someAsync = (c, t) => findIndexAsync(c, t).then(r => r !== -1);
 
 
 const arrayPrototypeExtended = {
@@ -92,6 +92,11 @@ const arrayPrototypeExtended = {
     forEachAsync, mapAsync, reduceAsync, reduceRightAsync,
     someAsync
 };
-const extendArrayPrototype = () => Object.assign(Array.prototype, arrayPrototypeExtended);
+export const extendArrayPrototype = () => Object.assign(Array.prototype, arrayPrototypeExtended);
 
-export default Object.assign(arrayPrototypeExtended, {extendArrayPrototype});
+const output = Object.assign({extendArrayPrototype}, arrayPrototypeExtended);
+
+if(typeof window === "object" && window === globalThis)
+    Object.assign(window, output);
+
+export default output;

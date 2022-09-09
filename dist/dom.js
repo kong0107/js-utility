@@ -1,0 +1,1 @@
+(()=>{"use strict";const e={$:(e,t=document)=>t.querySelector(e),$$:(e,t=document)=>[...t.querySelectorAll(e)],parseHTML:(()=>{if("undefined"==typeof DOMParser)return;let e;return(t,r=!0)=>{e||(e=new DOMParser);const n=e.parseFromString(t,"text/html");return r?n.body.lastChild:n}})()};"object"==typeof window&&window===globalThis&&Object.assign(window,e)})();

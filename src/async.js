@@ -4,7 +4,7 @@
  * @param {boolean} [moreThanOneData=false] - wheather callback has more than one arguments having data.
  * @returns {Function} a function returns promise
  */
-function promisify(func, moreThanOneData = false) {
+export function promisify(func, moreThanOneData = false) {
     return (...args) => {
         return new Promise((resolve, reject) =>
             func(...args, (err, ...data) => {
@@ -23,14 +23,14 @@ function promisify(func, moreThanOneData = false) {
  * @param  {Object | boolean} options
  * @returns {undefined}
  */
-const listen = (target, ...args) => target.addEventListener(...args);
+export const listen = (target, ...args) => target.addEventListener(...args);
 
 /**
  * Resolves after `ms` milliseconds.
  * @param {integer} ms
  * @returns {Promise} never rejects
  */
-function wait(ms) {
+export function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
@@ -49,7 +49,7 @@ function wait(ms) {
     .then(response => doSomething(response));
  *
  */
-function waitFor(sth, timeLimit, reason = new Error("timeout")) {
+export function waitFor(sth, timeLimit, reason = new Error("timeout")) {
     let exe;
     if(sth instanceof Promise) exe = r => sth.then(r);
     else if(sth instanceof Function) exe = r => sth(r);
@@ -84,7 +84,7 @@ function waitFor(sth, timeLimit, reason = new Error("timeout")) {
     .catch(() => console.log("timeout"));
  *
  */
-function waitForEvent(type, target, options, timeLimit, reason = new Error("timeout")) {
+export function waitForEvent(type, target, options, timeLimit, reason = new Error("timeout")) {
     let controller;
     if(typeof options !== object) options = {capture: !!options};
     options = Object.assign({}, options, {once: true}); // don't modify the origin object
@@ -113,15 +113,21 @@ function waitForEvent(type, target, options, timeLimit, reason = new Error("time
     const fetchAutoReject = addTimeLimit(fetch, 3000);
  *
  */
-function addTimeLimit(asyncFunc, timeLimit, reason) {
+export function addTimeLimit(asyncFunc, timeLimit, reason) {
     return function(...args) {
         const promise = asyncFunc(...args);
         return waitFor(promise, timeLimit, reason);
     };
 }
 
-export default {
+
+const output = {
     promisify, listen,
     wait, waitFor, waitForEvent,
     addTimeLimit
 };
+
+if(typeof window === "object" && window === globalThis)
+    Object.assign(window, output);
+
+export default output;
