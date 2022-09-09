@@ -85,11 +85,13 @@ async function reduceRightAsync(callback, initial, target = this) {
 
 const someAsync = (c, t) => findIndexAsync(c, t).then(r => r !== -1);
 
-function addToArrayPrototype() {
-    Object.assign(Array.prototype, {
-        everyAsync, filterAsync,
-        findAsync, findIndexAsync, findLastAsync, findLastIndexAsync,
-        forEachAsync, mapAsync, reduceAsync, reduceRightAsync,
-        someAsync
-    });
-}
+
+const arrayPrototypeExtended = {
+    everyAsync, filterAsync,
+    findAsync, findIndexAsync, findLastAsync, findLastIndexAsync,
+    forEachAsync, mapAsync, reduceAsync, reduceRightAsync,
+    someAsync
+};
+const extendArrayPrototype = () => Object.assign(Array.prototype, arrayPrototypeExtended);
+
+export default Object.assign(arrayPrototypeExtended, {extendArrayPrototype});

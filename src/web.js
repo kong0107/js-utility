@@ -4,7 +4,7 @@
  * @param {...*} args 與 `fetch()` 相同。
  * @returns {Promise.<Response>}
  */
- const fetchStrict = (...args) => fetch(...args).then(response => {
+const fetchStrict = (...args) => fetch(...args).then(response => {
     if(response.ok) return response;
     throw new ReferenceError(response.statusText);
 });
@@ -32,3 +32,11 @@ const fetchText = (...args) => fetchStrict(...args).then(res => res.text());
  * @returns {Promise.<HTMLDocument>}
  */
 const fetchDOM = (...args) => fetchText(...args).then(parseHTML);
+
+
+export default {
+    fetchStrict,
+    fetchJSON,
+    fetchText,
+    fetchDOM
+};

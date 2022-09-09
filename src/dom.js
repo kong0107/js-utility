@@ -7,7 +7,7 @@
  * @example /// equivalent to document.querySelector("button")
     $("button");
  */
-const $ = (s, b = document) => b.querySelector(s);
+export const $ = (s, b = document) => b.querySelector(s);
 
 /**
  * Calls `querySelectorAll` and convert the result to an array.
@@ -74,3 +74,7 @@ const parseHTML = (() => {
         return lastChildOfBody ? doc.body.lastChild : doc;
     }
 })();
+
+export default {
+   $, $$, parseHTML
+};
