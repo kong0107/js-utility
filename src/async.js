@@ -1,3 +1,5 @@
+import {waitForEvent} from "./event.js";
+
 /**
  * Simulate `util.promisify` of `Node.js`.
  * @param {Function} func - a function taking an error-first callback as its final argument in all cases.
@@ -14,16 +16,6 @@ export function promisify(func, moreThanOneData = false) {
         );
     };
 }
-
-/**
- * Shortcut for `EventTarget.addEventListner`.
- * @param {EventTarget} target
- * @param  {string} eventType
- * @param  {Function} listener
- * @param  {Object | boolean} options
- * @returns {undefined}
- */
-export const listen = (target, ...args) => target.addEventListener(...args);
 
 /**
  * Resolves after `ms` milliseconds.
@@ -53,54 +45,16 @@ export function waitFor(sth, timeLimit, reason = new Error("timeout")) {
     let exe;
     if(sth instanceof Promise) exe = r => sth.then(r);
     else if(sth instanceof Function) exe = r => sth(r);
-    else {
+    else if(typeof waitForEvent === "function") {
         if(typeof sth === "string") return waitForEvent(...arguments);
         const {type, target, ...options} = sth;
         return waitForEvent(type, target, options, timeLimit, reason);
     }
-    return new Promise((resolve, reject) => {
+    if(exe) return new Promise((resolve, reject) => {
         exe(resolve);
         if(timeLimit > 0) setTimeout(reject, timeLimit, reason);
     });
 }
-
-/**
- * Resolves to the event dispatched to `target`, or rejects if `timeLimit` milliseconds passed.
- * @param {string} type
- * @param {EventTarget} target
- * @param {Object} options - used in `EventTarget.addEventListener()`
- * @param {number | string} [timeLimit] non-positive number and NaN would cause the promise never reject
- * @param {*} [reason = new Error("timeout")] rejected reason
- * @returns {Promise.<Event>}
- *
- * @example /// rejects if no click to `document.body` in 1 second
-    waitForEvent({type: "click", target: document.body}, 1000)
-    .then(() => console.log("a click event in 1 second is detected"));
-    .catch(() => console.log("timeout"));
-
- * @example /// same as above
-    waitFor("click", document.body, null, 1000)
-    .then(() => console.log("a click event in 1 second is detected"))
-    .catch(() => console.log("timeout"));
- *
- */
-export function waitForEvent(type, target, options, timeLimit, reason = new Error("timeout")) {
-    let controller;
-    if(typeof options !== object) options = {capture: !!options};
-    options = Object.assign({}, options, {once: true}); // don't modify the origin object
-    if(timeLimit > 0 && !(options.signal instanceof AbortSignal)) {
-        controller = new AbortController();
-        options.signal = controller.signal;
-    }
-    return new Promise((resolve, reject) => {
-        listen(target, type, resolve, options);
-        if(timeLimit > 0) setTimeout(() => {
-            reject(reason);
-            if(controller) controller.abort(reason);
-        }, timeLimit);
-    });
-}
-
 
 /**
  * Convert an async function by appending an argument represents time limit.
@@ -122,9 +76,7 @@ export function addTimeLimit(asyncFunc, timeLimit, reason) {
 
 
 const output = {
-    promisify, listen,
-    wait, waitFor, waitForEvent,
-    addTimeLimit
+    promisify, wait, waitFor, addTimeLimit
 };
 
 if(typeof window === "object" && window === globalThis)

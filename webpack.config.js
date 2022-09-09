@@ -1,14 +1,16 @@
 const path = require("path");
 
+const entries =
+    ["array", "async", "dom", "web", "event", "all"]
+    .reduce(
+        (acc, cur) => Object.assign(acc, {[cur]: `./src/${cur}.js`}),
+        {}
+    )
+;
+
 module.exports = {
     mode: "production",
-    entry: {
-        array: "./src/array.js",
-        async: "./src/async.js",
-        dom: "./src/dom.js",
-        web: "./src/web.js",
-        all: "./src/all.js"
-    },
+    entry: entries,
     output: {
         path: path.resolve(__dirname, "dist"),
         // publicPath: "./"
