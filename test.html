@@ -5,10 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>kong-util</title>
-    <script src="all.js"></script>
+    <script src="./dist/all.js"></script>
     <script>
+        wait(1000).then(() => console.log("traditional mode works."));
     </script>
-    <script type="module" src="test.mjs"></script>
+    <script type="module">
+        import kongUtil from "./mod/all.mjs";
+        kongUtil.wait(500).then(() => console.log("module mode works."));
+    </script>
 </head>
 <body>
 

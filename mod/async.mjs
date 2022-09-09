@@ -1,4 +1,4 @@
-import {waitForEvent} from "./event.js";
+import {waitForEvent} from "./event.mjs";
 
 /**
  * Simulate `util.promisify` of `Node.js`.

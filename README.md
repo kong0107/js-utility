@@ -4,39 +4,41 @@ Here are some codes I usually use.
 Some runs in any environment that supports JavaScript (ES6 and later);
 but some is usable only in browsers.
 
-<!-- ## in Node.js
+## in Node.js
 
-```bash
-npm install --save kong-util
-```
+Has not publish to npm yet; download to your workplace manually.
 
-```js
-// CommonJS
-const kongUtil = require("kong-util");
-
-// ES module (not done yet)
-import kongUtil from "kong-util";
+<!-- ```bash
+npm install --save kong-util # not yet
 ``` -->
 
-## in browsers
-```html
-<script src="https://cdn.jsdelivr.net/gh/kong0107/kong-util/dist/all.js"></script>
+```js
+// ES module
+import kongUtil from "kong-util";
+
+// both in ES module and CommonJS
+import("kong-util").then(kongUtil => {
+    // codes here
+});
 ```
 
+## in browsers
+
+### traditional way
+
 ```html
-<button>A</button>
-<button>B</button>
-<button>C</button>
+<script src="https://cdn.jsdelivr.net/gh/kong0107/kong-util/dist/all.js"></script>
 <script>
-    $$("button").forEach(button => {
-        listen(button, "click", () => alert("hoho"));
-    });
+    $("body").append("this text will be appended to the bottom of the page.");
 </script>
 ```
 
-## going to support:
+### module way
 
-- [ ] Node.js: CommnJS
-- [ ] Node.js: ES module
-- [x] browser: `<script src>`
-- [ ] browser: `<script type="module">`
+```html
+<script type="module">
+    import kongUtil from "https://cdn.jsdelivr.net/gh/kong0107/kong-util/mod/all.mjs";
+
+    kongUtil.wait(1000).then(() => console.log("module mode works"));
+</script>
+```

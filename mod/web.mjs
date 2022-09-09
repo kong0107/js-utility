@@ -1,4 +1,4 @@
-import {parseHTML} from "./dom.js";
+import {parseHTML} from "./dom.mjs";
 
 /**
  * @func fetchStrict

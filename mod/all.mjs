@@ -9,17 +9,17 @@
  *
  * Well, maybe this file itself shall be dynamically created instead of manually maintained.
  */
-export * from "./array.js";
-export * from "./async.js";
-export * from "./dom.js";
-export * from "./web.js";
-export * from "./event.js";
+export * from "./array.mjs";
+export * from "./async.mjs";
+export * from "./dom.mjs";
+export * from "./web.mjs";
+export * from "./event.mjs";
 
-import utilArray from "./array.js";
-import utilAsync from "./async.js";
-import utilDom from "./dom.js";
-import utilWeb from "./web.js";
-import utilEvent from "./event.js";
+import utilArray from "./array.mjs";
+import utilAsync from "./async.mjs";
+import utilDom from "./dom.mjs";
+import utilWeb from "./web.mjs";
+import utilEvent from "./event.mjs";
 
 export default Object.assign({},
     utilArray, utilAsync, utilDom, utilWeb, utilEvent

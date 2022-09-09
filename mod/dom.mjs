@@ -66,9 +66,9 @@ export const $$ = (s, b = document) => [...b.querySelectorAll(s)];
  *
  */
 export const parseHTML = (() => {
-    if(typeof DOMParser === "undefined") return;
     let parser;
     return (html, lastChildOfBody = true) => {
+        if(typeof DOMParser === "undefined") throw ReferenceError("DOMParser is not defined");
         if(!parser) parser = new DOMParser();
         const doc = parser.parseFromString(html, "text/html");
         return lastChildOfBody ? doc.body.lastChild : doc;
@@ -77,7 +77,7 @@ export const parseHTML = (() => {
 
 
 const output = {
-   $, $$, parseHTML
+    $, $$, parseHTML
 };
 
 if(typeof window === "object" && window === globalThis)

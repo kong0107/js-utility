@@ -2,9 +2,9 @@
   "name": "js-utility",
   "version": "0.1.0",
   "description": "my own library for js",
-  "main": "./dist/all.js",
+  "main": "./mod/all.js",
   "scripts": {
-      "test": "node test",
+      "test": "node test.js",
       "build": "webpack"
   },
   "repository": {
