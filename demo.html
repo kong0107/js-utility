@@ -32,7 +32,7 @@
 
         listen(buttons[1], "click", async () => {
             await wait(1000);
-            alert("You've clicked the second button about half a second before.");
+            alert("You've clicked the second button a second ago.");
         });
         // a shortcut to `EventTarget.addEventListener()`
 
@@ -50,8 +50,9 @@
         Promise.all(
             buttons.map(btn => waitFor(btn, "click"))
         )
-        .then(() => $("body").append(parseHTML("<p>All <EM>buttons</em> are <mark>clicked</mark> at least once.</P>")));
+        .then(() => $("body").append(parseHTML("<p>All buttons are <mark>clicked</mark> at least once.</P>")));
         // promises waiting for their respective events
+        // HTML strings may be parsed into DOM object with one function
     </script>
 </body>
 </html>

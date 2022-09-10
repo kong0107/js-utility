@@ -1,15 +1,24 @@
 /**
- * Shortcut for `EventTarget.addEventListner`.
+ * @func listen
+ * @desc Shortcut to `EventTarget.addEventListner`.
  * @param {EventTarget} target
- * @param  {string} eventType
- * @param  {Function} listener
- * @param  {Object | boolean} options
+ * @param  {...any} args - arguments for `addEventListener`
  * @returns {undefined}
  */
 export const listen = (target, ...args) => target.addEventListener(...args);
 
 /**
- * Resolves to the event dispatched to `target`, or rejects if `timeLimit` milliseconds passed.
+ * @func unlisten
+ * @desc Shortcut to `EventTarget.removeEventListener`
+ * @param {EventTarget} target
+ * @param  {...any} args - arguments for `removeEventListener`
+ * @returns {undefined}
+ */
+export const unlisten = (target, ...args) => target.removeEventListener(...args);
+
+/**
+ * @func waitForEvent
+ * @desc Resolves to the event, or rejects if `timeLimit` milliseconds passed.
  * @param {EventTarget} target
  * @param {string} type
  * @param {Object | boolean} [options] - used in `EventTarget.addEventListener()`
@@ -37,14 +46,35 @@ export function waitForEvent(target, type, ...rest) {
     reason = rest[1] || new Error("timeout");
 
     return new Promise((resolve, reject) => {
-        listen(target, type, resolve, options);
-        if(timeLimit > 0) setTimeout(reject, timeLimit, reason);
+        const listener = event => {
+            if(options.preventDefault) event.preventDefault();
+            if(options.stopPropagation) event.stopPropagation();
+            if(options.stopImmediatePropagation) event.stopImmediatePropagation();
+            resolve();
+        };
+        listen(target, type, listener, options);
+        if(timeLimit > 0) setTimeout(() => {
+            unlisten(target, listener, options);
+            reject(reason);
+        }, timeLimit);
     });
-}
+};
 
+/**
+ * @func extendEventTargetPrototype
+ * @desc Add above methods to `EventTarget` objects.
+ */
+export const extendEventTargetPrototype = () =>
+    Object.assign(EventTarget.prototype, {
+        listen: EventTarget.prototype.addEventListener,
+        unlisten: EventTarget.prototype.removeEventListener,
+        waitFor: function(...args) { return waitForEvent(this, ...args); }
+    })
+;
 
 const output = {
-    listen, waitForEvent
+    listen, waitForEvent,
+    extendEventTargetPrototype
 };
 
 if(typeof window === "object" && window === globalThis)

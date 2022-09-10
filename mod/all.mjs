@@ -9,18 +9,33 @@
  *
  * Well, maybe this file itself shall be dynamically created instead of manually maintained.
  */
-export * from "./array.mjs";
-export * from "./async.mjs";
-export * from "./dom.mjs";
-export * from "./web.mjs";
-export * from "./event.mjs";
-
 import utilArray from "./array.mjs";
 import utilAsync from "./async.mjs";
 import utilDom from "./dom.mjs";
 import utilWeb from "./web.mjs";
 import utilEvent from "./event.mjs";
 
-export default Object.assign({},
-    utilArray, utilAsync, utilDom, utilWeb, utilEvent
-);
+export * from "./array.mjs";
+export * from "./async.mjs";
+export * from "./dom.mjs";
+export * from "./web.mjs";
+export * from "./event.mjs";
+
+/**
+ * @func extendPrototype
+ * @desc Add methods to native classes.
+ */
+export const extendPrototype = () => {
+    utilArray.extendArrayPrototype()
+    utilEvent.extendEventTargetPrototype();
+};
+
+
+const output = {extendPrototype};
+
+if(typeof window === "object" && window === globalThis)
+    Object.assign(window, output);
+
+Object.assign(output, utilArray, utilAsync, utilDom, utilWeb, utilEvent);
+
+export default output;
