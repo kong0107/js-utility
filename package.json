@@ -4,8 +4,9 @@
   "description": "my own library for js",
   "exports": "./mod/all.mjs",
   "scripts": {
-      "test": "node test.js",
-      "build": "webpack"
+    "test": "node test.js",
+    "build": "webpack",
+    "prepare": "jsdoc -r -c ./jsdoc.config.json"
   },
   "repository": {
     "type": "git",
@@ -20,5 +21,8 @@
   "devDependencies": {
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0"
+  },
+  "dependencies": {
+    "jsml-parser": "^0.1.0"
   }
 }

@@ -1,3 +1,7 @@
+/**
+ * @module utilWeb
+ */
+
 import {parseHTML} from "./dom.mjs";
 
 /**

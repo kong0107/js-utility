@@ -1,0 +1,9 @@
+{
+    "source": {
+        "include": ["./mod/"],
+        "includePattern": ".+\\.mjs"
+    },
+    "opts": {
+        "destination": "./doc/"
+    }
+}

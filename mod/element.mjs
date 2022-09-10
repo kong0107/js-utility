@@ -1,4 +1,8 @@
 /**
+ * @module utilElement
+ */
+
+/**
  * @func clearElement
  * @desc remove all children (including text nodes) of the element
  * @param {Element} elem

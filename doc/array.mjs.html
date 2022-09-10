@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: array.mjs</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: array.mjs</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module utilArray
+ * @desc
+ *  Functions in this file could be assigned to `Array.prototype`,
+ *  and then you can use them as methods of an array.
+ *  Assign what you want by yourself or call `extendArrayPrototype()`
+ *  to add them all.
+ *
+ * These functions are designed to run sequentially.
+ * If you want to run severy async functions at the same time,
+ * consider static methods of `Promise`, such as `all`, `any`, `race`, and `allSettled`.
+ *
+ * @example
+    // sequentially fetch resources and then resolves to responses.
+    Array.prototype.mapAsync = mapAsync; // run once
+    [url1, url2].mapAsync(fetch);
+ *
+ * @example
+    // same as above
+    mapAsync(fetch, [url1, url2])
+ *
+ */
+
+export async function everyAsync(callback, target = this) {
+    return (await mapAsync(callback, target)).every(x => x);
+}
+
+export async function filterAsync(callback, target = this) {
+    const results = [];
+    for(let i = 0; i &lt; target.length; ++i)
+        if(await callback(target[i], i, target))
+            results.push(target[i]);
+    return results;
+}
+
+export async function findAsync(callback, target = this, returnIndex) {
+    for(let i = 0; i &lt; target.length; ++i)
+        if(await callback(target[i], i, target))
+            return returnIndex ? i : target[i];
+    return returnIndex ? -1 : undefined;
+}
+export const findIndexAsync = (c, t) => findAsync(c, t, true);
+
+export async function findLastAsync(callback, target = this, returnIndex) {
+    for(let i = target.length - 1; i >= 0; --i)
+        if(await callback(target[i], i, target))
+            return returnIndex ? i : target[i];
+    return returnIndex ? -1 : undefined;
+}
+export const findLastIndexAsync = (c, t) => findLastAsync(c, t, true);
+
+export async function forEachAsync(callback, target = this) {
+    for(let i = 0; i &lt; target.length; ++i)
+        await callback(target[i], i, target);
+}
+
+export async function mapAsync(callback, target = this) {
+    const results = [];
+    for(let i = 0; i &lt; target.length; ++i)
+        results.push(await callback(target[i], i, target));
+    return results;
+}
+
+export async function reduceAsync(callback, initial, target = this) {
+    let acc = initial, startingIndex = 0;
+    if(typeof initial === "undefined") {
+        if(!target.length) throw new TypeError("Reduce of empty array with no initial value");
+        acc = target[0];
+        startingIndex = 1;
+    }
+    for(let i = startingIndex; i &lt; target.length; ++i)
+        acc = await callback(acc, target[i], i, target);
+    return acc;
+}
+
+export async function reduceRightAsync(callback, initial, target = this) {
+    let acc = initial, startingIndex = target.length - 1;
+    if(typeof initial === "undefined") {
+        if(!target.length) throw new TypeError("Reduce of empty array with no initial value");
+        acc = target[startingIndex];
+        --startingIndex;
+    }
+    for(let i = startingIndex; i >= 0; --i)
+        acc = await callback(acc, target[i], i, target);
+    return acc;
+}
+
+export const someAsync = (c, t) => findIndexAsync(c, t).then(r => r !== -1);
+
+
+/**
+ * @func extendArrayPrototype
+ * @desc Add methods to array objects.
+ */
+const arrayPrototypeExtended = {
+    everyAsync, filterAsync,
+    findAsync, findIndexAsync, findLastAsync, findLastIndexAsync,
+    forEachAsync, mapAsync, reduceAsync, reduceRightAsync,
+    someAsync
+};
+export const extendArrayPrototype = () => Object.assign(Array.prototype, arrayPrototypeExtended);
+
+const output = Object.assign({extendArrayPrototype}, arrayPrototypeExtended);
+
+if(typeof window === "object" &amp;&amp; window === globalThis)
+    Object.assign(window, output);
+
+export default output;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-utilArray.html">utilArray</a></li><li><a href="module-utilAsync.html">utilAsync</a></li><li><a href="module-utilDom.html">utilDom</a></li><li><a href="module-utilElement.html">utilElement</a></li><li><a href="module-utilEvent.html">utilEvent</a></li><li><a href="module-utilWeb.html">utilWeb</a></li></ul><h3>Global</h3><ul><li><a href="global.html#extendPrototype">extendPrototype</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sat Sep 10 2022 20:25:43 GMT+0800 (台北標準時間)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
