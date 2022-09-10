@@ -1,17 +1,18 @@
 /**
  * @module utilDom
  */
+import kongUtil from "./core.mjs";
 
 /**
  * @func $
  * @desc Shortcut to `querySelector`, but different if passing array of strings
  * @param {string | string[]} selectors - one or more CSS selector string
  * @param {Element | Document} [base = document]
- * @returns {Element | Element[] | null}
+ * @returns {Element | Element[] | null} element
  *
- * If `selectors` is a string, this function works exactly as `querySelector()`.
- * If `selectors` is an array of strings, this returns
- * an array with each element corresponding to the input element, or null if no such ones.
+ *  If `selectors` is a string, this function works exactly as `querySelector()`.
+ *  If `selectors` is an array of strings, this returns
+ *  an array with each element corresponding to the input element, or null if no such ones.
  *
  * @example /// get the first button
     $("button, [type=button], [type=submit]");
@@ -43,18 +44,18 @@ export const $$ = (s, b = document) => [...b.querySelectorAll(s)];
  * @desc Shortcut to `DOMParser.parseFromString` but returns the first element in `HTMLBodyElement` by default.
  * @param {string} html
  * @param {*} [selectors = body > *] -
- *    If given but not a string or array of strings, the whole `HTMLDocument` is returned.
- *    Otherwise, the first element in the DOM tree matching `selectors` is returned; if no such elements, `null` is returned.
- *    Defaults to return the first element in `document.body`.
+ *  If given but not a string or array of strings, the whole `HTMLDocument` is returned.
+ *  Otherwise, the first element in the DOM tree matching `selectors` is returned; if no such elements, `null` is returned.
+ *  Defaults to return the first element in `document.body`.
  * @returns {HTMLDocument | Element | null} node
  *
- * Incomplete HTML string may lead to unexpected result.
- * Browsers may unexpectedly add essential tags such as `<html>`, `<head>`, and `<body>`,
- * even given `html` string contains no such tags.
+ *  Incomplete HTML string may lead to unexpected result.
+ *  Browsers may unexpectedly add essential tags such as `<html>`, `<head>`, and `<body>`,
+ *  even given `html` string contains no such tags.
  *
- * It may also omit tags if the structure is not complete.
- * For example, `<tr>` as the root node of the `html` string
- * may cause browsers not creating elements but the text nodes within them.
+ *  It may also omit tags if the structure is not complete.
+ *  For example, `<tr>` as the root node of the `html` string
+ *  may cause browsers not creating elements but the text nodes within them.
  *
  * @example
     /// returns an `Element` whose `tagName` is "em" and has string "hi!" as its text content.
@@ -90,11 +91,8 @@ export const parseHTML = (() => {
 })();
 
 
-const output = {
+Object.assign(kongUtil, {
     $, $$, parseHTML
-};
+});
 
-if(typeof window === "object" && window === globalThis)
-    Object.assign(window, output);
-
-export default output;
+export default kongUtil;

@@ -1,12 +1,12 @@
 {
   "name": "kong-util",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "my own library for js",
   "exports": "./mod/all.mjs",
   "scripts": {
     "test": "node test.js",
     "build": "webpack",
-    "prepare": "jsdoc -r -c ./jsdoc.config.json"
+    "prepare": "jsdoc -r -c ./jsdoc.config.json --verbose"
   },
   "repository": {
     "type": "git",

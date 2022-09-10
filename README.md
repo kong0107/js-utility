@@ -4,6 +4,8 @@ Here are some codes I usually use.
 Some runs in any environment that supports JavaScript (ES6 and later);
 but some is usable only in browsers.
 
+Also see [demo](https://kong0107.github.io/kong-util/demo.html) and [documentation](https://kong0107.github.io/kong-util/doc/).
+
 ## in browsers
 
 ### traditional way
@@ -11,6 +13,9 @@ but some is usable only in browsers.
 ```html
 <script src="https://cdn.jsdelivr.net/npm/kong-util/dist/all.js"></script>
 <script>
+    kongUtil.wait(100).then(() => console.log("tradition mode works"));
+
+    kongUtil.use();
     $("body").append("this text will be appended to the bottom of the page.");
 </script>
 ```
@@ -21,19 +26,22 @@ but some is usable only in browsers.
 <script type="module">
     import kongUtil from "https://cdn.jsdelivr.net/npm/kong-util/mod/all.mjs";
 
-    kongUtil.wait(1000).then(() => console.log("module mode works"));
+    kongUtil.$("body").append("this text will be appended to the bottom of the page.");
+
+    kongUtil.use();
+    wait(100).then(() => console.log("module mode works"));
 </script>
 ```
 
 
 ## in Node.js
 
-Has not publish to npm yet; download to your workplace manually.
-
+### install
 ```bash
 npm install --save kong-util
 ```
 
+### use
 ```js
 // ES module
 import kongUtil from "kong-util";

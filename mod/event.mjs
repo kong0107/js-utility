@@ -1,6 +1,7 @@
 /**
  * @module utilEvent
  */
+import kongUtil from "./core.mjs";
 
 /**
  * @func listen
@@ -76,12 +77,10 @@ export const extendEventTargetPrototype = () =>
     })
 ;
 
-const output = {
+
+Object.assign(kongUtil, {
     listen, waitForEvent,
     extendEventTargetPrototype
-};
+});
 
-if(typeof window === "object" && window === globalThis)
-    Object.assign(window, output);
-
-export default output;
+export default kongUtil;

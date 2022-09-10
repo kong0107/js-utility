@@ -1,4 +1,7 @@
 /**
+ * @module kongUtil
+ */
+/**
  * Top-level-await is still experimental in webpack, due to [its doc](https://webpack.js.org/configuration/experiments/).
  * Therefore here we cannot import dynamically.
  *
@@ -9,6 +12,7 @@
  *
  * Well, maybe this file itself shall be dynamically created instead of manually maintained.
  */
+import kongUtil from "./core.mjs";
 import utilArray from "./array.mjs";
 import utilAsync from "./async.mjs";
 import utilDom from "./dom.mjs";
@@ -16,6 +20,7 @@ import utilElement from "./element.mjs";
 import utilEvent from "./event.mjs";
 import utilWeb from "./web.mjs";
 
+export * from "./core.mjs";
 export * from "./array.mjs";
 export * from "./async.mjs";
 export * from "./dom.mjs";
@@ -34,13 +39,14 @@ export const extendPrototype = () => {
 };
 
 
-const output = {extendPrototype};
-
-if(typeof window === "object" && window === globalThis)
-    Object.assign(window, output);
-
-Object.assign(output,
-    utilArray, utilAsync, utilDom, utilElement, utilEvent, utilWeb
+Object.assign(kongUtil,
+    utilArray,
+    utilAsync,
+    utilDom,
+    utilElement,
+    utilEvent,
+    utilWeb,
+    {extendPrototype}
 );
 
-export default output;
+export default kongUtil;

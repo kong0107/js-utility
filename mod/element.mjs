@@ -1,6 +1,7 @@
 /**
  * @module utilElement
  */
+import kongUtil from "./core.mjs";
 
 /**
  * @func clearElement
@@ -12,7 +13,6 @@ export function clearElement(elem = this) {
     while(child = elem.lastChild) elem.removeChild(node);
 }
 
-
 /**
  * @func extendElementPrototype
  * @desc Add above methods to `Element` class.
@@ -23,12 +23,10 @@ export const extendElementPrototype = () =>
     })
 ;
 
-const output = {
+
+Object.assign(kongUtil, {
     clearElement,
     extendElementPrototype
-};
+});
 
-if(typeof window === "object" && window === globalThis)
-    Object.assign(window, output);
-
-export default output;
+export default kongUtil;

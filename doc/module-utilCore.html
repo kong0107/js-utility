@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: utilElement</title>
+    <title>JSDoc: Module: utilCore</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: utilElement</h1>
+    <h1 class="page-title">Module: utilCore</h1>
 
     
 
@@ -64,7 +64,7 @@
     
 
     
-    <h4 class="name" id="~clearElement"><span class="type-signature">(inner) </span>clearElement<span class="signature">(elem)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~use"><span class="type-signature">(inner) </span>use<span class="signature">(&hellip;methods<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -72,7 +72,7 @@
 
 
 <div class="description">
-    remove all children (including text nodes) of the element
+    set specified `methods` of kongUtil to global
 </div>
 
 
@@ -96,6 +96,8 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -108,23 +110,35 @@
 
         <tr>
             
-                <td class="name"><code>elem</code></td>
+                <td class="name"><code>methods</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Element</span>
+<span class="param-type">string</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
 
             
 
-            <td class="description last"></td>
+            <td class="description last">if empty, all methods would be added to `globalThis`.</td>
         </tr>
 
     
@@ -165,95 +179,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="element.mjs.html">element.mjs</a>, <a href="element.mjs.html#line6">line 6</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~extendElementPrototype"><span class="type-signature">(inner) </span>extendElementPrototype<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Add above methods to `Element` class.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="element.mjs.html">element.mjs</a>, <a href="element.mjs.html#line16">line 16</a>
+        <a href="core.mjs.html">core.mjs</a>, <a href="core.mjs.html#line6">line 6</a>
     </li></ul></dd>
     
 

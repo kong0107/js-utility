@@ -13,7 +13,8 @@ module.exports = {
     mode: "production",
     entry: entries,
     output: {
-        path: path.resolve(__dirname, "dist")
+        path: path.resolve(__dirname, "dist"),
+        library: "kongUtil"
     },
     watch: true
 };

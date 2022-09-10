@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: all.mjs</title>
+    <title>JSDoc: Source: core.mjs</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: all.mjs</h1>
+    <h1 class="page-title">Source: core.mjs</h1>
 
     
 
@@ -27,56 +27,26 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @module kongUtil
+ * @module utilCore
  */
-/**
- * Top-level-await is still experimental in webpack, due to [its doc](https://webpack.js.org/configuration/experiments/).
- * Therefore here we cannot import dynamically.
- *
- * And [it seems](https://stackoverflow.com/a/57580866/1998874) that
- * `export * from ...` does not re-export the default one,
- * so I have to import each sub-module once more
- * to have this module having its default export to everything.
- *
- * Well, maybe this file itself shall be dynamically created instead of manually maintained.
- */
-import kongUtil from "./core.mjs";
-import utilArray from "./array.mjs";
-import utilAsync from "./async.mjs";
-import utilDom from "./dom.mjs";
-import utilElement from "./element.mjs";
-import utilEvent from "./event.mjs";
-import utilWeb from "./web.mjs";
-
-export * from "./core.mjs";
-export * from "./array.mjs";
-export * from "./async.mjs";
-export * from "./dom.mjs";
-export * from "./element.mjs";
-export * from "./event.mjs";
-export * from "./web.mjs";
+const kongUtil = {};
 
 /**
- * @func extendPrototype
- * @desc Add methods to native classes.
+ * @func use
+ * @desc set specified `methods` of kongUtil to global
+ * @param {...string} [methods] - if empty, all methods would be added to `globalThis`.
  */
-export const extendPrototype = () => {
-    utilArray.extendArrayPrototype();
-    utilElement.extendElementPrototype();
-    utilEvent.extendEventTargetPrototype();
+export function use(...methods) {
+    if(methods[0] instanceof Array) methods = methods[0];
+    for(let meth in kongUtil) {
+        if(meth === "use") continue;
+        if(!methods.length || methods.includes(meth))
+            globalThis[meth] = kongUtil[meth];
+    }
 };
 
 
-Object.assign(kongUtil,
-    utilArray,
-    utilAsync,
-    utilDom,
-    utilElement,
-    utilEvent,
-    utilWeb,
-    {extendPrototype}
-);
-
+Object.assign(kongUtil, {use});
 export default kongUtil;
 </code></pre>
         </article>

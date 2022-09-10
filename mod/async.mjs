@@ -1,6 +1,7 @@
 /**
  * @module utilAsync
  */
+import kongUtil from "./core.mjs";
 import {waitForEvent} from "./event.mjs";
 
 /**
@@ -87,11 +88,8 @@ export function addTimeLimit(asyncFunc, timeLimit, reason) {
 }
 
 
-const output = {
+Object.assign(kongUtil, {
     promisify, wait, waitFor, addTimeLimit
-};
+});
 
-if(typeof window === "object" && window === globalThis)
-    Object.assign(window, output);
-
-export default output;
+export default kongUtil;

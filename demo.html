@@ -6,11 +6,17 @@
     <title>kong-util</title>
     <script src="./dist/all.js"></script>
     <script>
-        wait(1000).then(() => console.log("traditional mode works."));
+        kongUtil.wait(100).then(() => console.log("Traditional mode works on assignment of a global `kongUtil` variable."));
+        kongUtil.use();
+        wait(200).then(() => console.info("After calling `kongUtil.use()` in traditional mode, you can use methods anywhere, even in module mode."));
     </script>
     <script type="module">
-        import kongUtil from "./mod/all.mjs";
-        kongUtil.wait(500).then(() => console.log("module mode works."));
+        import ku from "./mod/async.mjs";
+        ku.wait(300).then(() => console.log("Module mode works on importing from a ES module file."));
+        ku.use();
+    </script>
+    <script type="module">
+        wait(400).then(() => console.info("After calling `use()` of the imported object, you can use methods globally, even in another <script type\"module\">, but not without module mode."));
     </script>
 </head>
 <body>
@@ -23,6 +29,9 @@
         <li><button>click this and the next one in one second</button></li>
         <li><button>click the above one before clicking me</button></li>
     </ol>
+    <footer>
+        <a href="https://github.com/kong0107/kong-util/blob/gh-pages/demo.html">source code of this page</a>
+    </footer>
     <script>
         const buttons = $$("button");
         // an alias of `document.querySelectorAll()`
@@ -31,10 +40,9 @@
         // a shortcut to `EventTarget.addEventListener()`
 
         listen(buttons[1], "click", async () => {
-            await wait(1000);
-            alert("You've clicked the second button a second ago.");
+            await wait(500); // simple `wait()` method if you wanna wait
+            alert("You've clicked the second button half a second ago.");
         });
-        // a shortcut to `EventTarget.addEventListener()`
 
         waitFor(buttons[2], "click")
         .then(() => alert("You've clicked the third button for the first time.\nThis message would not be shown again without refreshing the page."));
@@ -43,7 +51,7 @@
         listen(buttons[3], "click", () => {
             waitFor(buttons[4], "click", 1000)
             .then(() => alert("success!"))
-            .catch(() => alert("you fail..."));
+            .catch(() => alert("failed to click the specified button in one second."));
         });
         // combination of a listener and a promise.
 

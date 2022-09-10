@@ -1,14 +1,14 @@
 /**
  * @module utilWeb
  */
-
+import kongUtil from "./core.mjs";
 import {parseHTML} from "./dom.mjs";
 
 /**
  * @func fetchStrict
- * @desc 改寫 `fetch()`，使 HTTP 錯誤的情形（例如`404`）也會 reject 。
+ * @desc Same as `fetch()` but rejects if HTTP error (e.g "404 not found")
  * @param {string | URL | Request} resource
- * @param {Object} options 與 `fetch()` 相同。
+ * @param {Object} options - same as `fetch()`
  * @returns {Promise.<Response>}
  */
 export const fetchStrict = (...args) => fetch(...args).then(response => {
@@ -18,37 +18,31 @@ export const fetchStrict = (...args) => fetch(...args).then(response => {
 
 /**
  * @func fetchJSON
- * @desc 抓取 JSON 文字檔並反序列化成物件。
- * @param {...any} args 與 `fetch()` 相同。
+ * @desc Download an JSON file and deserialize it.
+ * @param {...any} args - same as `fetch()`
  * @returns {Promise.<Object>}
  */
 export const fetchJSON = (...args) => fetchStrict(...args).then(res => res.json());
 
 /**
  * @func fetchText
- * @desc 抓取文字檔。
- * @param {...any} args 與 `fetch()` 相同。
+ * @desc Download an plain text file and read it.
+ * @param {...any} args - same as `fetch()`
  * @returns {Promise.<string>}
  */
 export const fetchText = (...args) => fetchStrict(...args).then(res => res.text());
 
 /**
  * @func fetchDOM
- * @desc 抓取 HTML 文字檔並解析為 DOM 文件。
- * @param {...any} args 與 `fetch()` 相同。
+ * @desc Download an HTML file and parse it to `HTMLDocument`
+ * @param {...any} args - same as `fetch()`
  * @returns {Promise.<HTMLDocument>}
  */
-export const fetchDOM = (...args) => fetchText(...args).then(parseHTML);
+export const fetchDOM = (...args) => fetchText(...args).then(html => parseHTML(html, 0));
 
 
-const output = {
-    fetchStrict,
-    fetchJSON,
-    fetchText,
-    fetchDOM
-};
+Object.assign(kongUtil, {
+    fetchStrict, fetchJSON, fetchText, fetchDOM
+});
 
-if(typeof window === "object" && window === globalThis)
-    Object.assign(window, output);
-
-export default output;
+export default kongUtil;
