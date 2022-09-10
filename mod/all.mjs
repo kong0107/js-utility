@@ -12,21 +12,24 @@
 import utilArray from "./array.mjs";
 import utilAsync from "./async.mjs";
 import utilDom from "./dom.mjs";
-import utilWeb from "./web.mjs";
+import utilElement from "./element.mjs";
 import utilEvent from "./event.mjs";
+import utilWeb from "./web.mjs";
 
 export * from "./array.mjs";
 export * from "./async.mjs";
 export * from "./dom.mjs";
-export * from "./web.mjs";
+export * from "./element.mjs";
 export * from "./event.mjs";
+export * from "./web.mjs";
 
 /**
  * @func extendPrototype
  * @desc Add methods to native classes.
  */
 export const extendPrototype = () => {
-    utilArray.extendArrayPrototype()
+    utilArray.extendArrayPrototype();
+    utilElement.extendElementPrototype();
     utilEvent.extendEventTargetPrototype();
 };
 
@@ -36,6 +39,8 @@ const output = {extendPrototype};
 if(typeof window === "object" && window === globalThis)
     Object.assign(window, output);
 
-Object.assign(output, utilArray, utilAsync, utilDom, utilWeb, utilEvent);
+Object.assign(output,
+    utilArray, utilAsync, utilDom, utilElement, utilEvent, utilWeb
+);
 
 export default output;

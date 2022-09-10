@@ -1,19 +1,19 @@
+const fs = require("fs");
 const path = require("path");
 
-const entries =
-    ["array", "async", "dom", "web", "event", "all"]
-    .reduce(
-        (acc, cur) => Object.assign(acc, {[cur]: `./mod/${cur}.mjs`}),
-        {}
-    )
+const entries = fs.readdirSync("./mod")
+    .filter(file => file.endsWith(".mjs"))
+    .reduce((acc, file) => {
+        const mod = file.substring(0, file.lastIndexOf("."));
+        return Object.assign(acc, {[mod]: `./mod/${file}`});
+    }, {})
 ;
 
 module.exports = {
     mode: "production",
     entry: entries,
     output: {
-        path: path.resolve(__dirname, "dist"),
-        // publicPath: "./"
+        path: path.resolve(__dirname, "dist")
     },
     watch: true
 };

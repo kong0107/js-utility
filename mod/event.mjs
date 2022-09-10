@@ -62,7 +62,7 @@ export function waitForEvent(target, type, ...rest) {
 
 /**
  * @func extendEventTargetPrototype
- * @desc Add above methods to `EventTarget` objects.
+ * @desc Add above methods to `EventTarget` class.
  */
 export const extendEventTargetPrototype = () =>
     Object.assign(EventTarget.prototype, {

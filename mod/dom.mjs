@@ -1,14 +1,26 @@
 /**
  * @func $
- * @desc Alias of `querySelector`.
+ * @desc Shortcut to `querySelector`, but different if passing array of strings
  * @param {string | string[]} selectors - one or more CSS selector string
  * @param {Element | Document} [base = document]
- * @returns {Element | null}
+ * @returns {Element | Element[] | null}
  *
- * @example /// equivalent to document.querySelector("button")
-    $("button");
+ * If `selectors` is a string, this functions works exactly as `querySelector()`.
+ * If `selectors` is an array of strings, this returns
+ * an array with each element corresponding to the input element, or null if no such ones.
+ *
+ * @example /// get the first button
+    $("button, [type=button], [type=submit]");
+ *
+ * @example /// assign more than one element to variables
+    let [myForm, myTable, myTextArea] = $("#myForm", ".myTable", "textarea")
+ *
  */
-export const $ = (s, b = document) => b.querySelector(s);
+export function $(s, b = document) {
+    if(typeof s === "string") return b.querySelector(s);
+    else if(s instanceof Array) return s.map(ss => b.querySelector(ss));
+    throw new TypeError("requiring a string or an array of strings");
+};
 
 /**
  * @func $$
