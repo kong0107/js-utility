@@ -24,10 +24,11 @@ export function promisify(func, moreThanOneData = false) {
 /**
  * Resolves after `ms` milliseconds.
  * @param {integer} ms
+ * @param {*} [fulfill] - what to be resolved
  * @returns {Promise} never rejects
  */
-export function wait(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+export function wait(ms, fulfill) {
+    return new Promise(resolve => setTimeout(resolve, ms, fulfill));
 }
 
 /**

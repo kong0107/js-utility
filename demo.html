@@ -6,17 +6,18 @@
     <title>kong-util</title>
     <script src="./dist/all.js"></script>
     <script>
-        kongUtil.wait(100).then(() => console.log("Traditional mode works on assignment of a global `kongUtil` variable."));
+        kongUtil.wait(100).then(kongUtil.logger("Traditional mode works on assignment of a global `kongUtil` variable."));
         kongUtil.use();
-        wait(200).then(() => console.info("After calling `kongUtil.use()` in traditional mode, you can use methods anywhere, even in module mode."));
+        wait(200).then(logger("After calling `kongUtil.use()` in traditional mode, you can use methods anywhere, even in module mode."));
     </script>
     <script type="module">
         import ku from "./mod/async.mjs";
-        ku.wait(300).then(() => console.log("Module mode works on importing from a ES module file."));
+        import {logger as aa} from "./mod/debug.mjs";
+        ku.wait(300).then(aa("Module mode works on importing from a ES module file."));
         ku.use();
     </script>
     <script type="module">
-        wait(400).then(() => console.info("After calling `use()` of the imported object, you can use methods globally, even in another <script type\"module\">, but not without module mode."));
+        wait(400).then(logger("After calling `use()` of the imported object, you can use methods (but not kongUtil itself) even in another <script type\"module\">, but not without module mode."));
     </script>
 </head>
 <body>
@@ -36,22 +37,23 @@
         const buttons = $$("button");
         // an alias of `document.querySelectorAll()`
 
-        listen(buttons[0], "click", () => alert("You've clicked the first button"));
+        listen(buttons[0], "click", alerter("You've clicked the first button"));
         // a shortcut to `EventTarget.addEventListener()`
+        // `alerter()` returns a function
 
         listen(buttons[1], "click", async () => {
-            await wait(500); // simple `wait()` method if you wanna wait
+            await wait(500); // how simple!
             alert("You've clicked the second button half a second ago.");
         });
 
         waitFor(buttons[2], "click")
-        .then(() => alert("You've clicked the third button for the first time.\nThis message would not be shown again without refreshing the page."));
+        .then(alerter("You've clicked the third button for the first time.\nThis message would not be shown again without refreshing the page."));
         // a promise is pending for an event; this triggers only once.
 
         listen(buttons[3], "click", () => {
             waitFor(buttons[4], "click", 1000)
-            .then(() => alert("success!"))
-            .catch(() => alert("failed to click the specified button in one second."));
+            .then(alerter("success!"))
+            .catch(alerter("failed to click the specified button in one second."));
         });
         // combination of a listener and a promise.
 

@@ -15,6 +15,7 @@
 import kongUtil from "./core.mjs";
 import utilArray from "./array.mjs";
 import utilAsync from "./async.mjs";
+import utilDebug from "./debug.mjs";
 import utilDom from "./dom.mjs";
 import utilElement from "./element.mjs";
 import utilEvent from "./event.mjs";
@@ -24,6 +25,7 @@ export * from "./core.mjs";
 export * from "./array.mjs";
 export * from "./async.mjs";
 export * from "./dom.mjs";
+export * from "./debug.mjs";
 export * from "./element.mjs";
 export * from "./event.mjs";
 export * from "./web.mjs";
@@ -43,6 +45,7 @@ Object.assign(kongUtil,
     utilArray,
     utilAsync,
     utilDom,
+    utilDebug,
     utilElement,
     utilEvent,
     utilWeb,
