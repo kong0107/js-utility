@@ -19,6 +19,7 @@ import utilDebug from "./debug.mjs";
 import utilDom from "./dom.mjs";
 import utilElement from "./element.mjs";
 import utilEvent from "./event.mjs";
+import utilObject from "./object.mjs";
 import utilWeb from "./web.mjs";
 
 export * from "./core.mjs";
@@ -28,6 +29,7 @@ export * from "./dom.mjs";
 export * from "./debug.mjs";
 export * from "./element.mjs";
 export * from "./event.mjs";
+export * from "./object.mjs";
 export * from "./web.mjs";
 
 /**
@@ -48,6 +50,7 @@ Object.assign(kongUtil,
     utilDebug,
     utilElement,
     utilEvent,
+    utilObject,
     utilWeb,
     {extendPrototype}
 );

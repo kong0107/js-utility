@@ -5,39 +5,57 @@ import kongUtil from "./core.mjs";
 
 /**
  * @func $
- * @desc Shortcut to `querySelector`, but different if passing array of strings
- * @param {string | string[]} selectors - one or more CSS selector string
+ * @desc Shortcut to `querySelector`, but different if not giving a string.
+ * @param {string | Array | Object} selectors - one or more CSS selector string
  * @param {Element | Document} [base = document]
- * @returns {Element | Element[] | null} element
+ * @returns {null | Element | Array | Object} element
  *
  *  If `selectors` is a string, this function works exactly as `querySelector()`.
- *  If `selectors` is an array of strings, this returns
+ *
+ *  If `selectors` is an array, this returns
  *  an array with each element corresponding to the input element, or null if no such ones.
  *
- * @example /// get the first button
+ *  If `selectors` is an object, this returns
+ *  an object with the same keys but values are the corresponding first found element.
+ *
+ *  Nested arrays and objects are supported by recursion.
+ *
+ * @example /// get the first button by a string
     $("button, [type=button], [type=submit]");
  *
- * @example /// assign more than one element to variables
+ * @example /// assign more than one element to variables by an array
     let [myForm, myTable, myTextArea] = $("#myForm", ".myTable", "textarea")
  *
+ * @example /// object
+
  */
-export function $(s, b = document) {
+export const $ = (s, b = document) => {
     if(typeof s === "string") return b.querySelector(s);
-    else if(s instanceof Array) return s.map(ss => b.querySelector(ss));
-    throw new TypeError("requiring a string or an array of strings");
+    else if(s instanceof Array) return s.map(ss => $(ss, b));
+    const r = {};
+    for(let name in s) result[name] = $(s[name], b);
+    return r;
 };
+
 
 /**
  * @func $$
- * @desc Shortcut to `querySelectorAll` but returns array instead of `NodeList`,
- * @param {string | string[]} selectors - one or more CSS selector string
+ * @desc Shortcut to `querySelectorAll` but returns an array instead of `NodeList`; different if not giving a string, like `$` does.
+ * @param {string | Array | Object} selectors - one or more CSS selector string
  * @param {Element | Document} [base = document]
- * @returns {Element[]}
+ * @returns {Array | Object}
  *
  * @example /// returns all trimmed values of <input>'s in `.myForm`.
     $$(".myForm input").map(input => input.value.trim());
  */
-export const $$ = (s, b = document) => [...b.querySelectorAll(s)];
+export const $$ = (s, b = document) => {
+   if(typeof s === "string") return [...b.querySelectorAll(s)];
+   else if(s instanceof Array) return s.map(ss => $$(ss, b));
+   const r = {};
+   for(let name in s) result[name] = $$(s[name], b);
+   return r;
+}
+
 
 /**
  * @func parseHTML

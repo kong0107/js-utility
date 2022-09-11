@@ -64,7 +64,7 @@
     
 
     
-    <h4 class="name" id="~$"><span class="type-signature">(inner) </span>$<span class="signature">(selectors, base<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Element|Array.&lt;Element>|null}</span></h4>
+    <h4 class="name" id="~$"><span class="type-signature">(inner) </span>$<span class="signature">(selectors, base<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {null|Element|Array|Object}</span></h4>
     
 
     
@@ -72,7 +72,7 @@
 
 
 <div class="description">
-    Shortcut to `querySelector`, but different if passing array of strings
+    Shortcut to `querySelector`, but different if not giving a string.
 </div>
 
 
@@ -121,7 +121,10 @@
 <span class="param-type">string</span>
 |
 
-<span class="param-type">Array.&lt;string></span>
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">Object</span>
 
 
             
@@ -255,7 +258,7 @@
 
         
 <div class="param-desc">
-    element If `selectors` is a string, this function works exactly as `querySelector()`. If `selectors` is an array of strings, this returns an array with each element corresponding to the input element, or null if no such ones.
+    element If `selectors` is a string, this function works exactly as `querySelector()`. If `selectors` is an array, this returns an array with each element corresponding to the input element, or null if no such ones. If `selectors` is an object, this returns an object with the same keys but values are the corresponding first found element. Nested arrays and objects are supported by recursion.
 </div>
 
 
@@ -266,13 +269,16 @@
     </dt>
     <dd>
         
+<span class="param-type">null</span>
+|
+
 <span class="param-type">Element</span>
 |
 
-<span class="param-type">Array.&lt;Element></span>
+<span class="param-type">Array</span>
 |
 
-<span class="param-type">null</span>
+<span class="param-type">Object</span>
 
 
     </dd>
@@ -285,11 +291,13 @@
 
     <h5>Examples</h5>
     
-    <pre class="prettyprint"><code>/// get the first button
+    <pre class="prettyprint"><code>/// get the first button by a string
     $("button, [type=button], [type=submit]");</code></pre>
 
-    <pre class="prettyprint"><code>/// assign more than one element to variables
+    <pre class="prettyprint"><code>/// assign more than one element to variables by an array
     let [myForm, myTable, myTextArea] = $("#myForm", ".myTable", "textarea")</code></pre>
+
+    <pre class="prettyprint"><code>/// object</code></pre>
 
 
 
@@ -299,7 +307,7 @@
     
 
     
-    <h4 class="name" id="~$$"><span class="type-signature">(inner) </span>$$<span class="signature">(selectors, base<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array.&lt;Element>}</span></h4>
+    <h4 class="name" id="~$$"><span class="type-signature">(inner) </span>$$<span class="signature">(selectors, base<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array|Object}</span></h4>
     
 
     
@@ -307,7 +315,7 @@
 
 
 <div class="description">
-    Shortcut to `querySelectorAll` but returns array instead of `NodeList`,
+    Shortcut to `querySelectorAll` but returns an array instead of `NodeList`; different if not giving a string, like `$` does.
 </div>
 
 
@@ -356,7 +364,10 @@
 <span class="param-type">string</span>
 |
 
-<span class="param-type">Array.&lt;string></span>
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">Object</span>
 
 
             
@@ -461,7 +472,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line30">line 30</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line41">line 41</a>
     </li></ul></dd>
     
 
@@ -497,7 +508,10 @@
     </dt>
     <dd>
         
-<span class="param-type">Array.&lt;Element></span>
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">Object</span>
 
 
     </dd>
@@ -677,7 +691,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line42">line 42</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line60">line 60</a>
     </li></ul></dd>
     
 
@@ -769,13 +783,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-kongUtil.html">kongUtil</a></li><li><a href="module-utilArray.html">utilArray</a></li><li><a href="module-utilAsync.html">utilAsync</a></li><li><a href="module-utilCore.html">utilCore</a></li><li><a href="module-utilDebug.html">utilDebug</a></li><li><a href="module-utilDom.html">utilDom</a></li><li><a href="module-utilElement.html">utilElement</a></li><li><a href="module-utilEvent.html">utilEvent</a></li><li><a href="module-utilWeb.html">utilWeb</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-kongUtil.html">kongUtil</a></li><li><a href="module-utilArray.html">utilArray</a></li><li><a href="module-utilAsync.html">utilAsync</a></li><li><a href="module-utilCore.html">utilCore</a></li><li><a href="module-utilDebug.html">utilDebug</a></li><li><a href="module-utilDom.html">utilDom</a></li><li><a href="module-utilElement.html">utilElement</a></li><li><a href="module-utilEvent.html">utilEvent</a></li><li><a href="module-utilObject.html">utilObject</a></li><li><a href="module-utilWeb.html">utilWeb</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Sep 11 2022 17:59:10 GMT+0800 (台北標準時間)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Sep 11 2022 22:30:40 GMT+0800 (台北標準時間)
 </footer>
 
 <script> prettyPrint(); </script>

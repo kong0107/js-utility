@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: web.mjs</title>
+    <title>JSDoc: Source: object.mjs</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: web.mjs</h1>
+    <h1 class="page-title">Source: object.mjs</h1>
 
     
 
@@ -27,50 +27,34 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @module utilWeb
+ * @module utilObject
  */
 import kongUtil from "./core.mjs";
-import {parseHTML} from "./dom.mjs";
 
-/**
- * @func fetchStrict
- * @desc Same as `fetch()` but rejects if HTTP error (e.g "404 not found")
- * @param {string | URL | Request} resource
- * @param {Object} options - same as `fetch()`
- * @returns {Promise.&lt;Response>}
- */
-export const fetchStrict = (...args) => fetch(...args).then(response => {
-    if(response.ok) return response;
-    throw new ReferenceError(response.statusText);
-});
+export function emulateArray(method, callback, target = this) {
+    const keys = Object.keys(target);
+    return keys[method](key => callback(target[key], key, target));
+}
 
-/**
- * @func fetchJSON
- * @desc Download an JSON file and deserialize it.
- * @param {...any} args - same as `fetch()`
- * @returns {Promise.&lt;Object>}
- */
-export const fetchJSON = (...args) => fetchStrict(...args).then(res => res.json());
+export function objectReduce(callback, initial, target = this) {
+    const keys = Object.keys(target);
+    return keys.reduce(
+        (acc, key) => callback(acc, target[key], key, target),
+        initial
+    );
+}
 
-/**
- * @func fetchText
- * @desc Download an plain text file and read it.
- * @param {...any} args - same as `fetch()`
- * @returns {Promise.&lt;string>}
- */
-export const fetchText = (...args) => fetchStrict(...args).then(res => res.text());
-
-/**
- * @func fetchDOM
- * @desc Download an HTML file and parse it to `HTMLDocument`
- * @param {...any} args - same as `fetch()`
- * @returns {Promise.&lt;HTMLDocument>}
- */
-export const fetchDOM = (...args) => fetchText(...args).then(html => parseHTML(html, 0));
+export async function objectReduceAsync(callback, initial, target = this) {
+    const keys = Object.keys(target);
+    return keys.reduce(
+        async(acc, key) => await callback(acc, target[key], key, target),
+        initial
+    );
+}
 
 
 Object.assign(kongUtil, {
-    fetchStrict, fetchJSON, fetchText, fetchDOM
+    emulateArray, objectReduce, objectReduceAsync
 });
 
 export default kongUtil;
