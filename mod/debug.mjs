@@ -1,7 +1,9 @@
 /**
- * @module utilDebug
+ * @module kongUtilDebug
  */
-import kongUtil from "./core.mjs";
+import utilDebug from "./core.mjs";
+
+export * from "./core.mjs";
 
 /**
  * Shortcut to `() => alert(msg)`
@@ -46,8 +48,8 @@ export const logger = function() {
 };
 
 
-Object.assign(kongUtil, {
+Object.assign(utilDebug, {
     alerter, logger
 });
 
-export default kongUtil;
+export default utilDebug;

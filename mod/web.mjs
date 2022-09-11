@@ -1,8 +1,10 @@
 /**
- * @module utilWeb
+ * @module kongUtilWeb
  */
-import kongUtil from "./core.mjs";
+import utilWeb from "./core.mjs";
 import {parseHTML} from "./dom.mjs";
+
+export * from "./core.mjs";
 
 /**
  * @func fetchStrict
@@ -41,8 +43,8 @@ export const fetchText = (...args) => fetchStrict(...args).then(res => res.text(
 export const fetchDOM = (...args) => fetchText(...args).then(html => parseHTML(html, 0));
 
 
-Object.assign(kongUtil, {
+Object.assign(utilWeb, {
     fetchStrict, fetchJSON, fetchText, fetchDOM
 });
 
-export default kongUtil;
+export default utilWeb;

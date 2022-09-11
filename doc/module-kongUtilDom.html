@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Module: kongUtilDom</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Module: kongUtilDom</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~$"><span class="type-signature">(inner) </span>$<span class="signature">(selectors, base<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {null|Element|Array|Object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Shortcut to `querySelector`, but different if not giving a string.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>selectors</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">one or more CSS selector string</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>base</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Element</span>
+|
+
+<span class="param-type">Document</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    document
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line8">line 8</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    element If `selectors` is a string, this function works exactly as `querySelector()`. If `selectors` is an array, this returns an array with each element corresponding to the input element, or null if no such ones. If `selectors` is an object, this returns an object with the same keys but values are the corresponding first found element. Nested arrays and objects are supported by recursion.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">null</span>
+|
+
+<span class="param-type">Element</span>
+|
+
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>/// get the first button by a string
+    $("button, [type=button], [type=submit]");</code></pre>
+
+    <pre class="prettyprint"><code>/// assign more than one element to variables by an array
+    let [myForm, myTable, myTextArea] = $("#myForm", ".myTable", "textarea")</code></pre>
+
+    <pre class="prettyprint"><code>/// object</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~$$"><span class="type-signature">(inner) </span>$$<span class="signature">(selectors, base<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array|Object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Shortcut to `querySelectorAll` but returns an array instead of `NodeList`; different if not giving a string, like `$` does.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>selectors</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">one or more CSS selector string</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>base</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Element</span>
+|
+
+<span class="param-type">Document</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    document
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line43">line 43</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>/// returns all trimmed values of &lt;input>'s in `.myForm`.
+    $$(".myForm input").map(input => input.value.trim());</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~parseHTML"><span class="type-signature">(inner) </span>parseHTML<span class="signature">(html, selectors<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {HTMLDocument|Element|null}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Shortcut to `DOMParser.parseFromString` but returns the first element in `HTMLBodyElement` by default.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>html</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>selectors</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    body > *
+                
+                </td>
+            
+
+            <td class="description last">If given but not a string or array of strings, the whole `HTMLDocument` is returned. Otherwise, the first element in the DOM tree matching `selectors` is returned; if no such elements, `null` is returned. Defaults to return the first element in `document.body`.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line62">line 62</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    node Incomplete HTML string may lead to unexpected result. Browsers may unexpectedly add essential tags such as `<html>`, `<head>`, and `<body>`, even given `html` string contains no such tags. It may also omit tags if the structure is not complete. For example, `<tr>` as the root node of the `html` string may cause browsers not creating elements but the text nodes within them.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">HTMLDocument</span>
+|
+
+<span class="param-type">Element</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>/// returns an `Element` whose `tagName` is "em" and has string "hi!" as its text content.
+    parseHTML("&lt;EM>hi!&lt;/em>");</code></pre>
+
+    <pre class="prettyprint"><code>/// returns an `HTMLDocument` which could be represented by "&lt;html>&lt;head>&lt;/head>&lt;body>&lt;em>HI&lt;/em>&lt;/body>&lt;/html>".
+    parseHTML("&lt;EM>hi!&lt;/em>", null);</code></pre>
+
+    <pre class="prettyprint"><code>/// returns an `HTMLDocument` which could be represented by "&lt;html>&lt;head>&lt;title>title&lt;/title>&lt;/head>&lt;body>&lt;p>paragraph&lt;/p>&lt;/body>&lt;/html>".
+    parseHTML("&lt;title>title&lt;/title>&lt;p>paragraph&lt;/p>", {});</code></pre>
+
+    <pre class="prettyprint"><code>/// returns null because `&lt;title>` is automatically inserted into `&lt;head>` and thus nothing in `&lt;body>`.
+    parseHTML("&lt;title>my title&lt;/title>");</code></pre>
+
+    <pre class="prettyprint"><code>/// returns null because `&lt;tr>` is not allowed to exist outsied `&lt;table>` and thus there is only a text node (which isn't an `Element`) in `&lt;body>`.
+    parseHTML("&lt;tr>&lt;td>QQ&lt;/td>&lt;/tr>");</code></pre>
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-kongUtil.html">kongUtil</a></li><li><a href="module-kongUtilArray.html">kongUtilArray</a></li><li><a href="module-kongUtilAsync.html">kongUtilAsync</a></li><li><a href="module-kongUtilCore.html">kongUtilCore</a></li><li><a href="module-kongUtilDebug.html">kongUtilDebug</a></li><li><a href="module-kongUtilDom.html">kongUtilDom</a></li><li><a href="module-kongUtilElement.html">kongUtilElement</a></li><li><a href="module-kongUtilEvent.html">kongUtilEvent</a></li><li><a href="module-kongUtilObject.html">kongUtilObject</a></li><li><a href="module-kongUtilWeb.html">kongUtilWeb</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Sep 12 2022 02:08:20 GMT+0800 (台北標準時間)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

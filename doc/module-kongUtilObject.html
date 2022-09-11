@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: core.mjs</title>
+    <title>JSDoc: Module: kongUtilObject</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,40 +17,52 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: core.mjs</h1>
+    <h1 class="page-title">Module: kongUtilObject</h1>
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @module kongUtilCore
- */
-const utilCore = {};
+        
+    
+</header>
 
-/**
- * @func use
- * @desc set specified `methods` of kongUtil to global
- * @param {...string} [methods] - if empty, all methods would be added to `globalThis`.
- */
-export const use = (function(...methods) {
-    if(methods[0] instanceof Array) methods = methods[0];
-    for(let meth in this) {
-        if(meth === "use") continue;
-        if(!methods.length || methods.includes(meth))
-            globalThis[meth] = this[meth];
-    }
-}).bind(utilCore);
+<article>
+    <div class="container-overview">
+    
+        
 
+        
+    
+    </div>
 
-Object.assign(utilCore, {use});
-export default utilCore;
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

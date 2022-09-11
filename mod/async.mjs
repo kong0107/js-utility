@@ -1,8 +1,10 @@
 /**
- * @module utilAsync
+ * @module kongUtilAsync
  */
-import kongUtil from "./core.mjs";
+import utilAsync from "./core.mjs";
 import {waitForEvent} from "./event.mjs";
+
+export * from "./core.mjs";
 
 /**
  * Simulate `util.promisify` of `Node.js`.
@@ -89,8 +91,8 @@ export function addTimeLimit(asyncFunc, timeLimit, reason) {
 }
 
 
-Object.assign(kongUtil, {
+Object.assign(utilAsync, {
     promisify, wait, waitFor, addTimeLimit
 });
 
-export default kongUtil;
+export default utilAsync;

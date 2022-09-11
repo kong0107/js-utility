@@ -8,7 +8,7 @@
     <script>
         kongUtil.wait(100).then(kongUtil.logger("Traditional mode works on assignment of a global `kongUtil` variable."));
         kongUtil.use();
-        wait(200).then(logger("After calling `kongUtil.use()` in traditional mode, you can use methods anywhere, even in module mode."));
+        wait(200).then(logger("After calling `use()` in traditional mode, you can use corresponding methods anywhere, even in module mode."));
     </script>
     <script type="module">
         import ku from "./mod/async.mjs";

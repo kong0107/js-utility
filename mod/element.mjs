@@ -1,7 +1,9 @@
 /**
- * @module utilElement
+ * @module kongUtilElement
  */
-import kongUtil from "./core.mjs";
+import utilElement from "./core.mjs";
+
+export * from "./core.mjs";
 
 /**
  * @func clearElement
@@ -24,9 +26,9 @@ export const extendElementPrototype = () =>
 ;
 
 
-Object.assign(kongUtil, {
+Object.assign(utilElement, {
     clearElement,
     extendElementPrototype
 });
 
-export default kongUtil;
+export default utilElement;

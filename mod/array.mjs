@@ -1,5 +1,5 @@
 /**
- * @module utilArray
+ * @module kongUtilArray
  * @desc
  *  Functions in this file could be assigned to `Array.prototype`,
  *  and then you can use them as methods of an array.
@@ -12,15 +12,17 @@
  *
  * @example
     // sequentially fetch resources and then resolves to responses.
-    Array.prototype.mapAsync = kongUtil.mapAsync; // run once
+    Array.prototype.mapAsync = kongUtilArray.mapAsync; // run once
     [url1, url2].mapAsync(fetch);
  *
  * @example
     // same as above
-    kongUtil.mapAsync(fetch, [url1, url2])
+    kongUtilArray.mapAsync(fetch, [url1, url2])
  *
  */
-import kongUtil from "./core.mjs";
+import utilArray from "./core.mjs";
+
+export * from "./core.mjs";
 
 /** @func everyAsync */
 export async function everyAsync(callback, target = this) {
@@ -102,6 +104,20 @@ export async function reduceRightAsync(callback, initial, target = this) {
 export const someAsync = (c, t) => findIndexAsync(c, t).then(r => r !== -1);
 
 /**
+ * @func mapToObject
+ * @param {Function} callback
+ * @param {Array} target
+ * @returns {Object} keys are the values of the array; values are what callback returns on each element.
+ */
+export function mapToObject(callback, target = this) {
+    const result = {};
+    target.forEach((v, i) =>
+        result[v] = callback(v, i, target)
+    );
+    return result;
+};
+
+/**
  * @func extendArrayPrototype
  * @desc Add methods in this file to `Array` class.
  */
@@ -109,14 +125,15 @@ const arrayPrototypeExtended = {
     everyAsync, filterAsync,
     findAsync, findIndexAsync, findLastAsync, findLastIndexAsync,
     forEachAsync, mapAsync, reduceAsync, reduceRightAsync,
-    someAsync
+    someAsync,
+    mapToObject
 };
 export const extendArrayPrototype = () => Object.assign(Array.prototype, arrayPrototypeExtended);
 
 
-Object.assign(kongUtil,
+Object.assign(utilArray,
     arrayPrototypeExtended,
     {extendArrayPrototype}
 );
 
-export default kongUtil;
+export default utilArray;

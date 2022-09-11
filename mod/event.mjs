@@ -1,7 +1,9 @@
 /**
- * @module utilEvent
+ * @module kongUtilEvent
  */
-import kongUtil from "./core.mjs";
+import utilEvent from "./core.mjs";
+
+export * from "./core.mjs";
 
 /**
  * @func listen
@@ -78,9 +80,9 @@ export const extendEventTargetPrototype = () =>
 ;
 
 
-Object.assign(kongUtil, {
+Object.assign(utilEvent, {
     listen, waitForEvent,
     extendEventTargetPrototype
 });
 
-export default kongUtil;
+export default utilEvent;

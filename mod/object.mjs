@@ -1,7 +1,9 @@
 /**
- * @module utilObject
+ * @module kongUtilObject
  */
-import kongUtil from "./core.mjs";
+import utilObject from "./core.mjs";
+
+export * from "./core.mjs";
 
 export function emulateArray(method, callback, target = this) {
     const keys = Object.keys(target);
@@ -25,8 +27,8 @@ export async function objectReduceAsync(callback, initial, target = this) {
 }
 
 
-Object.assign(kongUtil, {
+Object.assign(utilObject, {
     emulateArray, objectReduce, objectReduceAsync
 });
 
-export default kongUtil;
+export default utilObject;

@@ -1,7 +1,9 @@
 /**
- * @module utilDom
+ * @module kongUtilDom
  */
-import kongUtil from "./core.mjs";
+import utilDom from "./core.mjs";
+
+export * from "./core.mjs";
 
 /**
  * @func $
@@ -109,8 +111,8 @@ export const parseHTML = (() => {
 })();
 
 
-Object.assign(kongUtil, {
+Object.assign(utilDom, {
     $, $$, parseHTML
 });
 
-export default kongUtil;
+export default utilDom;
