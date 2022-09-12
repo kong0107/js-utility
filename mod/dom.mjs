@@ -111,8 +111,71 @@ export const parseHTML = (() => {
 })();
 
 
+/**
+ * @func getNodes
+ * @desc Get nodes within the specified node.
+ * @param {string | string[] | Function} [accept = ()=>true] - fit nodes are included
+ * @param {string | string[] | Function} [reject = ()=>false] - fit nodes are excluded
+ * @param {Element | Document} [base = document] - root of the DOM tree to travere
+ * @returns {Node[]} nodes which fit `accept` but not within those fit `reject`
+ */
+export function getNodes(
+    accept = () => true,
+    reject = () => false,
+    base = document
+) {
+    /**
+     * If none of selector is function, then only elements are considered and text nodes are ignored.
+     * In this case, use `Element.querySelectorAll()`; otherwise, `TreeWalker` is the option.
+     * `NodeIterator` is not considered here since it does not support `FILTER_REJECT`.
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/NodeFilter }
+     * @see {@link https://www.w3.org/TR/DOM-Level-2-Traversal-Range/traversal.html }
+     */
+    if(typeof accept !== "function" && typeof reject !== "function") {
+        if(accept instanceof Array) accept = accept.join(",");
+        if(reject instanceof Array) reject = reject.join(",");
+        return $$(accept, base).filter(elem => !$$(reject, base).includes(elem));
+    }
+    accept = createNodeSelector(accept, base);
+    reject = createNodeSelector(reject, base);
+    const filter = {
+        acceptNode: node => {
+            if(reject(node)) return NodeFilter.FILTER_REJECT;
+            if(accept(node)) return NodeFilter.FILTER_ACCEPT;
+            return NodeFilter.FILTER_SKIP;
+        }
+    };
+    const walker = document.createTreeWalker(base, NodeFilter.SHOW_ALL, filter);
+
+    let node, result = [];
+    while(node = walker.nextNode()) result.push(node);
+    return result;
+};
+
+/**
+ * @private
+ * @func createNodeSelector
+ * @desc used in `getNodes`
+ * @param {string | string[] | Function} filterRule
+ * @param {Element | Document} base
+ * @returns {Function} tests a node and returns a boolean
+ */
+function createNodeSelector(filterRule, base) {
+    if(typeof filterRule === "function") return filterRule;
+    if(typeof filterRule === "string") {
+        const elements = $$(filterRule, base);
+        return node => elements.includes(node);
+    }
+    if(filterRule instanceof Array) {
+        filterRule = filterRule.map(tag => tag.toUpperCase());
+        return node => filterRule.includes(node.tagName);
+    }
+    throw new TypeError("selector shall be a function, a CSS selector string, or an array of strings representing HTML tags.");
+}
+
+
 Object.assign(utilDom, {
-    $, $$, parseHTML
+    $, $$, parseHTML, getNodes
 });
 
 export default utilDom;

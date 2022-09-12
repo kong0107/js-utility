@@ -5,5 +5,7 @@
  * See also [Node.js documentation](https://nodejs.org/api/esm.html#top-level-await).
  */
 import("./mod/all.mjs")
-.then(kongUtil => kongUtil.wait(500))
-.then(() => console.log("It works in CommonJS."));
+.then(kongUtil => {
+    kongUtil.wait(500, "test")
+    .then(kongUtil.logger("ES module mode works."));
+})
