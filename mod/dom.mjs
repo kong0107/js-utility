@@ -2,6 +2,7 @@
  * @module kongUtilDom
  */
 import utilDom from "./core.mjs";
+import JSML from "jsml-parser";
 
 export * from "./core.mjs";
 
@@ -173,9 +174,40 @@ function createNodeSelector(filterRule, base) {
     throw new TypeError("selector shall be a function, a CSS selector string, or an array of strings representing HTML tags.");
 }
 
+/**
+ * @func createElement
+ * @desc Use an JS object to create an `Element`
+ * @see [JSML]{@link https://kong0107.github.io/jsml/} for demo
+ * @param {JsonElement} jsml
+ * @param {HTMLDocument} [document=window.document] - you can alternatively use JSDOM
+ * @returns {Element}
+ *
+ * @example /// create a <p> tag containing some nodes
+    const jsml =
+    {p: {
+        class: "myClass myClass2",
+        style: "margin: .5em 0; padding: 0.5em;",
+        $: [
+            "JSML means ",
+            {a: {
+                href: "https://www.json.org/",
+                text: "JSON",
+                onClick: () => console.log("with listener support")
+            }},
+            " that represents ",
+            {em: "HTML"}
+        ]
+    }};
+    const elem = JSML.createElement(jsml);
+    document.body.append(elem, elem.outerHTML);
+ *
+ */
+export const createElement = JSML.createElement;
+
 
 Object.assign(utilDom, {
-    $, $$, parseHTML, getNodes
+    $, $$, parseHTML, getNodes,
+    createElement
 });
 
 export default utilDom;
