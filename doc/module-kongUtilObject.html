@@ -56,6 +56,265 @@
     
 
     
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~emulateArray"><span class="type-signature">(inner) </span>emulateArray<span class="signature">(method, callback, target<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {*}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Emulate functions of Array class.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>method</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">name of the corresponding method of Array class.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    this
+                
+                </td>
+            
+
+            <td class="description last">useful to assign this to prototype, though not recommended.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="object.mjs.html">object.mjs</a>, <a href="object.mjs.html#line8">line 8</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    depends on `method`
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">*</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>/// returns [4, 9]
+    emulateArray("map", x => x*x, {a: 2, b: 3});</code></pre>
+
+
+
+        
+    
 
     
 
@@ -70,13 +329,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-kongUtil.html">kongUtil</a></li><li><a href="module-kongUtilArray.html">kongUtilArray</a></li><li><a href="module-kongUtilAsync.html">kongUtilAsync</a></li><li><a href="module-kongUtilCore.html">kongUtilCore</a></li><li><a href="module-kongUtilDebug.html">kongUtilDebug</a></li><li><a href="module-kongUtilDom.html">kongUtilDom</a></li><li><a href="module-kongUtilElement.html">kongUtilElement</a></li><li><a href="module-kongUtilEvent.html">kongUtilEvent</a></li><li><a href="module-kongUtilObject.html">kongUtilObject</a></li><li><a href="module-kongUtilWeb.html">kongUtilWeb</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-kongUtil.html">kongUtil</a></li><li><a href="module-kongUtilArray.html">kongUtilArray</a></li><li><a href="module-kongUtilAsync.html">kongUtilAsync</a></li><li><a href="module-kongUtilCore.html">kongUtilCore</a></li><li><a href="module-kongUtilDebug.html">kongUtilDebug</a></li><li><a href="module-kongUtilDom.html">kongUtilDom</a></li><li><a href="module-kongUtilEvent.html">kongUtilEvent</a></li><li><a href="module-kongUtilObject.html">kongUtilObject</a></li><li><a href="module-kongUtilString.html">kongUtilString</a></li><li><a href="module-kongUtilWeb.html">kongUtilWeb</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Sep 12 2022 15:59:43 GMT+0800 (台北標準時間)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Wed Sep 14 2022 23:18:28 GMT+0800 (台北標準時間)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: core.mjs</title>
+    <title>JSDoc: Source: string.mjs</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: core.mjs</h1>
+    <h1 class="page-title">Source: string.mjs</h1>
 
     
 
@@ -27,27 +27,43 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @module kongUtilCore
+ * @module kongUtilString
  */
-const utilCore = {};
+import utilString from "./core.mjs";
+import cpi from "chinese-parseint";
+
+export * from "./core.mjs";
 
 /**
- * @func use
- * @desc set specified `methods` of kongUtil to global
- * @param {...string} [methods] - if empty, all methods would be added to `globalThis`.
+ * @func parseChineseNumber
+ * @param {string} str
+ * @returns {number|BigInt}
  */
-export const use = (function(...methods) {
-    if(methods[0] instanceof Array) methods = methods[0];
-    for(let meth in this) {
-        if(meth === "use") continue;
-        if(!methods.length || methods.includes(meth))
-            globalThis[meth] = this[meth];
+export function parseChineseNumber(str)  {
+    const parts = str.split(/[點点奌]/g);
+    if(parts.length > 2) throw new TypeError("Not a numeric string", str);
+    let result = parts[0].length ? cpi(parts[0]) : 0;
+    if(parts.length === 2) {
+        if(typeof result === "bigint") {
+            let temp = Number(result);
+            if(result !== BigInt(temp)) throw new RangeError("exceeds supported range");
+            result = temp;
+        }
+        let below = 0;
+        for(let d = 0; d &lt; parts[1].length; ++d)
+            below += cpi(parts[1].charAt(d)) * 10 ** (-d - 1);
+        if(result >= 0) result += below;
+        else result -= below;
     }
-}).bind(utilCore);
+    return result;
+};
 
 
-Object.assign(utilCore, {use});
-export default utilCore;
+Object.assign(utilString, {
+    parseChineseNumber
+});
+
+export default utilString;
 </code></pre>
         </article>
     </section>

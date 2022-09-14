@@ -174,6 +174,7 @@ function createNodeSelector(filterRule, base) {
     throw new TypeError("selector shall be a function, a CSS selector string, or an array of strings representing HTML tags.");
 }
 
+
 /**
  * @func createElement
  * @desc Use an JS object to create an `Element`
@@ -205,9 +206,33 @@ function createNodeSelector(filterRule, base) {
 export const createElement = JSML.createElement;
 
 
+/**
+ * @func clearElement
+ * @desc remove all children (including text nodes) of the element
+ * @param {Element} elem
+ */
+ export function clearElement(elem = this) {
+    let child;
+    while(child = elem.lastChild) elem.removeChild(node);
+}
+
+
+/**
+ * @func extendElementPrototype
+ * @desc Add above methods to `Element` class.
+ */
+export const extendElementPrototype = () =>
+    Object.assign(Element.prototype, {
+        clear: clearElement
+    })
+;
+
+
 Object.assign(utilDom, {
     $, $$, parseHTML, getNodes,
-    createElement
+    createElement,
+    clearElement,
+    extendElementPrototype
 });
 
 export default utilDom;

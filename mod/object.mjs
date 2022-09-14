@@ -5,6 +5,18 @@ import utilObject from "./core.mjs";
 
 export * from "./core.mjs";
 
+/**
+ * @func emulateArray
+ * @desc Emulate functions of Array class.
+ * @param {string} method - name of the corresponding method of Array class.
+ * @param {*} callback
+ * @param {*} [target=this] - useful to assign this to prototype, though not recommended.
+ * @returns {*} depends on `method`
+ *
+ * @example /// returns [4, 9]
+    emulateArray("map", x => x*x, {a: 2, b: 3});
+ *
+ */
 export function emulateArray(method, callback, target = this) {
     const keys = Object.keys(target);
     return keys[method](key => callback(target[key], key, target));

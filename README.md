@@ -4,7 +4,7 @@ Here are some codes I usually use.
 Some runs in any environment that supports JavaScript (ES6 and later);
 but some is usable only in browsers.
 
-Also see [demo](https://kong0107.github.io/kong-util/demo.html) and [documentation](https://kong0107.github.io/kong-util/doc/).
+Also see [demo](https://kong0107.github.io/kong-util/demo.html) and [API documentation](https://kong0107.github.io/kong-util/doc/).
 
 ## in browsers
 
