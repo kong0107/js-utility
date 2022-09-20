@@ -10,6 +10,8 @@
  *  If you want to run every async functions at the same time,
  *  consider static methods of `Promise`, such as `all`, `any`, `race`, and `allSettled`.
  *
+ *  Note: to make `this` work, don't use arrow functions here.
+ *
  * @example
     // sequentially fetch resources and then resolves to responses.
     Array.prototype.mapAsync = kongUtilArray.mapAsync; // run once
@@ -24,12 +26,18 @@ import utilArray from "./core.mjs";
 
 export * from "./core.mjs";
 
-/** @func everyAsync */
+/**
+ * @func everyAsync
+ * @returns {Promise.<boolean>}
+ */
 export async function everyAsync(callback, target = this) {
     return (await mapAsync(callback, target)).every(x => x);
 }
 
-/** @func filterAsync */
+/**
+ * @func filterAsync
+ * @returns {Promise.<Array>}
+ */
 export async function filterAsync(callback, target = this) {
     const results = [];
     for(let i = 0; i < target.length; ++i)
@@ -38,7 +46,10 @@ export async function filterAsync(callback, target = this) {
     return results;
 }
 
-/** @func findAsync */
+/**
+ * @func findAsync
+ * @returns {Promise.<*>}
+ */
 export async function findAsync(callback, target = this, returnIndex) {
     for(let i = 0; i < target.length; ++i)
         if(await callback(target[i], i, target))
@@ -46,10 +57,18 @@ export async function findAsync(callback, target = this, returnIndex) {
     return returnIndex ? -1 : undefined;
 }
 
-/** @func findIndexAsync */
-export const findIndexAsync = (c, t) => findAsync(c, t, true);
+/**
+ * @func findIndexAsync
+ * @returns {Promise.<integer>}
+ */
+export function findIndexAsync(cb, t) {
+    return findAsync(cb, t, true);
+}
 
-/** @func findLastAsync */
+/**
+ * @func findLastAsync
+ * @returns {Promise.<*>}
+ */
 export async function findLastAsync(callback, target = this, returnIndex) {
     for(let i = target.length - 1; i >= 0; --i)
         if(await callback(target[i], i, target))
@@ -57,24 +76,37 @@ export async function findLastAsync(callback, target = this, returnIndex) {
     return returnIndex ? -1 : undefined;
 }
 
-/** @func findLastIndexAsync */
-export const findLastIndexAsync = (c, t) => findLastAsync(c, t, true);
-
-/** @func forEachAsync */
-export async function forEachAsync(callback, target = this) {
-    for(let i = 0; i < target.length; ++i)
-        await callback(target[i], i, target);
+/**
+ * @func findLastIndexAsync
+ * @returns {Promise.<integer>}
+ */
+export function findLastIndexAsync(cb, t) {
+    return findLastAsync(cb, t, true);
 }
 
-/** @func mapAsync */
-export async function mapAsync(callback, target = this) {
-    const results = [];
+/**
+ * @func forEachAsync
+ * @returns {Promise.<undefined>}
+ */
+export async function forEachAsync(callback, target = this) {
+    return mapAsync(callback, target, true);
+}
+
+/**
+ * @func mapAsync
+ * @returns {Promise.<Array>}
+ */
+export async function mapAsync(callback, target = this, skipReturn) {
+    const results = skipReturn ? undefined : [];
     for(let i = 0; i < target.length; ++i)
-        results.push(await callback(target[i], i, target));
+        results?.push(await callback(target[i], i, target));
     return results;
 }
 
-/** @func reduceAsync */
+/**
+ * @func reduceAsync
+ * @returns {Promise.<*>}
+ */
 export async function reduceAsync(callback, initial, target = this) {
     let acc = initial, startingIndex = 0;
     if(typeof initial === "undefined") {
@@ -87,7 +119,10 @@ export async function reduceAsync(callback, initial, target = this) {
     return acc;
 }
 
-/** @func reduceRightAsync */
+/**
+ * @func reduceRightAsync
+ * @returns {Promise.<*>}
+ */
 export async function reduceRightAsync(callback, initial, target = this) {
     let acc = initial, startingIndex = target.length - 1;
     if(typeof initial === "undefined") {
@@ -101,7 +136,9 @@ export async function reduceRightAsync(callback, initial, target = this) {
 }
 
 /** @func someAsync */
-export const someAsync = (c, t) => findIndexAsync(c, t).then(r => r !== -1);
+export function someAsync(cb, t) {
+    return findIndexAsync(cb, t).then(r => r !== -1);
+}
 
 /**
  * @func mapToObject
