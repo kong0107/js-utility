@@ -30,9 +30,28 @@ export function parseChineseNumber(str)  {
     return result;
 };
 
+/**
+ * @func compareVersionNumbers
+ * @desc This only compares dot-separated-integer strings. For more complicated cases, use `semver` or `compare-versions`.
+ * @param {string} a
+ * @param {string} b
+ * @returns {integer}
+ */
+export function compareVersionNumbers(a, b) {
+    [a, b] = [a, b].map(str => str.split("."));
+    for(let d in a) {
+        if(typeof b[d] === "undefined") return 1;
+        const ad = parseInt(a[d], 10), bd = parseInt(b[d], 10);
+        if(ad > bd) return 1;
+        if(ad < bd) return -1;
+    }
+    if(a.length < b.length) return -1;
+    return 0;
+}
+
 
 Object.assign(utilString, {
-    parseChineseNumber
+    parseChineseNumber, compareVersionNumbers
 });
 
 export default utilString;
