@@ -2,7 +2,7 @@
  * @module kongUtilDom
  */
 import utilDom from "./core.mjs";
-import JSML from "jsml-parser";
+import jsmlCreateElement from "jsml-parser/createElement.js";
 
 export * from "./core.mjs";
 
@@ -203,7 +203,7 @@ function createNodeSelector(filterRule, base) {
     document.body.append(elem, elem.outerHTML);
  *
  */
-export const createElement = JSML.createElement;
+export const createElement = jsmlCreateElement;
 
 
 /**
