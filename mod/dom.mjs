@@ -213,7 +213,7 @@ export const createElement = jsmlCreateElement;
  */
  export function clearElement(elem = this) {
     let child;
-    while(child = elem.lastChild) elem.removeChild(node);
+    while(child = elem.lastChild) elem.removeChild(child);
 }
 
 
