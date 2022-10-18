@@ -1,6 +1,6 @@
 {
     "source": {
-        "include": ["./mod/"],
+        "include": ["./src/"],
         "includePattern": ".+\\.mjs"
     },
     "opts": {
