@@ -85,10 +85,32 @@ function csvEscape(text) {
 }
 
 
+/**
+ * @func parseCSV
+ * @desc not supporting escaped value yet
+ * @param {string} csv
+ * @param {string} [eol = \r\n] - end of line
+ * @returns {Object}
+ */
+export function parseCSV(csv, eol = '\r\n') {
+    const lines = csv.trim().split(eol);
+    const fields = lines.shift().split(',');
+    return lines.map(line => {
+        const record = line.split(',');
+        return fields.reduce((obj, field, fid) => Object.assign(obj, {[field]: record[fid]}), {});
+    });
+}
+function csvUnescape(text) {
+    if(text.startsWith('"') !== text.endsWith('"')) throw new SyntaxError(`Invalid escaped CSV value ${text}`);
+    text = text.replaceAll(/^"|"$/g, '').replaceAll('""', '"');
+    // return text.replaceAll(/\\x([\dA-Fa-f]{2})/g, (m, p1) => String.fromCharCode(parseInt(p1, 16)));
+}
+
+
 Object.assign(utilString, {
     parseChineseNumber,
     compareVersionNumbers,
-    toCSV
+    toCSV, parseCSV
 });
 
 export default utilString;

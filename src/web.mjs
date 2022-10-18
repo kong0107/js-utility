@@ -3,6 +3,7 @@
  */
 import utilWeb from "./core.mjs";
 import {parseHTML} from "./dom.mjs";
+import {parseCSV} from "./string.mjs";
 
 export * from "./core.mjs";
 
@@ -42,9 +43,17 @@ export const fetchText = (...args) => fetchStrict(...args).then(res => res.text(
  */
 export const fetchDOM = (...args) => fetchText(...args).then(html => parseHTML(html, 0));
 
+/**
+ * @func fetchCSV
+ * @desc Download a CSV file and parse it to an array of objects
+ * @param {...any} args - same as `fetch()`
+ * @returns {Promise.<Object>}
+ */
+export const fetchCSV = (...args) => fetchText(...args).then(csv => parseCSV(csv));
+
 
 Object.assign(utilWeb, {
-    fetchStrict, fetchJSON, fetchText, fetchDOM
+    fetchStrict, fetchJSON, fetchText, fetchDOM, fetchCSV
 });
 
 export default utilWeb;
