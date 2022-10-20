@@ -400,7 +400,7 @@
     
 
     
-    <h4 class="name" id="~parseCSV"><span class="type-signature">(inner) </span>parseCSV<span class="signature">(csv, eol<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="~parseCSV"><span class="type-signature">(inner) </span>parseCSV<span class="signature">(csv, hasHeader<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array}</span></h4>
     
 
     
@@ -408,7 +408,7 @@
 
 
 <div class="description">
-    not supporting escaped value yet
+    Parse valid MIME type `text/csv` string to array or object. Empty records are ignored.
 </div>
 
 
@@ -483,13 +483,13 @@
 
         <tr>
             
-                <td class="name"><code>eol</code></td>
+                <td class="name"><code>hasHeader</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -510,12 +510,12 @@
             
                 <td class="default">
                 
-                    \r\n
+                    true
                 
                 </td>
             
 
-            <td class="description last">end of line</td>
+            <td class="description last">If truthy, an array of objects with property names assigned by the first record is returned; if falsy, an array of arrays is returned.</td>
         </tr>
 
     
@@ -556,7 +556,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="string.mjs.html">string.mjs</a>, <a href="string.mjs.html#line88">line 88</a>
+        <a href="string.mjs.html">string.mjs</a>, <a href="string.mjs.html#line85">line 85</a>
     </li></ul></dd>
     
 
@@ -592,7 +592,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Object</span>
+<span class="param-type">Array</span>
 
 
     </dd>
@@ -603,6 +603,15 @@
 
 
 
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>/// returns [{a: '3', b: '4'}, {a: '7,', b: '9"'}]
+    parseCSV('"a",b\r\n"3",4\r\n"7,","9"""\r\n')</code></pre>
+
+    <pre class="prettyprint"><code>/// returns [['3', '4'], ['7,', '9"']]
+    parseCSV('"3",4\r\r\n\n"7,","9"""\r\n', false)</code></pre>
+
+
 
         
             
@@ -610,7 +619,7 @@
     
 
     
-    <h4 class="name" id="~toCSV"><span class="type-signature">(inner) </span>toCSV<span class="signature">(dataArray, fieldNames)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="~toCSV"><span class="type-signature">(inner) </span>toCSV<span class="signature">(dataArray, fieldNames, eol<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {string}</span></h4>
     
 
     
@@ -618,7 +627,7 @@
 
 
 <div class="description">
-    Convert an array of non-nested objects to a CSV string with field names as the first line, and `CRLF` as end of lines and the string.
+    Convert an array of non-nested objects to a `text/csv` string with a header record.
 </div>
 
 
@@ -642,7 +651,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -667,7 +680,19 @@
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">properties with keys not present in `fieldNames` would not be converted.</td>
@@ -690,10 +715,61 @@
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Only fields listed here would be in the result.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>eol</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    \r\n
+                
+                </td>
+            
+
+            <td class="description last">end of line, also appended to the returned string</td>
         </tr>
 
     
@@ -783,7 +859,7 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>/// returns 'a,b\r\n3,4\r\nx,"y\\x0Az"\r\n'
+    <pre class="prettyprint"><code>/// returns 'a,b\r\n3,4\r\nx,"y\nz"\r\n'
     toCSV([
         {a: 3, b: 4, c: 5},
         {a: 'x', b: 'y\nz'}
@@ -813,7 +889,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Wed Oct 19 2022 01:53:56 GMT+0800 (台北標準時間)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Thu Oct 20 2022 15:18:01 GMT+0800 (台北標準時間)
 </footer>
 
 <script> prettyPrint(); </script>

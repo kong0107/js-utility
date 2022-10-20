@@ -58,52 +58,70 @@ export function compareVersionNumbers(a, b) {
 /**
  * @func toCSV
  * @desc
- *  Convert an array of non-nested objects to a CSV string
- *  with field names as the first line, and `CRLF` as end of lines and the string.
+ *  Convert an array of non-nested objects to a `text/csv` string with a header record.
  * @param {Array.<Object>} dataArray - properties with keys not present in `fieldNames` would not be converted.
  * @param {Array.<string>} fieldNames - Only fields listed here would be in the result.
+ * @param {string} [eol = \r\n] - end of line, also appended to the returned string
  * @returns {string}
  *
- * @example /// returns 'a,b\r\n3,4\r\nx,"y\\x0Az"\r\n'
+ * @example /// returns 'a,b\r\n3,4\r\nx,"y\nz"\r\n'
     toCSV([
         {a: 3, b: 4, c: 5},
         {a: 'x', b: 'y\nz'}
     ], ['a', 'b'])
  */
-export function toCSV(dataArray, fieldNames) {
+export function toCSV(dataArray, fieldNames, eol = '\r\n') {
     return dataArray.reduce((acc, record) =>
-        acc + fieldNames.map(field => csvEscape(record[field])).join(',') + '\r\n'
-    , fieldNames.map(csvEscape).join(',') + '\r\n');
+        acc + fieldNames.map(field => csvEscape(record[field])).join(',') + eol
+    , fieldNames.map(csvEscape).join(',') + eol);
 }
 function csvEscape(text) {
-    if(!/[\x00-\x1f\x22\x2c]/.test(text)) return text;
-    text = text
-        .replaceAll('"', '""')
-        .replaceAll(/[\x00-\x1f]/g, m => '\x5cx' + m[0].charCodeAt(0).toString(16).toUpperCase().padStart(2, '0'))
-    ;
+    if(!/[\x0a\x0d\x22\x2c]/.test(text)) return text;
+    text = text.replaceAll('"', '""');
     return `"${text}"`;
 }
 
 
 /**
  * @func parseCSV
- * @desc not supporting escaped value yet
+ * @desc Parse valid MIME type `text/csv` string to array or object. Empty records are ignored.
  * @param {string} csv
- * @param {string} [eol = \r\n] - end of line
- * @returns {Object}
+ * @param {boolean} [hasHeader=true] If truthy, an array of objects with property names assigned by the first record is returned; if falsy, an array of arrays is returned.
+ * @returns {Array}
+ *
+ * @example /// returns [{a: '3', b: '4'}, {a: '7,', b: '9"'}]
+    parseCSV('"a",b\r\n"3",4\r\n"7,","9"""\r\n')
+ *
+ * @example /// returns [['3', '4'], ['7,', '9"']]
+    parseCSV('"3",4\r\r\n\n"7,","9"""\r\n', false)
  */
-export function parseCSV(csv, eol = '\r\n') {
-    const lines = csv.trim().split(eol);
-    const fields = lines.shift().split(',');
-    return lines.map(line => {
-        const record = line.split(',');
-        return fields.reduce((obj, field, fid) => Object.assign(obj, {[field]: record[fid]}), {});
-    });
-}
-function csvUnescape(text) {
-    if(text.startsWith('"') !== text.endsWith('"')) throw new SyntaxError(`Invalid escaped CSV value ${text}`);
-    text = text.replaceAll(/^"|"$/g, '').replaceAll('""', '"');
-    // return text.replaceAll(/\\x([\dA-Fa-f]{2})/g, (m, p1) => String.fromCharCode(parseInt(p1, 16)));
+export function parseCSV(csv, hasHeader = true) {
+    let quotes = 0, pos = 0, record = [];
+    const allRecords = [];
+    for(let i = 0; i < csv.length; ++i) {
+        const char = csv.charAt(i);
+        if(char === '"') ++quotes;
+        if(quotes % 2) continue;
+        if(['\n', '\r', ','].includes(char)) {
+            let value = csv.substring(pos, i);
+            if(value.startsWith('"')) value = value.slice(1, -1);
+            value = value.replaceAll('""', '"');
+            pos = i + 1;
+
+            if(char === ',') record.push(value);
+            else if(record.length) {
+                record.push(value);
+                allRecords.push(record);
+                record = [];
+            }
+        }
+    }
+    if(!hasHeader) return allRecords;
+
+    const fields = allRecords.shift();
+    return allRecords.map(array =>
+        fields.reduce((obj, name, index) => Object.assign(obj, {[name]: array[index]}), {})
+    );
 }
 
 
