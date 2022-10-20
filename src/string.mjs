@@ -98,6 +98,7 @@ function csvEscape(text) {
 export function parseCSV(csv, hasHeader = true) {
     let quotes = 0, pos = 0, record = [];
     const allRecords = [];
+    csv += '\n'; // make sure the last record will be pushed
     for(let i = 0; i < csv.length; ++i) {
         const char = csv.charAt(i);
         if(char === '"') ++quotes;
