@@ -208,22 +208,42 @@ export const createElement = jsmlCreateElement;
 
 /**
  * @func clearElement
- * @desc remove all children (including text nodes) of the element
- * @param {Element} elem
+ * @desc
+ *  Remove all children (including text nodes) of the element.
+ *  Could be assign to `Element.prototype`.
+ * @param {Element} [elem=this]
  */
- export function clearElement(elem = this) {
+export function clearElement(elem = this) {
     let child;
     while(child = elem.lastChild) elem.removeChild(child);
 }
 
 
 /**
+ * @func isEventInElement
+ * @desc
+ *  Check wheather a mouse event happens inside an element, even its target is not the element.
+ *  Could be assign to `Element.prototype`.
+ * @param {MouseEvent} event
+ * @param {Element} [elem=this]
+ * @returns {boolean}
+ */
+export function isEventInElement(event, elem = this) {
+    const {clientX: x, clientY: y} = event;
+    return [...elem.getClientRects()].some(r =>
+        x >= r.left && x <= r.right && y >= r.top && y <= r.bottom
+    );
+}
+
+
+/**
  * @func extendElementPrototype
- * @desc Add above methods to `Element` class.
+ * @desc Add some of above methods to `Element` class.
  */
 export const extendElementPrototype = () =>
     Object.assign(Element.prototype, {
-        clear: clearElement
+        clear: clearElement,
+        hasEventIn: isEventInElement
     })
 ;
 
