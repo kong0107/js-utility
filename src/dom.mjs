@@ -27,16 +27,17 @@ export * from "./core.mjs";
     $("button, [type=button], [type=submit]");
  *
  * @example /// assign more than one element to variables by an array
-    let [myForm, myTable, myTextArea] = $("#myForm", ".myTable", "textarea")
+    let [myForm, myTable, myTextArea] = $(["#myForm", ".myTable", "textarea"])
  *
- * @example /// object
-
+ * @example /// nested object
+    $({form: 'form', inputs: {text: '[type=text]', password: '[type=password]'}})
+ *
  */
 export const $ = (s, b = document) => {
     if(typeof s === "string") return b.querySelector(s);
     else if(s instanceof Array) return s.map(ss => $(ss, b));
     const r = {};
-    for(let name in s) result[name] = $(s[name], b);
+    for(let name in s) r[name] = $(s[name], b);
     return r;
 };
 
@@ -50,12 +51,13 @@ export const $ = (s, b = document) => {
  *
  * @example /// returns all trimmed values of <input>'s in `.myForm`.
     $$(".myForm input").map(input => input.value.trim());
+ *
  */
 export const $$ = (s, b = document) => {
    if(typeof s === "string") return [...b.querySelectorAll(s)];
    else if(s instanceof Array) return s.map(ss => $$(ss, b));
    const r = {};
-   for(let name in s) result[name] = $$(s[name], b);
+   for(let name in s) r[name] = $$(s[name], b);
    return r;
 }
 
