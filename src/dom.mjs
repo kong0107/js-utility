@@ -252,6 +252,7 @@ Object.assign(utilDom, {
     $, $$, parseHTML, getNodes,
     createElement,
     clearElement,
+    isEventInElement,
     extendElementPrototype
 });
 
