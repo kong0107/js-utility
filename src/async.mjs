@@ -34,10 +34,9 @@ export function wait(ms, fulfill) {
 }
 
 /**
- * Resolves until the callback runs or the promise resolve, or rejects until `timeLimit` milliseconds passed. Also a shortcut to `waitForEvent`.
+ * Resolves until the callback runs or the promise resolve, or rejects with an abort event until `timeout` milliseconds passed. Also a shortcut to `waitForEvent`.
  * @param {Promise | Function | Object} sth - if neither a promise nor a function, then `waitForEvent` is used.
- * @param {number | string} [timeLimit] non-positive number and NaN would cause the promise never reject
- * @param {*} [reason = new Error("timeout")] rejected reason
+ * @param {number | string} [timeout] non-positive number and NaN would cause the promise never reject
  * @returns {Promise}
  *
  * @example /// rejects if `fetch()` does not resolves in 1 second.
@@ -57,36 +56,36 @@ export function wait(ms, fulfill) {
     .then(() => console.log("a click event in 1 second is detected"));
  *
  */
-export function waitFor(sth, timeLimit, reason = new Error("timeout")) {
+export function waitFor(sth, timeout) {
     let exe;
     if(sth instanceof Promise) exe = r => sth.then(r);
     else if(sth instanceof Function) exe = r => sth(r);
     else {
         if(sth instanceof EventTarget) return waitForEvent(...arguments);
         const {target, type, ...options} = sth;
-        return waitForEvent(target, type, options, timeLimit, reason);
+        options.timeout = timeout;
+        return waitForEvent(target, type, options);
     }
     if(exe) return new Promise((resolve, reject) => {
-        exe(resolve);
-        if(timeLimit > 0) setTimeout(reject, timeLimit, reason);
+        setTimeout(exe, 0, resolve);
+        if(timeout > 0) setTimeout(reject, timeout, new Event("abort"));
     });
 }
 
 /**
  * Convert an async function by appending an argument represents time limit.
  * @param {Function} asyncFunc - a function returns a promise
- * @param {number} timeLimit - in milliseconds
- * @param {*} [reason = new Error("timeout")] - rejected reason
- * @returns {Function} receiving same arguments as the origin, but the returned promise would auto-reject after `timeLimit` milliseconds
+ * @param {number} timeout - in milliseconds
+ * @returns {Function} receiving same arguments as the origin, but the returned promise would auto-reject after `timeout` milliseconds
  *
  * @example /// convert `fetch()` to auto-reject after 3 seconds.
     const fetchAutoReject = addTimeLimit(fetch, 3000);
  *
  */
-export function addTimeLimit(asyncFunc, timeLimit, reason) {
+export function addTimeLimit(asyncFunc, timeout) {
     return function(...args) {
         const promise = asyncFunc(...args);
-        return waitFor(promise, timeLimit, reason);
+        return waitFor(promise, timeout);
     };
 }
 

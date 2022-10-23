@@ -116,7 +116,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="event.mjs.html">event.mjs</a>, <a href="event.mjs.html#line70">line 70</a>
+        <a href="event.mjs.html">event.mjs</a>, <a href="event.mjs.html#line76">line 76</a>
     </li></ul></dd>
     
 
@@ -548,7 +548,7 @@
     
 
     
-    <h4 class="name" id="~waitForEvent"><span class="type-signature">(inner) </span>waitForEvent<span class="signature">(target, type, options<span class="signature-attributes">opt</span>, timeLimit<span class="signature-attributes">opt</span>, reason<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;Event>}</span></h4>
+    <h4 class="name" id="~waitForEvent"><span class="type-signature">(inner) </span>waitForEvent<span class="signature">(target, type, options<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;Event>}</span></h4>
     
 
     
@@ -556,7 +556,7 @@
 
 
 <div class="description">
-    Resolves to the event, or rejects if `timeLimit` milliseconds passed.
+    Resolves to the event, or rejects if `timeout` milliseconds passed.
 </div>
 
 
@@ -583,8 +583,6 @@
         <th>Attributes</th>
         
 
-        
-        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -619,10 +617,6 @@
             
 
             
-                <td class="default">
-                
-                </td>
-            
 
             <td class="description last"></td>
         </tr>
@@ -654,10 +648,6 @@
             
 
             
-                <td class="default">
-                
-                </td>
-            
 
             <td class="description last"></td>
         </tr>
@@ -672,10 +662,16 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">number</span>
+|
+
+<span class="param-type">string</span>
 |
 
 <span class="param-type">boolean</span>
+|
+
+<span class="param-type">Object</span>
 
 
             
@@ -694,19 +690,36 @@
             
 
             
-                <td class="default">
+
+            <td class="description last">If omitted or being a non-positive number, the promise would never reject. If it's a positive number or a numeric string, the value is treated as the timeout. If it's a boolean, the value is used as `useCapture` for `EventTarget.addEventListener`. If it's an object, the property except the followings are used as `options` for `EventTarget.addEventListener`.
+                <h6>Properties</h6>
                 
-                </td>
-            
 
-            <td class="description last">used in `EventTarget.addEventListener()`</td>
-        </tr>
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
 
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
     
 
         <tr>
             
-                <td class="name"><code>timeLimit</code></td>
+                <td class="name"><code>timeout</code></td>
             
 
             <td class="type">
@@ -734,25 +747,21 @@
             
 
             
-                <td class="default">
-                
-                </td>
-            
 
-            <td class="description last">non-positive number and NaN would cause the promise never reject</td>
+            <td class="description last">timeout in milliseconds</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>reason</code></td>
+                <td class="name"><code>preventDefault</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">*</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -771,14 +780,81 @@
             
 
             
-                <td class="default">
+
+            <td class="description last">wheather to call `Event.preventDefault`</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>stopPropagation</code></td>
+            
+
+            <td class="type">
+            
                 
-                    new Error("timeout")
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
                 
                 </td>
             
 
-            <td class="description last">rejected reason; meaningless if `timeLimit` is invalid</td>
+            
+
+            <td class="description last">wheather to call `Event.stopPropagation`</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>stopImmediatePropagation</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">wheather to call `Event.stopImmediatePropagation`</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     

@@ -64,7 +64,7 @@
     
 
     
-    <h4 class="name" id=".addTimeLimit"><span class="type-signature">(static) </span>addTimeLimit<span class="signature">(asyncFunc, timeLimit, reason<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {function}</span></h4>
+    <h4 class="name" id=".addTimeLimit"><span class="type-signature">(static) </span>addTimeLimit<span class="signature">(asyncFunc, timeout)</span><span class="type-signature"> &rarr; {function}</span></h4>
     
 
     
@@ -96,11 +96,7 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
-        
-        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -125,19 +121,7 @@
             </td>
 
             
-                <td class="attributes">
-                
 
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
             
 
             <td class="description last">a function returns a promise</td>
@@ -147,7 +131,7 @@
 
         <tr>
             
-                <td class="name"><code>timeLimit</code></td>
+                <td class="name"><code>timeout</code></td>
             
 
             <td class="type">
@@ -160,61 +144,10 @@
             </td>
 
             
-                <td class="attributes">
-                
 
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
             
 
             <td class="description last">in milliseconds</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>reason</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    new Error("timeout")
-                
-                </td>
-            
-
-            <td class="description last">rejected reason</td>
         </tr>
 
     
@@ -255,7 +188,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="async.mjs.html">async.mjs</a>, <a href="async.mjs.html#line86">line 86</a>
+        <a href="async.mjs.html">async.mjs</a>, <a href="async.mjs.html#line85">line 85</a>
     </li></ul></dd>
     
 
@@ -284,7 +217,7 @@
 
         
 <div class="param-desc">
-    receiving same arguments as the origin, but the returned promise would auto-reject after `timeLimit` milliseconds
+    receiving same arguments as the origin, but the returned promise would auto-reject after `timeout` milliseconds
 </div>
 
 
@@ -735,7 +668,7 @@
     
 
     
-    <h4 class="name" id=".waitFor"><span class="type-signature">(static) </span>waitFor<span class="signature">(sth, timeLimit<span class="signature-attributes">opt</span>, reason<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    <h4 class="name" id=".waitFor"><span class="type-signature">(static) </span>waitFor<span class="signature">(sth, timeout<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
     
 
     
@@ -743,7 +676,7 @@
 
 
 <div class="description">
-    Resolves until the callback runs or the promise resolve, or rejects until `timeLimit` milliseconds passed. Also a shortcut to `waitForEvent`.
+    Resolves until the callback runs or the promise resolve, or rejects with an abort event until `timeout` milliseconds passed. Also a shortcut to `waitForEvent`.
 </div>
 
 
@@ -770,8 +703,6 @@
         <th>Attributes</th>
         
 
-        
-        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -812,10 +743,6 @@
             
 
             
-                <td class="default">
-                
-                </td>
-            
 
             <td class="description last">if neither a promise nor a function, then `waitForEvent` is used.</td>
         </tr>
@@ -824,7 +751,7 @@
 
         <tr>
             
-                <td class="name"><code>timeLimit</code></td>
+                <td class="name"><code>timeout</code></td>
             
 
             <td class="type">
@@ -852,51 +779,8 @@
             
 
             
-                <td class="default">
-                
-                </td>
-            
 
             <td class="description last">non-positive number and NaN would cause the promise never reject</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>reason</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    new Error("timeout")
-                
-                </td>
-            
-
-            <td class="description last">rejected reason</td>
         </tr>
 
     
@@ -937,7 +821,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="async.mjs.html">async.mjs</a>, <a href="async.mjs.html#line60">line 60</a>
+        <a href="async.mjs.html">async.mjs</a>, <a href="async.mjs.html#line59">line 59</a>
     </li></ul></dd>
     
 

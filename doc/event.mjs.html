@@ -53,12 +53,19 @@ export const unlisten = (target, ...args) => target.removeEventListener(...args)
 
 /**
  * @func waitForEvent
- * @desc Resolves to the event, or rejects if `timeLimit` milliseconds passed.
+ * @desc Resolves to the event, or rejects if `timeout` milliseconds passed.
  * @param {EventTarget} target
  * @param {string} type
- * @param {Object | boolean} [options] - used in `EventTarget.addEventListener()`
- * @param {number | string} [timeLimit] - non-positive number and NaN would cause the promise never reject
- * @param {*} [reason = new Error("timeout")] - rejected reason; meaningless if `timeLimit` is invalid
+ * @param {number | string | boolean | Object} [options]
+ *  If omitted or being a non-positive number, the promise would never reject.
+ *  If it's a positive number or a numeric string, the value is treated as the timeout.
+ *  If it's a boolean, the value is used as `useCapture` for `EventTarget.addEventListener`.
+ *  If it's an object, the property except the followings are used as `options` for `EventTarget.addEventListener`.
+ * @param {number | string} [options.timeout] - timeout in milliseconds
+ * @param {boolean} [options.preventDefault] - wheather to call `Event.preventDefault`
+ * @param {boolean} [options.stopPropagation] - wheather to call `Event.stopPropagation`
+ * @param {boolean} [options.stopImmediatePropagation] - wheather to call `Event.stopImmediatePropagation`
+ *
  * @returns {Promise.&lt;Event>}
  *
  * @example /// rejects if no click to `document.body` in 1 second
@@ -66,20 +73,17 @@ export const unlisten = (target, ...args) => target.removeEventListener(...args)
     .then(() => console.log("a click event in 1 second is detected"));
  *
  */
-export function waitForEvent(target, type, ...rest) {
-    let options, timeLimit, reason;
-    if(rest.length &amp;&amp; isNaN(rest[0])) {
-        options = (typeof rest[0] === "object")
-            ? Object.assign({}, rest[0])
-            : {capture: !!rest[0]}
-        ;
-        rest.splice(0, 1);
+export function waitForEvent(target, type, options) {
+    let timeout;
+    switch(typeof options) {
+        case "undefined":   timeout = 0;                options = {};   break;
+        case "number":      timeout = options;          options = {};   break;
+        case "string":      timeout = parseInt(options);options = {};   break;
+        case "boolean":     timeout = 0;                options = {capture: options}; break;
+        case "object":      timeout = options.timeout;                  break;
+        default: throw TypeError();
     }
-    else options = {capture: false};
     options.once = true;
-    timeLimit = rest[0] || 0;
-    reason = rest[1] || new Error("timeout");
-
     return new Promise((resolve, reject) => {
         const listener = event => {
             if(options.preventDefault) event.preventDefault();
@@ -88,10 +92,12 @@ export function waitForEvent(target, type, ...rest) {
             resolve();
         };
         listen(target, type, listener, options);
-        if(timeLimit > 0) setTimeout(() => {
+        if(timeout > 0) setTimeout(() => {
             unlisten(target, listener, options);
-            reject(reason);
-        }, timeLimit);
+            const event = new Event("abort");
+            target.dispatchEvent(event);
+            reject(event);
+        }, timeout);
     });
 };
 
