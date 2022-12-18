@@ -241,6 +241,56 @@ export const createElement = jsmlCreateElement;
 
 
 /**
+ * @func createElementFromJsonML
+ * @desc Use JsonML to create an HTML element.
+ * @see {@link http://www.jsonml.org/ }
+ * @param {Object} jsonml
+ * @returns {Element}
+ */
+export function createElementFromJsonML(jsonml) {
+    if(typeof jsonml === 'string') return document.createTextNode(jsonml);
+    if(jsonml instanceof Node) return jsonml.cloneNode(true);
+
+    let [tag, attributes, ...children] = jsonml;
+    if(typeof jsonml[1] === 'string' || jsonml[1] instanceof Array) {
+        attributes = {};
+        [tag, ...children] = jsonml;
+    }
+
+    const elem = document.createElement(tag);
+    for(let name in attributes) {
+        const value = attributes[name];
+        name = name.toLowerCase();
+        if(name.startsWith('on')) {
+            listen(elem, name.substring(2), value);
+            continue;
+        }
+        switch(name) {
+            case 'class':
+            case 'classname': {
+                elem.className = value;
+                break;
+            }
+            case 'css':
+            case 'style': {
+                if(typeof value === 'string') elem.style.cssText = value;
+                else for(let sp in value) elem.style[camelize(sp)] = value[sp];
+                break;
+            }
+            case 'data':
+            case 'dataset': {
+                for(let ds in value) elem.dataset[camelize(ds)] = value[ds];
+                break;
+            }
+            default: elem.setAttribute(name, attributes[name]);
+        }
+    }
+    elem.append(...children.map(createElementFromJsonML));
+    return elem;
+}
+
+
+/**
  * @func clearElement
  * @desc
  *  Remove all children (including text nodes) of the element.
@@ -284,7 +334,7 @@ export const extendElementPrototype = () =>
 
 Object.assign(utilDom, {
     $, $$, parseHTML, getNodes,
-    createElement,
+    createElement, createElementFromJsonML,
     clearElement,
     isEventInElement,
     extendElementPrototype
