@@ -14,12 +14,12 @@ export * from "./core.mjs";
     setTimeout(() => alert("wow"), 1000); //< old way
  *
  */
-export const alerter = function(msg) {
+export function alerter(msg) {
     return () => {
         alert(msg);
         return msg;
-    }
-};
+    };
+}
 
 /**
  * Shortcut to `() => console.debug(...)` but returns the function again
@@ -40,12 +40,12 @@ export const alerter = function(msg) {
     });
  *
  */
-export const logger = function() {
+export function logger() {
     return (...args) => {
         console.debug(...arguments, ...args);
         return (args.length < 2) ? args[0] : args;
-    }
-};
+    };
+}
 
 
 Object.assign(utilDebug, {

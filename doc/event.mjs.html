@@ -40,7 +40,9 @@ export * from "./core.mjs";
  * @param  {...any} args - arguments for `addEventListener`
  * @returns {undefined}
  */
-export const listen = (target, ...args) => target.addEventListener(...args);
+export function listen(target, ...args) {
+    target.addEventListener(...args);
+};
 
 /**
  * @func unlisten
@@ -49,7 +51,9 @@ export const listen = (target, ...args) => target.addEventListener(...args);
  * @param  {...any} args - arguments for `removeEventListener`
  * @returns {undefined}
  */
-export const unlisten = (target, ...args) => target.removeEventListener(...args);
+export function unlisten(target, ...args) {
+    target.removeEventListener(...args);
+};
 
 /**
  * @func waitForEvent

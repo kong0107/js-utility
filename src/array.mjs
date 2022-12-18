@@ -152,7 +152,7 @@ export function mapToObject(callback, target = this) {
         result[v] = callback(v, i, target)
     );
     return result;
-};
+}
 
 /**
  * @func extendArrayPrototype

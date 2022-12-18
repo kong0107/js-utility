@@ -188,7 +188,7 @@
                 </td>
             
 
-            <td class="description last"></td>
+            <td class="description last">if not an object having `querySelector` method, then it's ignored and `document` is used. This is useful if you wanna pass this function as the argument in `Array.map`.</td>
         </tr>
 
     
@@ -258,7 +258,7 @@
 
         
 <div class="param-desc">
-    element If `selectors` is a string, this function works exactly as `querySelector()`. If `selectors` is an array, this returns an array with each element corresponding to the input element, or null if no such ones. If `selectors` is an object, this returns an object with the same keys but values are the corresponding first found element. Nested arrays and objects are supported by recursion.
+    element If `selectors` is a string, this function works exactly as `querySelector()`. If `selectors` is an array of strings, this returns an array with one element or null corresponding to each input selector. If `selectors` is an object, this returns an object with the same keys but values are the corresponding first found element. Nested arrays and objects are supported by recursion.
 </div>
 
 
@@ -294,11 +294,14 @@
     <pre class="prettyprint"><code>/// get the first button by a string
     $("button, [type=button], [type=submit]");</code></pre>
 
-    <pre class="prettyprint"><code>/// assign more than one element to variables by an array
-    let [myForm, myTable, myTextArea] = $(["#myForm", ".myTable", "textarea"])</code></pre>
+    <pre class="prettyprint"><code>/// assign elements by respective selectors
+    const [myForm, myTable, myTextArea] = $(["#myForm", ".myTable", "textarea"]);</code></pre>
+
+    <pre class="prettyprint"><code>/// safe to use in `Array.map()`
+    const [myForm, myTable, myTextArea] = ["#myForm", ".myTable", "textarea"].map($);</code></pre>
 
     <pre class="prettyprint"><code>/// nested object
-    $({form: 'form', inputs: {text: '[type=text]', password: '[type=password]'}})</code></pre>
+    $({form: 'form', inputs: {text: '[type=text]', password: '[type=password]'}});</code></pre>
 
 
 
@@ -316,7 +319,7 @@
 
 
 <div class="description">
-    Shortcut to `querySelectorAll` but returns an array instead of `NodeList`; different if not giving a string, like `$` does.
+    Shortcut to `querySelectorAll` but returns an array instead of `NodeList`. Different if not giving a string, like `$` differs from `querySelector`; however, for selectors have no matches, empty array is returned instead of null.
 </div>
 
 
@@ -432,7 +435,7 @@
                 </td>
             
 
-            <td class="description last"></td>
+            <td class="description last">if not an object having `querySelector` method, then it's ignored and `document` is used.</td>
         </tr>
 
     
@@ -473,7 +476,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line45">line 45</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -657,7 +660,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line211">line 211</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line215">line 215</a>
     </li></ul></dd>
     
 
@@ -701,7 +704,7 @@
 
 
 <div class="description">
-    Use an JS object to create an `Element`
+    Use an JS object to create an `Element`, supporting having listeners and descendants.
 </div>
 
 
@@ -849,7 +852,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line180">line 180</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line184">line 184</a>
     </li></ul></dd>
     
 
@@ -984,7 +987,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line241">line 241</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line245">line 245</a>
     </li></ul></dd>
     
 
@@ -1234,7 +1237,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line117">line 117</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line121">line 121</a>
     </li></ul></dd>
     
 
@@ -1448,7 +1451,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line224">line 224</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line228">line 228</a>
     </li></ul></dd>
     
 
@@ -1658,7 +1661,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line65">line 65</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line73">line 73</a>
     </li></ul></dd>
     
 
@@ -1687,7 +1690,7 @@
 
         
 <div class="param-desc">
-    node Incomplete HTML string may lead to unexpected result. Browsers may unexpectedly add essential tags such as `<html>`, `<head>`, and `<body>`, even given `html` string contains no such tags. It may also omit tags if the structure is not complete. For example, `<tr>` as the root node of the `html` string may cause browsers not creating elements but the text nodes within them.
+    node Incomplete HTML string may lead to unexpected result. Browsers may unexpectedly add essential tags such as `<html>`, `<head>`, and `<body>`, even given `html` string contains no such tags. It may also omit tags if the structure is not complete. For example, `<tr>` as the root node of the `html` string may cause browsers not creating elements but only the text nodes within them.
 </div>
 
 

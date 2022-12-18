@@ -10,13 +10,13 @@ export * from "./core.mjs";
  * @func $
  * @desc Shortcut to `querySelector`, but different if not giving a string.
  * @param {string | Array | Object} selectors - one or more CSS selector string
- * @param {Element | Document} [base = document]
+ * @param {Element | Document} [base = document] - if not an object having `querySelector` method, then it's ignored and `document` is used. This is useful if you wanna pass this function as the argument in `Array.map`.
  * @returns {null | Element | Array | Object} element
  *
  *  If `selectors` is a string, this function works exactly as `querySelector()`.
  *
- *  If `selectors` is an array, this returns
- *  an array with each element corresponding to the input element, or null if no such ones.
+ *  If `selectors` is an array of strings, this returns
+ *  an array with one element or null corresponding to each input selector.
  *
  *  If `selectors` is an object, this returns
  *  an object with the same keys but values are the corresponding first found element.
@@ -26,39 +26,47 @@ export * from "./core.mjs";
  * @example /// get the first button by a string
     $("button, [type=button], [type=submit]");
  *
- * @example /// assign more than one element to variables by an array
-    let [myForm, myTable, myTextArea] = $(["#myForm", ".myTable", "textarea"])
+ * @example /// assign elements by respective selectors
+    const [myForm, myTable, myTextArea] = $(["#myForm", ".myTable", "textarea"]);
+ *
+ * @example /// safe to use in `Array.map()`
+    const [myForm, myTable, myTextArea] = ["#myForm", ".myTable", "textarea"].map($);
  *
  * @example /// nested object
-    $({form: 'form', inputs: {text: '[type=text]', password: '[type=password]'}})
+    $({form: 'form', inputs: {text: '[type=text]', password: '[type=password]'}});
  *
  */
-export const $ = (s, b = document) => {
+export function $(s, b = document) {
+    if(!b?.querySelector) b = document;
     if(typeof s === "string") return b.querySelector(s);
     else if(s instanceof Array) return s.map(ss => $(ss, b));
     const r = {};
     for(let name in s) r[name] = $(s[name], b);
     return r;
-};
+}
 
 
 /**
  * @func $$
- * @desc Shortcut to `querySelectorAll` but returns an array instead of `NodeList`; different if not giving a string, like `$` does.
+ * @desc
+ *  Shortcut to `querySelectorAll` but returns an array instead of `NodeList`.
+ *  Different if not giving a string, like `$` differs from `querySelector`;
+ *  however, for selectors have no matches, empty array is returned instead of null.
  * @param {string | Array | Object} selectors - one or more CSS selector string
- * @param {Element | Document} [base = document]
+ * @param {Element | Document} [base = document] - if not an object having `querySelector` method, then it's ignored and `document` is used.
  * @returns {Array | Object}
  *
  * @example /// returns all trimmed values of <input>'s in `.myForm`.
     $$(".myForm input").map(input => input.value.trim());
  *
  */
-export const $$ = (s, b = document) => {
-   if(typeof s === "string") return [...b.querySelectorAll(s)];
-   else if(s instanceof Array) return s.map(ss => $$(ss, b));
-   const r = {};
-   for(let name in s) r[name] = $$(s[name], b);
-   return r;
+export function $$(s, b = document) {
+    if(!b?.querySelectorAll) b = document;
+    if(typeof s === "string") return [...b.querySelectorAll(s)];
+    else if(s instanceof Array) return s.map(ss => $$(ss, b));
+    const r = {};
+    for(let name in s) r[name] = $$(s[name], b);
+    return r;
 }
 
 
@@ -78,7 +86,7 @@ export const $$ = (s, b = document) => {
  *
  *  It may also omit tags if the structure is not complete.
  *  For example, `<tr>` as the root node of the `html` string
- *  may cause browsers not creating elements but the text nodes within them.
+ *  may cause browsers not creating elements but only the text nodes within them.
  *
  * @example
     /// returns an `Element` whose `tagName` is "em" and has string "hi!" as its text content.
@@ -101,17 +109,13 @@ export const $$ = (s, b = document) => {
     parseHTML("<tr><td>QQ</td></tr>");
  *
  */
-export const parseHTML = (() => {
-    let parser;
-    return (html, selectors = "body > *") => {
-        if(typeof DOMParser === "undefined") throw ReferenceError("DOMParser is not defined");
-        if(!parser) parser = new DOMParser();
-        const doc = parser.parseFromString(html, "text/html");
-        if(typeof selectors === "string" || selectors instanceof Array)
-            return $(selectors, doc);
-        return doc;
-    }
-})();
+let parser;
+export function parseHTML(html, selectors = "body > *") {
+    if(typeof DOMParser === "undefined") throw ReferenceError("DOMParser is not defined");
+    if(!parser) parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    return (typeof selectors === "string") ? $(selectors, doc) : doc;
+}
 
 
 /**
@@ -153,7 +157,7 @@ export function getNodes(
     let node, result = [];
     while(node = walker.nextNode()) result.push(node);
     return result;
-};
+}
 
 /**
  * @private
@@ -179,7 +183,7 @@ function createNodeSelector(filterRule, base) {
 
 /**
  * @func createElement
- * @desc Use an JS object to create an `Element`
+ * @desc Use an JS object to create an `Element`, supporting having listeners and descendants.
  * @see [JSML]{@link https://kong0107.github.io/jsml/} for demo
  * @param {JsonElement} jsml
  * @param {HTMLDocument} [document=window.document] - you can alternatively use JSDOM

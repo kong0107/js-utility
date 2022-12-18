@@ -14,10 +14,11 @@ export * from "./core.mjs";
  * @param {Object} options - same as `fetch()`
  * @returns {Promise.<Response>}
  */
-export const fetchStrict = (...args) => fetch(...args).then(response => {
+export async function fetchStrict(...args) {
+    const response = await fetch(...args);
     if(response.ok) return response;
     throw new ReferenceError(response.statusText);
-});
+}
 
 /**
  * @func fetchJSON
@@ -25,7 +26,9 @@ export const fetchStrict = (...args) => fetch(...args).then(response => {
  * @param {...any} args - same as `fetch()`
  * @returns {Promise.<Object>}
  */
-export const fetchJSON = (...args) => fetchStrict(...args).then(res => res.json());
+export function fetchJSON(...args) {
+    return fetchStrict(...args).then(res => res.json());
+}
 
 /**
  * @func fetchText
@@ -33,7 +36,9 @@ export const fetchJSON = (...args) => fetchStrict(...args).then(res => res.json(
  * @param {...any} args - same as `fetch()`
  * @returns {Promise.<string>}
  */
-export const fetchText = (...args) => fetchStrict(...args).then(res => res.text());
+export function fetchText(...args) {
+    return fetchStrict(...args).then(res => res.text());
+}
 
 /**
  * @func fetchDOM
@@ -41,7 +46,9 @@ export const fetchText = (...args) => fetchStrict(...args).then(res => res.text(
  * @param {...any} args - same as `fetch()`
  * @returns {Promise.<HTMLDocument>}
  */
-export const fetchDOM = (...args) => fetchText(...args).then(html => parseHTML(html, 0));
+export function fetchDOM(...args) {
+    return fetchText(...args).then(html => parseHTML(html, 0));
+}
 
 /**
  * @func fetchCSV
@@ -49,7 +56,9 @@ export const fetchDOM = (...args) => fetchText(...args).then(html => parseHTML(h
  * @param {...any} args - same as `fetch()`
  * @returns {Promise.<Object>}
  */
-export const fetchCSV = (...args) => fetchText(...args).then(csv => parseCSV(csv));
+export function fetchCSV(...args) {
+    return fetchText(...args).then(csv => parseCSV(csv));
+}
 
 
 Object.assign(utilWeb, {
