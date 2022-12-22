@@ -2,7 +2,6 @@
  * @module kongUtilDom
  */
 import utilDom from "./core.mjs";
-import jsmlCreateElement from "jsml-parser/createElement.js";
 
 export * from "./core.mjs";
 
@@ -182,37 +181,6 @@ function createNodeSelector(filterRule, base) {
 
 
 /**
- * @func createElement
- * @desc Use an JS object to create an `Element`, supporting having listeners and descendants.
- * @see [JSML]{@link https://kong0107.github.io/jsml/} for demo
- * @param {JsonElement} jsml
- * @param {HTMLDocument} [document=window.document] - you can alternatively use JSDOM
- * @returns {Element}
- *
- * @example /// create a <p> tag containing some nodes
-    const jsml =
-    {p: {
-        class: "myClass myClass2",
-        style: "margin: .5em 0; padding: 0.5em;",
-        $: [
-            "JSML means ",
-            {a: {
-                href: "https://www.json.org/",
-                text: "JSON",
-                onClick: () => console.log("with listener support")
-            }},
-            " that represents ",
-            {em: "HTML"}
-        ]
-    }};
-    const elem = JSML.createElement(jsml);
-    document.body.append(elem, elem.outerHTML);
- *
- */
-export const createElement = jsmlCreateElement;
-
-
-/**
  * @func createElementFromJsonML
  * @desc Use JsonML to create an HTML element.
  * @see {@link http://www.jsonml.org/ }
@@ -306,7 +274,7 @@ export const extendElementPrototype = () =>
 
 Object.assign(utilDom, {
     $, $$, parseHTML, getNodes,
-    createElement, createElementFromJsonML,
+    createElementFromJsonML,
     clearElement,
     isEventInElement,
     extendElementPrototype

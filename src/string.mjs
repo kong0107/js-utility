@@ -7,6 +7,20 @@ import cpi from "chinese-parseint";
 export * from "./core.mjs";
 
 /**
+ * @func camelize
+ * @desc Convert kebab-case string into camelCase.
+ * @param {string} kebab
+ * @returns {string}
+ */
+export function camelize(kebab) {
+    return kebab.replace(
+        /-([a-z]\w+)/g,
+        m => m[1].toUpperCase() + m.slice(2)
+    );
+}
+
+
+/**
  * @func parseChineseNumber
  * @desc
  *  Both traditional and simplified chinese numbers are supported.
@@ -14,7 +28,7 @@ export * from "./core.mjs";
  * @param {string} str
  * @returns {number|BigInt}
  */
-export function parseChineseNumber(str)  {
+export function parseChineseNumber(str) {
     const parts = str.split(/[點点奌]/g);
     if(parts.length > 2) throw new TypeError("Not a numeric string", str);
     let result = parts[0].length ? cpi(parts[0]) : 0;
@@ -32,6 +46,7 @@ export function parseChineseNumber(str)  {
     }
     return result;
 };
+
 
 /**
  * @func compareVersionNumbers
@@ -127,6 +142,7 @@ export function parseCSV(csv, hasHeader = true) {
 
 
 Object.assign(utilString, {
+    camelize,
     parseChineseNumber,
     compareVersionNumbers,
     toCSV, parseCSV

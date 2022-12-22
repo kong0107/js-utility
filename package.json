@@ -1,6 +1,6 @@
 {
   "name": "kong-util",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "my own library for js",
   "exports": "./mod/all.mjs",
   "sideEffects": false,
@@ -21,8 +21,7 @@
   },
   "homepage": "https://github.com/kong0107/kong-util#readme",
   "dependencies": {
-    "chinese-parseint": "*",
-    "jsml-parser": "*"
+    "chinese-parseint": "*"
   },
   "devDependencies": {
     "webpack": "^5.74.0",
