@@ -2,6 +2,7 @@
  * @module kongUtilDom
  */
 import utilDom from "./core.mjs";
+import {camelize} from "./string.mjs";
 
 export * from "./core.mjs";
 
