@@ -22,19 +22,26 @@
 </head>
 <body>
     <h1>kong-util demo</h1>
-    Try clicking these buttons:
-    <ol>
-        <li><button>listen for clicking</button></li>
-        <li><button>listen for clicking but alerts with a delay</button></li>
-        <li><button>waitFor() only for once</button></li>
-        <li><button>click this and the next one in one second</button></li>
-        <li><button>click the above one before clicking me</button></li>
-    </ol>
+    <main>
+        <sction id="sec1">
+            Try clicking these buttons:
+            <ol>
+                <li><button>listen for clicking</button></li>
+                <li><button>listen for clicking but alerts with a delay</button></li>
+                <li><button>waitFor() only for once</button></li>
+                <li><button>click this and the next one in one second</button></li>
+                <li><button>click the above one before clicking me</button></li>
+            </ol>
+        </sction>
+        <section id="sec2">
+
+        </section>
+    </main>
     <footer>
         <a href="https://github.com/kong0107/kong-util/blob/gh-pages/demo.html">source code of this page</a>
     </footer>
     <script>
-        const buttons = $$("button");
+        const buttons = $$("#sec1 button");
         // an alias of `document.querySelectorAll()`
 
         listen(buttons[0], "click", alerter("You've clicked the first button"));
@@ -60,9 +67,40 @@
         Promise.all(
             buttons.map(btn => waitFor(btn, "click"))
         )
-        .then(() => $("body").append(parseHTML("<p>All buttons are <mark>clicked</mark> at least once.</P>")));
+        .then(() => $("#sec1").append(parseHTML("<p>All buttons are <mark>clicked</mark> at least once.</P>")));
         // promises waiting for their respective events
         // HTML strings may be parsed into DOM object with one function
+    </script>
+    <script>
+        $("#sec2").append(createElementFromJsonML(
+            ['div', {style: 'border: 3px dashed gray; margin-bottom: 2em; padding: 0 .5em;'},
+                ['p', 'This utility also supports JsonML.'],
+                ['p',
+                    ['a', {href: 'http://www.jsonml.org/'},
+                        ['ruby',
+                            'JsonML',
+                            ['rp', '('],
+                            ['rt', 'JSON Markup Language'],
+                            ['rp', ')']
+                        ]
+                    ],
+                    'provides a compact format for transporting XML-based markup as JSON which allows it to be losslessly converted back to its original form.'
+                ],
+                ['p', 'Use tools in your browser to inspect the DOM and then see the source code of this page.'],
+                ["svg", {
+                        // "namespace": "http://www.w3.org/2000/svg",
+                        "class": "bi bi-pin-fill",
+                        "width": "16",
+                        "height": "16",
+                        "fill": "currentColor",
+                        "viewBox": "0 0 16 16"
+                    },
+                    ["path", {
+                        "d": "M4.146.146A.5.5 0 0 1 4.5 0h7a.5.5 0 0 1 .5.5c0 .68-.342 1.174-.646 1.479-.126.125-.25.224-.354.298v4.431l.078.048c.203.127.476.314.751.555C12.36 7.775 13 8.527 13 9.5a.5.5 0 0 1-.5.5h-4v4.5c0 .276-.224 1.5-.5 1.5s-.5-1.224-.5-1.5V10h-4a.5.5 0 0 1-.5-.5c0-.973.64-1.725 1.17-2.189A5.921 5.921 0 0 1 5 6.708V2.277a2.77 2.77 0 0 1-.354-.298C4.342 1.674 4 1.179 4 .5a.5.5 0 0 1 .146-.354z"
+                    }]
+                ]
+            ]
+        ));
     </script>
 </body>
 </html>

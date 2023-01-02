@@ -188,28 +188,31 @@ function createNodeSelector(filterRule, base) {
  * @param {Object} jsonml
  * @returns {Element}
  */
-export function createElementFromJsonML(jsonml) {
-    if(typeof jsonml === 'string') return document.createTextNode(jsonml);
+export function createElementFromJsonML(jsonml, namespace) {
+    if(typeof jsonml !== 'object') return document.createTextNode(jsonml);
     if(jsonml instanceof Node) return jsonml.cloneNode(true);
 
     let [tag, attributes, ...children] = jsonml;
-    if(typeof jsonml[1] === 'string' || jsonml[1] instanceof Array) {
+    if(typeof jsonml[1] !== 'object' || jsonml[1] instanceof Array) {
         attributes = {};
         [tag, ...children] = jsonml;
     }
 
-    const elem = document.createElement(tag);
+    if(tag === 'svg') namespace = 'http://www.w3.org/2000/svg';
+    const ns = attributes.namespace ?? namespace;
+    const elem = ns ? document.createElementNS(ns, tag) : document.createElement(tag);
+
     for(let name in attributes) {
         const value = attributes[name];
-        name = name.toLowerCase();
         if(name.startsWith('on')) {
-            listen(elem, name.substring(2), value);
+            listen(elem, name.substring(2).toLowerCase(), value);
             continue;
         }
         switch(name) {
             case 'class':
-            case 'classname': {
-                elem.className = value;
+            case 'className': {
+                const cls = (typeof value === 'string') ? value.trim().split(/\s+/) : value;
+                elem.classList.add(...cls);
                 break;
             }
             case 'css':
@@ -223,10 +226,11 @@ export function createElementFromJsonML(jsonml) {
                 for(let ds in value) elem.dataset[camelize(ds)] = value[ds];
                 break;
             }
-            default: elem.setAttribute(name, attributes[name]);
+            case 'namespace': break;
+            default: elem.setAttribute(name, value);
         }
     }
-    elem.append(...children.map(createElementFromJsonML));
+    elem.append(...children.map(c => createElementFromJsonML(c, ns)));
     return elem;
 }
 
