@@ -539,7 +539,7 @@
     
 
     
-    <h4 class="name" id="~clearElement"><span class="type-signature">(inner) </span>clearElement<span class="signature">(elem<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~clearElement"><span class="type-signature">(inner) </span>clearElement<span class="signature">(elem<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {void}</span></h4>
     
 
     
@@ -547,7 +547,7 @@
 
 
 <div class="description">
-    Remove all children (including text nodes) of the element. Could be assign to `Element.prototype`.
+    call `Element.replaceChildren()` without any argument specified.
 </div>
 
 
@@ -648,6 +648,8 @@
     
 
     
+        <dt class="important tag-deprecated">Deprecated:</dt><dd class="yes-def tag-deprecated"><ul class="dummy"><li>Yes</li></ul></dd>
+    
 
     
 
@@ -660,12 +662,19 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line238">line 238</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line239">line 239</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/replaceChildren#emptying_a_node">https://developer.mozilla.org/en-US/docs/Web/API/Element/replaceChildren#emptying_a_node</a></li>
+        </ul>
+    </dd>
     
 
     
@@ -685,6 +694,24 @@
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -696,7 +723,7 @@
     
 
     
-    <h4 class="name" id="~createElementFromJsonML"><span class="type-signature">(inner) </span>createElementFromJsonML<span class="signature">(jsonml)</span><span class="type-signature"> &rarr; {Element}</span></h4>
+    <h4 class="name" id="~createElementFromJsonML"><span class="type-signature">(inner) </span>createElementFromJsonML<span class="signature">(jsonml, namespace<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Element}</span></h4>
     
 
     
@@ -728,6 +755,8 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -746,17 +775,58 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">Array</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last"></td>
+            <td class="description last">see http://www.jsonml.org/</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>namespace</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">set this to use `createElementNS()`</td>
         </tr>
 
     
@@ -910,7 +980,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line268">line 268</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line270">line 270</a>
     </li></ul></dd>
     
 
@@ -1374,7 +1444,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line251">line 251</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line253">line 253</a>
     </li></ul></dd>
     
 

@@ -185,7 +185,8 @@ function createNodeSelector(filterRule, base) {
  * @func createElementFromJsonML
  * @desc Use JsonML to create an HTML element.
  * @see {@link http://www.jsonml.org/ }
- * @param {Object} jsonml
+ * @param {Array} jsonml - see http://www.jsonml.org/
+ * @param {string} [namespace] - set this to use `createElementNS()`
  * @returns {Element}
  */
 export function createElementFromJsonML(jsonml, namespace) {
@@ -236,15 +237,16 @@ export function createElementFromJsonML(jsonml, namespace) {
 
 
 /**
+ * @deprecated
  * @func clearElement
- * @desc
- *  Remove all children (including text nodes) of the element.
- *  Could be assign to `Element.prototype`.
+ * @desc call `Element.replaceChildren()` without any argument specified.
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Element/replaceChildren#emptying_a_node }
  * @param {Element} [elem=this]
+ * @returns {void}
  */
 export function clearElement(elem = this) {
-    let child;
-    while(child = elem.lastChild) elem.removeChild(child);
+    console.warn('`clearElement()` has been deprecated. Use `Element.replaceChildren()` instead.');
+    elem.replaceChildren();
 }
 
 

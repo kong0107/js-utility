@@ -1,7 +1,8 @@
 /**
  * @module kongUtilCore
  */
-const utilCore = {};
+import config from '../package.json';
+const utilCore = {version: config.version};
 
 /**
  * @func use

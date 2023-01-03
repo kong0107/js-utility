@@ -38,7 +38,7 @@ export * from "./core.mjs";
  * @desc Shortcut to `EventTarget.addEventListner`.
  * @param {EventTarget} target
  * @param  {...any} args - arguments for `addEventListener`
- * @returns {undefined}
+ * @returns {void}
  */
 export function listen(target, ...args) {
     target.addEventListener(...args);
@@ -49,7 +49,7 @@ export function listen(target, ...args) {
  * @desc Shortcut to `EventTarget.removeEventListener`
  * @param {EventTarget} target
  * @param  {...any} args - arguments for `removeEventListener`
- * @returns {undefined}
+ * @returns {void}
  */
 export function unlisten(target, ...args) {
     target.removeEventListener(...args);

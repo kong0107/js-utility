@@ -1,6 +1,6 @@
 {
   "name": "kong-util",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "my own library for js",
   "exports": "./mod/all.mjs",
   "sideEffects": false,
