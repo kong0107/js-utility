@@ -218,6 +218,7 @@ function createNodeSelector(filterRule, base) {
  * @returns {Element}
  */
 export function createElementFromJsonML(jsonml, namespace) {
+    if(typeof namespace !== 'string') namespace = null; // make this function safe for functions such as `Array.map()`.
     if(typeof jsonml !== 'object') return document.createTextNode(jsonml);
     if(jsonml instanceof Node) return jsonml.cloneNode(true);
 

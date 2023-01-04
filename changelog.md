@@ -1,5 +1,9 @@
 # ChangeLog of kong-util
 
+## 0.6.6 (230105)
+* Fix `kongUtilDom.createElementFromJsonML()`
+  which occurred error after v0.6.3 if used as the callback of `Array.map()`.
+
 ## 0.6.5 (230104)
 * Update `kongUtilString.parseChineseNumber()`.
   Remove dependency to `chinese-parseint`.
