@@ -9,6 +9,6 @@ import("./mod/all.mjs")
     kongUtil.wait(500, "works.")
     .then(kongUtil.logger("CommonJS mode"));
 
-    console.assert(kongUtil.parseChineseNumber("正三十七點五") === 37.5);
+    console.assert(kongUtil.parseChineseNumber("負四百零五億零九百十七萬點一二零零三零") === -40509170000.12003);
     console.assert(kongUtil.camelize('abc-def-ghi') === 'abcDefGhi');
 })

@@ -2,7 +2,6 @@
  * @module kongUtilString
  */
 import utilString from "./core.mjs";
-import cpi from "chinese-parseint";
 
 export * from "./core.mjs";
 
@@ -25,27 +24,83 @@ export function camelize(kebab) {
  * @desc
  *  Both traditional and simplified chinese numbers are supported.
  *  Not guaranteed to validate the string.
- * @param {string} str
- * @returns {number|BigInt}
+ *  Returns string if the number reaches `Number.MAX_SAFE_INTEGER` or `forceString` is given true.
+ * @param {string} string
+ * @param {boolean} [forceString = false]
+ * @returns {number|string|NaN}
  */
-export function parseChineseNumber(str) {
-    const parts = str.split(/[點点奌]/g);
-    if(parts.length > 2) throw new TypeError("Not a numeric string", str);
-    let result = parts[0].length ? cpi(parts[0]) : 0;
-    if(parts.length === 2) {
-        if(typeof result === "bigint") {
-            let temp = Number(result);
-            if(result !== BigInt(temp)) throw new RangeError("exceeds supported range");
-            result = temp;
+export function parseChineseNumber(string, forceString = false) {
+    let signed = '';
+    let str = string.toString()
+        .replaceAll(/\s/g, '')
+        .replace(/[點点奌]/, '.')
+    ;
+    if('負负'.includes(str.charAt(0))) signed = '-';
+    else if(str.startsWith('正')) signed = '+';
+
+    if(signed) str = str.substring(1);
+    digitRegExps.forEach((re, d) => {
+        str = str.replaceAll(re, d.toString());
+    });
+
+    if(/^\d+(\.\d+)$/.test(str)) str = signed + str;
+    else {
+        let error = false, isFraction = false;
+        let reverse = [], integer = [], fraction = [];
+        let digit = null;
+        str.split('').forEach(c => {
+            if(isFraction) return fraction.unshift(c);
+
+            if('0123456789'.includes(c)) return digit = c;
+
+            const ten = ['十拾什', '百佰', '千仟'].findIndex(ts => ts.includes(c)) + 1;
+            if(ten) {
+                integer[ten] = digit ?? '1';
+                return digit = null;
+            }
+
+            const wan = ['萬万', '億亿', '兆', '京經经', '垓', '秭杼', '穰壤', '溝沟', '澗涧', '正', '載', '極']
+                .findIndex(ws => ws.includes(c)) + 1;
+            if(wan || c === '.') {
+                integer[0] = digit;
+                for(let i = 0; i < integer.length; ++i)
+                    reverse[i + wan * 4] = integer[i];
+                digit = null;
+            }
+            if(wan) return integer = [];
+            if(c === '.') return isFraction = true;
+
+            error = true;
+        });
+        if(error) return NaN;
+
+        if(isFraction) reverse.unshift(...fraction, '.');
+        else {
+            integer[0] = digit;
+            for(let i = 0; i < integer.length; ++i) reverse[i] = integer[i];
         }
-        let below = 0;
-        for(let d = 0; d < parts[1].length; ++d)
-            below += cpi(parts[1].charAt(d)) * 10 ** (-d - 1);
-        if(result >= 0) result += below;
-        else result -= below;
+
+        for(let i = 0; i < reverse.length; ++i) // `Array.forEach()` and `Array.map()` do not iterate empty elements.
+            if(!reverse[i]) reverse[i] = '0';
+        str = signed + reverse.reverse().join('');
     }
-    return result;
-};
+
+    if(forceString) return str;
+    return Number.isSafeInteger(parseInt(str)) ? parseFloat(str) : str;
+    // MDN: JavaScript does not have the distinction of "floating point numbers" and "integers" on the language level.
+}
+const digitRegExps = [
+    "０零○〇洞",
+    "１一壹ㄧ弌么",
+    "２二貳贰弍兩两",
+    "３三參叁弎参叄",
+    "４四肆䦉刀",
+    "５五伍",
+    "６六陸陆",
+    "７七柒拐",
+    "８八捌杯",
+    "９九玖勾"
+].map(d => new RegExp(`[${d}]`, 'g'));
 
 
 /**

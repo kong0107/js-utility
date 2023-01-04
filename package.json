@@ -1,6 +1,6 @@
 {
   "name": "kong-util",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "my own library for js",
   "exports": "./mod/all.mjs",
   "sideEffects": false,
@@ -20,14 +20,8 @@
     "url": "https://github.com/kong0107/kong-util/issues"
   },
   "homepage": "https://github.com/kong0107/kong-util#readme",
-  "dependencies": {
-    "chinese-parseint": "*"
-  },
   "devDependencies": {
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0"
-  },
-  "todo": [
-    "取消對 chinese-parseint 的依賴"
-  ]
+  }
 }

@@ -23,7 +23,7 @@ module.exports = [
         mode: "production",
         entry: entries,
         output: {
-            clean: true,
+            // clean: true,
             filename: pathData => (pathData.chunk.name.toLowerCase() + ".js"),
             path: path.resolve(__dirname, "dist"),
             library: "kongUtil[name]"
