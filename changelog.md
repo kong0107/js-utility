@@ -1,5 +1,9 @@
 # ChangeLog of kong-util
 
+## 0.6.7 (230113)
+* Fix `kongUtilString.parseChineseNumber()`
+  which had wrong results for strings match `/\d{2,}/`.
+
 ## 0.6.6 (230105)
 * Fix `kongUtilDom.createElementFromJsonML()`
   which occurred error after v0.6.3 if used as the callback of `Array.map()`.

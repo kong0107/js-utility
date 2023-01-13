@@ -43,7 +43,7 @@ export function parseChineseNumber(string, forceString = false) {
         str = str.replaceAll(re, d.toString());
     });
 
-    if(/^\d+(\.\d+)$/.test(str)) str = signed + str;
+    if(/^\d+(\.\d+)?$/.test(str)) str = signed + str;
     else {
         let error = false, isFraction = false;
         let reverse = [], integer = [], fraction = [];
