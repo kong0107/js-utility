@@ -214,7 +214,7 @@ export function createElementFromJsonML(jsonml, namespace) {
             case 'class':
             case 'className': {
                 const cls = (typeof value === 'string') ? value.trim().split(/\s+/) : value;
-                elem.classList.add(...cls);
+                if(cls[0]) elem.classList.add(...cls); // skip if empty string
                 break;
             }
             case 'css':
@@ -268,6 +268,13 @@ export function isEventInElement(event, elem = this) {
 }
 
 
+export function downloadURL(href, filename) {
+    createElementFromJsonML(
+        ['a', {href, filename}]
+    ).click();
+}
+
+
 /**
  * @func extendElementPrototype
  * @desc Add some of above methods to `Element` class.
@@ -285,6 +292,7 @@ Object.assign(utilDom, {
     createElementFromJsonML,
     clearElement,
     isEventInElement,
+    downloadURL,
     extendElementPrototype
 });
 

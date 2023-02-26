@@ -1,5 +1,9 @@
 # ChangeLog of kong-util
 
+## 0.6.8
+* Fix `kongUtilDom.createElementFromJsonML()`
+  which occurred error if `className` given as an empty string.
+
 ## 0.6.7 (230113)
 * Fix `kongUtilString.parseChineseNumber()`
   which had wrong results for strings match `/\d{2,}/`.
@@ -13,7 +17,8 @@
   Remove dependency to `chinese-parseint`.
 
 ## 0.6.4 (230103)
-* Deprecate `kongUtilDom.clearElement()`. Users shall use `Element.clearChildren()` instead.
+* Deprecate `kongUtilDom.clearElement()`.
+  Users shall use `Element.clearChildren()` instead.
 * Add string `kongUtil.version`.
 
 ## 0.6.3 (230102)
