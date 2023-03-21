@@ -239,6 +239,17 @@ export function createElementFromJsonML(jsonml, namespace) {
 
 /**
  * @deprecated
+ * @func createElement
+ * @desc my old JSON format to represent DOM; shall be replaced by `createElementFromJsonML`.
+ * @see {@link https://github.com/kong0107/jsml }
+ */
+export function createElement() {
+    console.error('`kongUtilDom.createElement()` has been removed. Use `kongUtilDom.createElementFromJsonML` instead.');
+}
+
+
+/**
+ * @deprecated
  * @func clearElement
  * @desc call `Element.replaceChildren()` without any argument specified.
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Element/replaceChildren#emptying_a_node }
@@ -246,7 +257,7 @@ export function createElementFromJsonML(jsonml, namespace) {
  * @returns {void}
  */
 export function clearElement(elem = this) {
-    console.warn('`clearElement()` has been deprecated. Use `Element.replaceChildren()` instead.');
+    console.warn('`kongUtilDom.clearElement()` has been deprecated. Use `Element.replaceChildren()` instead.');
     elem.replaceChildren();
 }
 

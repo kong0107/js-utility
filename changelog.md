@@ -1,6 +1,14 @@
 # ChangeLog of kong-util
 
-## 0.6.8
+## 0.7.0 (230321)
+* Add `kongUtilString.base64ToBlob()`
+  which also supports data URL as input.
+* Add `kongUtilWeb.readFile()`
+  which promisifies `FileReader.readAs*`.
+* Add `kongUtilWeb.resizeImage()`
+  which supports different input types and return types.
+
+## 0.6.8 (230226)
 * Fix `kongUtilDom.createElementFromJsonML()`
   which occurred error if `className` given as an empty string.
 

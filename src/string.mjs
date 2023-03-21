@@ -196,11 +196,31 @@ export function parseCSV(csv, hasHeader = true) {
 }
 
 
+/**
+ * @func base64ToBlob
+ * @param {string} string - base64 or data URL
+ * @param {string} [type] - MIME type. Shall be omitted if `string` is a data URL.
+ * @returns {Blob}
+ */
+export function base64ToBlob(string, type) {
+    if(typeof type !== 'string') {
+        type = string.substring(5, string.indexOf(';'));
+        string = string.slice(type.length + 13);
+    }
+    const decoded = atob(string);
+    const buffer = new Uint8Array(decoded.length);
+    for(let i = 0; i < decoded.length; ++i)
+        buffer[i] = decoded.charCodeAt(i);
+    return new Blob([buffer], {type});
+}
+
+
 Object.assign(utilString, {
     camelize,
     parseChineseNumber,
     compareVersionNumbers,
-    toCSV, parseCSV
+    toCSV, parseCSV,
+    base64ToBlob
 });
 
 export default utilString;
