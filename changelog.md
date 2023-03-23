@@ -1,5 +1,13 @@
 # ChangeLog of kong-util
 
+## 0.7.1 (230324)
+* Add `kongUtilImage`.
+* Move `resizeImage()` from `kongUtilWeb` to `kongUtilImage`.
+* Add `kongUtilImage.readImage()`
+  which like `createImageBitmap()` but also supports URLs such as HTTP and data URL.
+* Add `kongUtilImage.canvasTo()`
+  which converts `HTMLCanvasElement` to different types in a promise way.
+
 ## 0.7.0 (230321)
 * Add `kongUtilString.base64ToBlob()`
   which also supports data URL as input.

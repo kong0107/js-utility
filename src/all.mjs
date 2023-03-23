@@ -18,6 +18,7 @@ import utilAsync from "./async.mjs";
 import utilDebug from "./debug.mjs";
 import utilDom from "./dom.mjs";
 import utilEvent from "./event.mjs";
+import utilImage from "./image.mjs";
 import utilObject from "./object.mjs";
 import utilString from "./string.mjs";
 import utilWeb from "./web.mjs";
@@ -28,6 +29,7 @@ export * from "./async.mjs";
 export * from "./dom.mjs";
 export * from "./debug.mjs";
 export * from "./event.mjs";
+export * from "./image.mjs";
 export * from "./object.mjs";
 export * from "./string.mjs";
 export * from "./web.mjs";
@@ -49,6 +51,7 @@ Object.assign(kongUtil,
     utilDom,
     utilDebug,
     utilEvent,
+    utilImage,
     utilObject,
     utilString,
     utilWeb,

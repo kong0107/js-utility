@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: image.mjs</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: image.mjs</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module kongUtilImage
+ */
+import utilImage from './core.mjs';
+import {base64ToBlob} from './string.mjs';
+import {fetchStrict} from './web.mjs';
+
+export * from './core.mjs';
+
+/**
+ * @func readImage
+ * @desc Support more than createImageBitmap().
+ * @param {*} source - string and those supported by `createImageBitmap()` in Web API
+ * @param {string} [mimeType] - only used if `source` is pure base64 string.
+ * @returns {Promise.&lt;ImageBitmap>}
+ */
+export async function readImage(source, mimeType) {
+    if(source instanceof ImageBitmap) return source;
+    if(typeof source === 'string') {
+        if(/^https?:\/\//.test(source))
+            source = await fetchStrict(source).then(res => res.blob());
+        else source = base64ToBlob(source, mimeType);
+    }
+    return await createImageBitmap(source);
+}
+
+
+/**
+ * @func canvasTo
+ * @param {HTMLCanvasElement} canvas
+ * @param {string} returnType - `bitmap`, `blob`, `dataURL`, or `canvas`
+ * @returns {Promise.&lt;*>}
+ */
+export async function canvasTo(canvas, returnType, format, quality) {
+    switch(returnType) {
+        case 'canvas': return canvas;
+        case 'dataURL': return canvas.toDataURL(format, quality);
+        case 'bitmap': return await createImageBitmap(canvas);
+        case 'blob': {
+            return new Promise((resolve, reject) => {
+                canvas.toBlob(blob => {
+                    if(blob) return resolve(blob);
+                    reject("the image cannot be created");
+                }, format, quality);
+            });
+        }
+        default: throw new TypeError('unknown returnType');
+    }
+}
+
+
+/**
+ * @func resizeImage
+ * @desc Load and resize an image to specified format.
+ * @param {*} source
+ * @param {Object} settings
+ * @param {number} [settings.scale] - conflicts with `width` and `height`
+ * @param {number} [settings.width] - conflicts with `scale`
+ * @param {number} [settings.height] - conflicts with `scale`
+ * @param {string} [fit=contain] - `fill`, `contain`, `cover`, `scaleDown`. Only useful if both `width` and `height` are given.
+ * @param {string} [settings.format=image/png] - MIME
+ * @param {number} [settings.quality] - between `0` and `1`
+ * @param {string} [settings.returnType=canvas] - `canvas`, `blob`, or `dataURL`
+ * @returns {Promise.&lt;*>} depends on `settings.returnType`
+ *
+ * Safari does not support `options.resize*` in `createImageBitmap()`;
+ * therefore we must draw the bitmap to canvas, instead of resizing it by calling `creatImageBitmap()`.
+ *
+ * @example /// resize the chosen file and then show it
+    resizeImage($('[type=file]').files[0], {scale: .5, returnType: 'dataURL'})
+    .then(url => location = url);
+ *
+ */
+export async function resizeImage(source, settings) {
+    let bitmap = await readImage(source);
+    const source_ratio = bitmap.width / bitmap.height;
+    let width, height;
+
+    // Calculate width and height.
+    if(settings.scale > 0) {
+        width = bitmap.width * settings.scale;
+        height = bitmap.height * settings.scale;
+    }
+    else if(!settings.width || settings.width &lt; 0) {
+        width = settings.height * source_ratio;
+        height = settings.height;
+    }
+    else if(!settings.height || settings.height &lt; 0) {
+        width = settings.width;
+        height = settings.width / source_ratio;
+    }
+    else { // Both `settings.width` and `settings.height` are given.
+        switch(settings.fit ?? 'contain') {
+            case 'scaleDown':
+            case 'contain': {
+                if(settings.width / settings.height > source_ratio) {
+                    width = settings.height * source_ratio;
+                    height = settings.height;
+                }
+                else {
+                    width = settings.width;
+                    height = settings.width / source_ratio;
+                }
+
+                if(settings.fit !== 'scaleDown') break; // !!
+                if(width > bitmap.width || height > bitmap.height) {
+                    width = bitmap.width;
+                    height = bitmap.height;
+                }
+                break;
+            }
+            case 'cover':
+            case 'fill': {
+                width = settings.width;
+                height = settings.height;
+                if(settings.fit === 'fill') break; // !!
+
+                // For `cover`, crop the source image.
+                let cx, cy, cw, ch; // stands for "cropped x", ...
+                const target_ratio = settings.width / settings.height;
+                if(target_ratio > source_ratio) {
+                    cw = bitmap.width;
+                    ch = cw / target_ratio;
+                    cx = 0;
+                    cy = (bitmap.height - ch) / 2;
+                }
+                else {
+                    ch = bitmap.height;
+                    cw = ch * target_ratio;
+                    cx = (bitmap.width - cw) / 2;
+                    cy = 0;
+                }
+                [cx, cy, cw, ch] = [cx, cy, cw, ch].map(Math.round);
+                bitmap = await createImageBitmap(bitmap, cx, cy, cw, ch);
+                break;
+            }
+            default:
+                throw new TypeError('unknown fit method', settings.fit);
+        }
+    }
+    width = Math.round(width);
+    height = Math.round(height);
+
+    // Create canvas and draw.
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext('2d');
+    context.drawImage(bitmap, 0, 0, width, height);
+
+    let format = settings.format ?? 'png';
+    if(!format.startsWith('image/')) format = ('image/' + format).toLowerCase();
+
+    return canvasTo(
+        canvas,
+        settings.returnType ?? 'canvas',
+        format,
+        settings.quality
+    );
+}
+
+
+Object.assign(utilImage, {
+    readImage, canvasTo, resizeImage
+});
+
+export default utilImage;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-kongUtil.html">kongUtil</a></li><li><a href="module-kongUtilArray.html">kongUtilArray</a></li><li><a href="module-kongUtilAsync.html">kongUtilAsync</a></li><li><a href="module-kongUtilCore.html">kongUtilCore</a></li><li><a href="module-kongUtilDebug.html">kongUtilDebug</a></li><li><a href="module-kongUtilDom.html">kongUtilDom</a></li><li><a href="module-kongUtilEvent.html">kongUtilEvent</a></li><li><a href="module-kongUtilImage.html">kongUtilImage</a></li><li><a href="module-kongUtilObject.html">kongUtilObject</a></li><li><a href="module-kongUtilString.html">kongUtilString</a></li><li><a href="module-kongUtilWeb.html">kongUtilWeb</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: kongUtilEvent</title>
+    <title>JSDoc: Module: kongUtilImage</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: kongUtilEvent</h1>
+    <h1 class="page-title">Module: kongUtilImage</h1>
 
     
 
@@ -64,104 +64,12 @@
     
 
     
-    <h4 class="name" id="~extendEventTargetPrototype"><span class="type-signature">(inner) </span>extendEventTargetPrototype<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~canvasTo"><span class="type-signature">(inner) </span>canvasTo<span class="signature">(canvas, returnType)</span><span class="type-signature"> &rarr; {Promise.&lt;*>}</span></h4>
     
 
     
 
 
-
-<div class="description">
-    Add above methods to `EventTarget` class.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="event.mjs.html">event.mjs</a>, <a href="event.mjs.html#line80">line 80</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~listen"><span class="type-signature">(inner) </span>listen<span class="signature">(target, &hellip;args)</span><span class="type-signature"> &rarr; {void}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Shortcut to `EventTarget.addEventListner`.
-</div>
 
 
 
@@ -184,8 +92,6 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -198,26 +104,18 @@
 
         <tr>
             
-                <td class="name"><code>target</code></td>
+                <td class="name"><code>canvas</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">EventTarget</span>
+<span class="param-type">HTMLCanvasElement</span>
 
 
             
             </td>
 
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
             
 
             
@@ -229,33 +127,23 @@
 
         <tr>
             
-                <td class="name"><code>args</code></td>
+                <td class="name"><code>returnType</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">any</span>
+<span class="param-type">string</span>
 
 
             
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                    &lt;repeatable><br>
-                
-                </td>
-            
 
             
 
-            <td class="description last">arguments for `addEventListener`</td>
+            <td class="description last">`bitmap`, `blob`, `dataURL`, or `canvas`</td>
         </tr>
 
     
@@ -296,7 +184,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="event.mjs.html">event.mjs</a>, <a href="event.mjs.html#line8">line 8</a>
+        <a href="image.mjs.html">image.mjs</a>, <a href="image.mjs.html#line28">line 28</a>
     </li></ul></dd>
     
 
@@ -332,7 +220,7 @@
     </dt>
     <dd>
         
-<span class="param-type">void</span>
+<span class="param-type">Promise.&lt;*></span>
 
 
     </dd>
@@ -350,7 +238,7 @@
     
 
     
-    <h4 class="name" id="~unlisten"><span class="type-signature">(inner) </span>unlisten<span class="signature">(target, &hellip;args)</span><span class="type-signature"> &rarr; {void}</span></h4>
+    <h4 class="name" id="~readImage"><span class="type-signature">(inner) </span>readImage<span class="signature">(source, mimeType<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;ImageBitmap>}</span></h4>
     
 
     
@@ -358,7 +246,7 @@
 
 
 <div class="description">
-    Shortcut to `EventTarget.removeEventListener`
+    Support more than createImageBitmap().
 </div>
 
 
@@ -396,13 +284,13 @@
 
         <tr>
             
-                <td class="name"><code>target</code></td>
+                <td class="name"><code>source</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">EventTarget</span>
+<span class="param-type">*</span>
 
 
             
@@ -420,258 +308,20 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">string and those supported by `createImageBitmap()` in Web API</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>args</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">any</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                    &lt;repeatable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">arguments for `removeEventListener`</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="event.mjs.html">event.mjs</a>, <a href="event.mjs.html#line19">line 19</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">void</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~waitForEvent"><span class="type-signature">(inner) </span>waitForEvent<span class="signature">(target, type, options<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;Event>}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Resolves to the event, or rejects if `timeout` milliseconds passed.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>target</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">EventTarget</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
+                <td class="name"><code>mimeType</code></td>
             
 
             <td class="type">
             
                 
 <span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>options</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-|
-
-<span class="param-type">string</span>
-|
-
-<span class="param-type">boolean</span>
-|
-
-<span class="param-type">Object</span>
 
 
             
@@ -691,7 +341,213 @@
 
             
 
-            <td class="description last">If omitted or being a non-positive number, the promise would never reject. If it's a positive number or a numeric string, the value is treated as the timeout. If it's a boolean, the value is used as `useCapture` for `EventTarget.addEventListener`. If it's an object, the property except the followings are used as `options` for `EventTarget.addEventListener`.
+            <td class="description last">only used if `source` is pure base64 string.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="image.mjs.html">image.mjs</a>, <a href="image.mjs.html#line10">line 10</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;ImageBitmap></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~resizeImage"><span class="type-signature">(inner) </span>resizeImage<span class="signature">(source, settings, fit<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;*>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Load and resize an image to specified format.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>source</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>settings</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">
                 <h6>Properties</h6>
                 
 
@@ -719,15 +575,118 @@
 
         <tr>
             
-                <td class="name"><code>timeout</code></td>
+                <td class="name"><code>scale</code></td>
             
 
             <td class="type">
             
                 
 <span class="param-type">number</span>
-|
 
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">conflicts with `width` and `height`</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>width</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">conflicts with `scale`</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>height</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">conflicts with `scale`</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fit</code></td>
+            
+
+            <td class="type">
+            
+                
 <span class="param-type">string</span>
 
 
@@ -747,21 +706,27 @@
             
 
             
+                <td class="default">
+                
+                    contain
+                
+                </td>
+            
 
-            <td class="description last">timeout in milliseconds</td>
+            <td class="description last">`fill`, `contain`, `cover`, `scaleDown`. Only useful if both `width` and `height` are given.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>preventDefault</code></td>
+                <td class="name"><code>settings.format</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">boolean</span>
+<span class="param-type">string</span>
 
 
             
@@ -780,21 +745,27 @@
             
 
             
+                <td class="default">
+                
+                    image/png
+                
+                </td>
+            
 
-            <td class="description last">wheather to call `Event.preventDefault`</td>
+            <td class="description last">MIME</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>stopPropagation</code></td>
+                <td class="name"><code>settings.quality</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">boolean</span>
+<span class="param-type">number</span>
 
 
             
@@ -813,21 +784,25 @@
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
-            <td class="description last">wheather to call `Event.stopPropagation`</td>
+            <td class="description last">between `0` and `1`</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>stopImmediatePropagation</code></td>
+                <td class="name"><code>settings.returnType</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">boolean</span>
+<span class="param-type">string</span>
 
 
             
@@ -846,15 +821,14 @@
             
 
             
+                <td class="default">
+                
+                    canvas
+                
+                </td>
+            
 
-            <td class="description last">wheather to call `Event.stopImmediatePropagation`</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
+            <td class="description last">`canvas`, `blob`, or `dataURL`</td>
         </tr>
 
     
@@ -895,7 +869,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="event.mjs.html">event.mjs</a>, <a href="event.mjs.html#line30">line 30</a>
+        <a href="image.mjs.html">image.mjs</a>, <a href="image.mjs.html#line52">line 52</a>
     </li></ul></dd>
     
 
@@ -923,6 +897,10 @@
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    depends on `settings.returnType`Safari does not support `options.resize*` in `createImageBitmap()`;therefore we must draw the bitmap to canvas, instead of resizing it by calling `creatImageBitmap()`.
+</div>
+
 
 
 <dl>
@@ -931,7 +909,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;Event></span>
+<span class="param-type">Promise.&lt;*></span>
 
 
     </dd>
@@ -944,9 +922,9 @@
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>/// rejects if no click to `document.body` in 1 second
-    waitForEvent(document.body, "click", 1000)
-    .then(() => console.log("a click event in 1 second is detected"));</code></pre>
+    <pre class="prettyprint"><code>/// resize the chosen file and then show it
+    resizeImage($('[type=file]').files[0], {scale: .5, returnType: 'dataURL'})
+    .then(url => location = url);</code></pre>
 
 
 
