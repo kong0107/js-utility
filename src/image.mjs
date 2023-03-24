@@ -73,8 +73,8 @@ export async function canvasTo(canvas, returnType, format, quality) {
  */
 export async function resizeImage(source, settings) {
     let bitmap = await readImage(source);
+    let width = bitmap.width, height = bitmap.height;
     const source_ratio = bitmap.width / bitmap.height;
-    let width, height;
 
     // Calculate width and height.
     if(settings.scale > 0) {
@@ -82,12 +82,18 @@ export async function resizeImage(source, settings) {
         height = bitmap.height * settings.scale;
     }
     else if(!settings.width || settings.width < 0) {
-        width = settings.height * source_ratio;
-        height = settings.height;
+        if(settings.fit !== 'scaleDown' || settings.height < bitmap.height) {
+            width = settings.height * source_ratio;
+            height = settings.height;
+        }
+        // else: do not resize
     }
     else if(!settings.height || settings.height < 0) {
-        width = settings.width;
-        height = settings.width / source_ratio;
+        if(settings.fit !== 'scaleDown' || settings.width < bitmap.width) {
+            width = settings.width;
+            height = settings.width / source_ratio;
+        }
+        // else: do not resize
     }
     else { // Both `settings.width` and `settings.height` are given.
         switch(settings.fit ?? 'contain') {

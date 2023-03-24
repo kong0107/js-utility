@@ -1,8 +1,14 @@
 # ChangeLog of kong-util
 
+## 0.7.2 (230324)
+* Update `kongUtilImage.resizeImage()`
+  to make `settings.fit = 'scaleDown'` work on only one given dimension size.
+
 ## 0.7.1 (230324)
 * Add `kongUtilImage`.
 * Move `resizeImage()` from `kongUtilWeb` to `kongUtilImage`.
+* Update `kongUtilImage.resizeImage()`
+  to support different `fit` method (like CSS propterty `object-fit`) if both `width` and `height` are set.
 * Add `kongUtilImage.readImage()`
   which like `createImageBitmap()` but also supports URLs such as HTTP and data URL.
 * Add `kongUtilImage.canvasTo()`

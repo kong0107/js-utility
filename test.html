@@ -15,7 +15,7 @@
         listen($('[type=file]'), 'change', async (event) => {
             const file = event.target.files[0];
             if(!file) return console.debug('no file');
-            $('img').src = await resizeImage(file, {fit: 'cover', width: 100, height: 100, returnType: 'dataURL'});
+            $('img').src = await resizeImage(file, {fit: 'scaleDown', height: 1000, returnType: 'dataURL'});
         });
     </script>
 </body>
