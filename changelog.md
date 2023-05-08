@@ -1,5 +1,10 @@
 # ChangeLog of kong-util
 
+## 0.7.3 (230509)
+* Update `kongUtilEvent`
+  to make `target` argument able to be a string, which makes `listen('body', ...)` meaningfule.
+  Before, one should use `listen($('body'), ...)` to make the function works.
+
 ## 0.7.2 (230324)
 * Update `kongUtilImage.resizeImage()`
   to make `settings.fit = 'scaleDown'` work on only one given dimension size.

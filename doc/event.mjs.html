@@ -34,31 +34,42 @@ import utilEvent from "./core.mjs";
 export * from "./core.mjs";
 
 /**
+ * @func ensureTarget
+ * @param {EventTarget | string} any - if string, call `document.querySelector()` to get the first matched element as the `EventTarget`.
+ * @returns {EventTarget}
+ */
+function ensureTarget(any) {
+    if(typeof any === 'string') any = document.querySelector(any);
+    if(any instanceof EventTarget) return any;
+    throw new TypeError('not an EventTarget');
+}
+
+/**
  * @func listen
  * @desc Shortcut to `EventTarget.addEventListner`.
- * @param {EventTarget} target
+ * @param {EventTarget | string} target - target itself, or a CSS selector which matches an Element
  * @param  {...any} args - arguments for `addEventListener`
  * @returns {void}
  */
 export function listen(target, ...args) {
-    target.addEventListener(...args);
+    ensureTarget(target).addEventListener(...args);
 };
 
 /**
  * @func unlisten
  * @desc Shortcut to `EventTarget.removeEventListener`
- * @param {EventTarget} target
+ * @param {EventTarget | string} target
  * @param  {...any} args - arguments for `removeEventListener`
  * @returns {void}
  */
 export function unlisten(target, ...args) {
-    target.removeEventListener(...args);
+    ensureTarget(target).removeEventListener(...args);
 };
 
 /**
  * @func waitForEvent
  * @desc Resolves to the event, or rejects if `timeout` milliseconds passed.
- * @param {EventTarget} target
+ * @param {EventTarget | string} target
  * @param {string} type
  * @param {number | string | boolean | Object} [options]
  *  If omitted or being a non-positive number, the promise would never reject.
@@ -85,7 +96,7 @@ export function waitForEvent(target, type, options) {
         case "string":      timeout = parseInt(options);options = {};   break;
         case "boolean":     timeout = 0;                options = {capture: options}; break;
         case "object":      timeout = options.timeout;                  break;
-        default: throw TypeError();
+        default: throw TypeError('unknown `option` format');
     }
     options.once = true;
     return new Promise((resolve, reject) => {
@@ -95,6 +106,7 @@ export function waitForEvent(target, type, options) {
             if(options.stopImmediatePropagation) event.stopImmediatePropagation();
             resolve();
         };
+        target = ensureTarget(target);
         listen(target, type, listener, options);
         if(timeout > 0) setTimeout(() => {
             unlisten(target, listener, options);
