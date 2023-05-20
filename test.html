@@ -4,18 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>test page</title>
-    <script src="./dist/all.js"></script>
+    <script src="./dist/dom.js"></script>
+    <script src="./dist/event.js"></script>
+    <script src="./dist/image.js"></script>
 </head>
 <body>
     <h1>test page</h1>
     <input type="file">
     <img>
     <script>
-        kongUtil.use();
-        listen($('[type=file]'), 'change', async (event) => {
+        // kongUtilDom.use();
+        // kongUtilEvent.use();
+        // kongUtilImage.use();
+        kongUtilEvent.listen('[type=file]', 'change', async (event) => {
             const file = event.target.files[0];
             if(!file) return console.debug('no file');
-            $('img').src = await resizeImage(file, {fit: 'scaleDown', height: 1000, returnType: 'dataURL'});
+            kongUtilDom.$('img').src = await kongUtilImage.resizeImage(file, {fit: 'scaleDown', height: 1000, returnType: 'dataURL'});
         });
     </script>
 </body>
