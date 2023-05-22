@@ -80,19 +80,20 @@ export async function canvasTo(canvas, returnType, format, quality) {
 /**
  * @func resizeImage
  * @desc Load and resize an image to specified format.
+ *
+ * Safari does not support `options.resize*` in `createImageBitmap()`;
+ * therefore we must draw the bitmap to canvas, instead of resizing it by calling `creatImageBitmap()`.
+ *
  * @param {*} source
  * @param {Object} settings
  * @param {number} [settings.scale] - conflicts with `width` and `height`
  * @param {number} [settings.width] - conflicts with `scale`
  * @param {number} [settings.height] - conflicts with `scale`
- * @param {string} [fit=contain] - `fill`, `contain`, `cover`, `scaleDown`. Only useful if both `width` and `height` are given.
+ * @param {string} [settings.fit=contain] - `fill`, `contain`, `cover`, `scaleDown`. Only useful if both `width` and `height` are given.
  * @param {string} [settings.format=image/png] - MIME
  * @param {number} [settings.quality] - between `0` and `1`
  * @param {string} [settings.returnType=canvas] - `canvas`, `blob`, or `dataURL`
- * @returns {Promise.&lt;*>} depends on `settings.returnType`
- *
- * Safari does not support `options.resize*` in `createImageBitmap()`;
- * therefore we must draw the bitmap to canvas, instead of resizing it by calling `creatImageBitmap()`.
+ * @returns {Promise.&lt;*>}
  *
  * @example /// resize the chosen file and then show it
     resizeImage($('[type=file]').files[0], {scale: .5, returnType: 'dataURL'})

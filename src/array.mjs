@@ -98,8 +98,10 @@ export async function forEachAsync(callback, target = this) {
  */
 export async function mapAsync(callback, target = this, skipReturn) {
     const results = skipReturn ? undefined : [];
-    for(let i = 0; i < target.length; ++i)
-        results?.push(await callback(target[i], i, target));
+    for(let i = 0; i < target.length; ++i) {
+        const r = await callback(target[i], i, target);
+        results?.push(r);
+    }
     return results;
 }
 

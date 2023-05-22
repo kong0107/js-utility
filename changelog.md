@@ -1,5 +1,9 @@
 # ChangeLog of kong-util
 
+## 0.7.4 (230519)
+* Fix `kongUtilArray.forEachAsync()`
+  which did not call callback function.
+
 ## 0.7.3 (230509)
 * Update `kongUtilEvent`
   to make `target` argument able to be a string, which makes `listen('body', ...)` meaningfule.
