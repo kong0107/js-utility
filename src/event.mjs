@@ -6,17 +6,6 @@ import utilEvent from "./core.mjs";
 export * from "./core.mjs";
 
 /**
- * @func ensureTarget
- * @param {EventTarget | string} any - if string, call `document.querySelector()` to get the first matched element as the `EventTarget`.
- * @returns {EventTarget}
- */
-function ensureTarget(any) {
-    if(typeof any === 'string') any = document.querySelector(any);
-    if(any instanceof EventTarget) return any;
-    throw new TypeError('not an EventTarget');
-}
-
-/**
  * @func listen
  * @desc Shortcut to `EventTarget.addEventListner`.
  * @param {EventTarget | string} target - target itself, or a CSS selector which matches an Element
@@ -24,7 +13,8 @@ function ensureTarget(any) {
  * @returns {void}
  */
 export function listen(target, ...args) {
-    ensureTarget(target).addEventListener(...args);
+    if(typeof target === 'string') target = document.querySelector(target);
+    target.addEventListener(...args);
 };
 
 /**
@@ -35,8 +25,54 @@ export function listen(target, ...args) {
  * @returns {void}
  */
 export function unlisten(target, ...args) {
-    ensureTarget(target).removeEventListener(...args);
+    if(typeof target === 'string') target = document.querySelector(target);
+    target.removeEventListener(...args);
 };
+
+
+/**
+ * @func listens
+ * @desc Add multi listener to multi events on multi targets
+ * @param {string | NodeList | Array.<EventTarget> } targets
+ * @param {string | Array.<string>} eventTypes
+ * @param {Function | Array.<Function>} listener
+ * @param {boolean | Object} [options]
+ */
+export function listens(targets, eventTypes, listeners, options) {
+    if(typeof targets === 'string') targets = document.querySelectorAll(targets);
+    if(typeof eventTypes === 'string') eventTypes = eventTypes.split(',').map(s => s.trim());
+    if(typeof listeners === 'function') listeners = [listeners];
+    targets.forEach(target => {
+        eventTypes.forEach(eventType => {
+            listeners.forEach(listener => {
+                target.addEventListener(eventType, listener, options);
+            });
+        });
+    });
+}
+
+
+/**
+ * @func unlistens
+ * @desc Remove multi listener to multi events on multi targets
+ * @param {string | NodeList | Array.<EventTarget> } targets
+ * @param {string | Array.<string>} eventTypes
+ * @param {Function | Array.<Function>} listener
+ * @param {boolean | Object} [options]
+ */
+export function unlistens(targets, eventTypes, listeners, options) {
+    if(typeof targets === 'string') targets = document.querySelectorAll(targets);
+    if(typeof eventTypes === 'string') eventTypes = eventTypes.split(',').map(s => s.trim());
+    if(typeof listeners === 'function') listeners = [listeners];
+    targets.forEach(target => {
+        eventTypes.forEach(eventType => {
+            listeners.forEach(listener => {
+                target.removeEventListener(eventType, listener, options);
+            });
+        });
+    });
+}
+
 
 /**
  * @func waitForEvent
@@ -78,7 +114,6 @@ export function waitForEvent(target, type, options) {
             if(options.stopImmediatePropagation) event.stopImmediatePropagation();
             resolve();
         };
-        target = ensureTarget(target);
         listen(target, type, listener, options);
         if(timeout > 0) setTimeout(() => {
             unlisten(target, listener, options);
@@ -103,7 +138,9 @@ export const extendEventTargetPrototype = () =>
 
 
 Object.assign(utilEvent, {
-    listen, waitForEvent,
+    listen, unlisten,
+    listens, unlistens,
+    waitForEvent,
     extendEventTargetPrototype
 });
 

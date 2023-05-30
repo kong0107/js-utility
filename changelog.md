@@ -1,5 +1,11 @@
 # ChangeLog of kong-util
 
+## 0.7.5 (230531)
+* Add `kongUtilEvent.listens()`
+  which register listener to multiple events on multiple targets.
+* Update `kongUtilImage.readImage()`
+  to support `options` argument of `fetch()`.
+
 ## 0.7.4 (230519)
 * Fix `kongUtilArray.forEachAsync()`
   which did not call callback function.

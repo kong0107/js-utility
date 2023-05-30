@@ -184,7 +184,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="image.mjs.html">image.mjs</a>, <a href="image.mjs.html#line28">line 28</a>
+        <a href="image.mjs.html">image.mjs</a>, <a href="image.mjs.html#line31">line 31</a>
     </li></ul></dd>
     
 
@@ -238,7 +238,7 @@
     
 
     
-    <h4 class="name" id="~readImage"><span class="type-signature">(inner) </span>readImage<span class="signature">(source, mimeType<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;ImageBitmap>}</span></h4>
+    <h4 class="name" id="~readImage"><span class="type-signature">(inner) </span>readImage<span class="signature">(source, option<span class="signature-attributes">opt</span>, option<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;ImageBitmap>}</span></h4>
     
 
     
@@ -315,7 +315,7 @@
 
         <tr>
             
-                <td class="name"><code>mimeType</code></td>
+                <td class="name"><code>option</code></td>
             
 
             <td class="type">
@@ -341,7 +341,40 @@
 
             
 
-            <td class="description last">only used if `source` is pure base64 string.</td>
+            <td class="description last">used only if `source` is pure base64 string (instead of dataURL)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>option</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">passed as the 2nd argument of `fetch()`</td>
         </tr>
 
     
@@ -855,7 +888,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="image.mjs.html">image.mjs</a>, <a href="image.mjs.html#line52">line 52</a>
+        <a href="image.mjs.html">image.mjs</a>, <a href="image.mjs.html#line55">line 55</a>
     </li></ul></dd>
     
 

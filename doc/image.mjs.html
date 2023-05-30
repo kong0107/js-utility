@@ -39,15 +39,18 @@ export * from './core.mjs';
  * @func readImage
  * @desc Support more than createImageBitmap().
  * @param {*} source - string and those supported by `createImageBitmap()` in Web API
- * @param {string} [mimeType] - only used if `source` is pure base64 string.
+ * @param {string} [option] - used only if `source` is pure base64 string (instead of dataURL)
+ * @param {Object} [option] - passed as the 2nd argument of `fetch()`
  * @returns {Promise.&lt;ImageBitmap>}
  */
-export async function readImage(source, mimeType) {
+export async function readImage(source, option) {
     if(source instanceof ImageBitmap) return source;
     if(typeof source === 'string') {
-        if(/^https?:\/\//.test(source))
-            source = await fetchStrict(source).then(res => res.blob());
-        else source = base64ToBlob(source, mimeType);
+        if(/^https?:\/\//.test(source)) {
+            const res = await fetchStrict(source, option);
+            source = await res.blob();
+        }
+        else source = base64ToBlob(source, option);
     }
     return await createImageBitmap(source);
 }
