@@ -279,9 +279,15 @@ export function isEventInElement(event, elem = this) {
 }
 
 
+/**
+ * @func downloadURL
+ * @desc Make the borowser download the given URL to the local filesystem.
+ * @param {URL | string} href
+ * @param {string} filename
+ */
 export function downloadURL(href, filename) {
     createElementFromJsonML(
-        ['a', {href, filename}]
+        ['a', {href, download: filename}]
     ).click();
 }
 

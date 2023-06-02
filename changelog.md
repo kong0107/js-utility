@@ -1,5 +1,9 @@
 # ChangeLog of kong-util
 
+## 0.7.6 (230602)
+* Add `kongUtilDom.downloadURL()`
+  which makes the borowser download the given URL.
+
 ## 0.7.5 (230531)
 * Add `kongUtilEvent.listens()`
   which register listener to multiple events on multiple targets.
