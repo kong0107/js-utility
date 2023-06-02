@@ -284,11 +284,28 @@ export function isEventInElement(event, elem = this) {
  * @desc Make the borowser download the given URL to the local filesystem.
  * @param {URL | string} href
  * @param {string} filename
+ * @returns {undefined}
  */
 export function downloadURL(href, filename) {
     createElementFromJsonML(
         ['a', {href, download: filename}]
     ).click();
+}
+
+
+/**
+ * @func downloadData
+ * @desc Download the given data.
+ * @param {string | ArrayBuffer | TypedArray | DataView | Blob} data
+ * @param {string} filename
+ * @param {string} [mimeType]
+ * @returns {string}
+ */
+export function downloadData(data, filename, mimeType = '') {
+    const blob = new Blob([data], {type: mimeType});
+    const url = URL.createObjectURL(blob);
+    downloadURL(url, filename);
+    return url;
 }
 
 
@@ -309,7 +326,7 @@ Object.assign(utilDom, {
     createElementFromJsonML,
     clearElement,
     isEventInElement,
-    downloadURL,
+    downloadURL, downloadData,
     extendElementPrototype
 });
 

@@ -1,8 +1,10 @@
 # ChangeLog of kong-util
 
-## 0.7.6 (230602)
+## 0.7.7 (230602)
 * Add `kongUtilDom.downloadURL()`
-  which makes the borowser download the given URL.
+  which makes the browser download the given URL to a file.
+* Add `kongUtilDom.downloadData()`
+  which makes the browser download the given data to a file.
 
 ## 0.7.5 (230531)
 * Add `kongUtilEvent.listens()`
