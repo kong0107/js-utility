@@ -270,17 +270,22 @@ export function createElementFromJsonML(jsonml, namespace) {
  * @desc Use `HTMLTemplateElement` to create an HTML element.
  * @see {@link https://developer.mozilla.org/zh-TW/docs/Web/HTML/Element/template }
  * @param {string} template - selector of the template
- * @param {HTMLElement} template - the template element
+ * @param {Node} template - the node to be cloned
+ * @param {HTMLTemplateElement} template - the template where the first element is to be cloned
  * @returns {Node}
  */
 export function createElementFromTemplate(template) {
     if (typeof template === 'string') template = document.querySelector(template);
-    if (! (template instanceof HTMLElement)) throw new TypeError('`template` shall be an HTMLElement or a string selector to an existing one.');
+    if (! (template instanceof Node)) throw new TypeError('`template` shall be a `Node` or a string selector to an `Element`.');
 
-    const clone = (template instanceof HTMLTemplateElement)
-        ? document.importNode(template.content, true)
-        : template.cloneNode(true);
-    ;
+    let clone;
+    if (template instanceof HTMLTemplateElement) {
+        if (template.content.childElementCount !== 1)
+            console.warn('only the first element is cloned');
+        clone = document.importNode(template.content, true).firstElementChild;
+    }
+    else clone = template.cloneNode(true);
+
     $$('[id]', clone).forEach(elem => elem.removeAttribute('id'));
     return clone;
 }

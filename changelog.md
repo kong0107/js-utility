@@ -1,5 +1,9 @@
 # ChangeLog of kong-util
 
+## 0.7.9 (231003)
+* Update `kongUtilDom.createElementFromTemplate()`
+  whiche now clones only the first element for `<template>`.
+
 ## 0.7.8 (231003)
 * Add `kongUtilArray.shuffle()`
   which randomizes the array in place.
