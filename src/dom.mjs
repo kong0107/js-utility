@@ -238,6 +238,27 @@ export function createElementFromJsonML(jsonml, namespace) {
 
 
 /**
+ * @func createElementFromTemplate
+ * @desc Use `HTMLTemplateElement` to create an HTML element.
+ * @see {@link https://developer.mozilla.org/zh-TW/docs/Web/HTML/Element/template }
+ * @param {string} template - selector of the template
+ * @param {HTMLElement} template - the template element
+ * @returns {Node}
+ */
+export function createElementFromTemplate(template) {
+    if (typeof template === 'string') template = document.querySelector(template);
+    if (! (template instanceof HTMLElement)) throw new TypeError('`template` shall be an HTMLElement or a string selector to an existing one.');
+
+    const clone = (template instanceof HTMLTemplateElement)
+        ? document.importNode(template.content, true)
+        : template.cloneNode(true);
+    ;
+    $$('[id]', clone).forEach(elem => elem.removeAttribute('id'));
+    return clone;
+}
+
+
+/**
  * @deprecated
  * @func createElement
  * @desc my old JSON format to represent DOM; shall be replaced by `createElementFromJsonML`.
@@ -323,6 +344,7 @@ export const extendElementPrototype = () =>
 
 Object.assign(utilDom, {
     $, $$, parseHTML, getNodes,
+    createElementFromTemplate,
     createElementFromJsonML,
     clearElement,
     isEventInElement,

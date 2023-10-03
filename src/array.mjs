@@ -26,6 +26,21 @@ import utilArray from "./core.mjs";
 
 export * from "./core.mjs";
 
+
+/**
+ * @func shuffle
+ * @desc randomize the order of the array in place
+ * @see {@link https://shubo.io/javascript-random-shuffle/ }
+ * @returns {Array}
+ */
+export function shuffle(target = this) {
+    for (let i = target.length - 1; i > 0; --i) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [target[i], target[j]] = [target[j], target[i]];
+    }
+    return target;
+}
+
 /**
  * @func everyAsync
  * @returns {Promise.<boolean>}
@@ -161,6 +176,7 @@ export function mapToObject(callback, target = this) {
  * @desc Add methods in this file to `Array` class.
  */
 const arrayPrototypeExtended = {
+    shuffle,
     everyAsync, filterAsync,
     findAsync, findIndexAsync, findLastAsync, findLastIndexAsync,
     forEachAsync, mapAsync, reduceAsync, reduceRightAsync,

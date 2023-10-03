@@ -35,7 +35,7 @@ export function unlisten(target, ...args) {
  * @desc Add multi listener to multi events on multi targets
  * @param {string | NodeList | Array.<EventTarget> } targets
  * @param {string | Array.<string>} eventTypes
- * @param {Function | Array.<Function>} listener
+ * @param {Function | Array.<Function>} listeners
  * @param {boolean | Object} [options]
  */
 export function listens(targets, eventTypes, listeners, options) {

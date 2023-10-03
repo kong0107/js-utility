@@ -1,5 +1,11 @@
 # ChangeLog of kong-util
 
+## 0.7.8 (231003)
+* Add `kongUtilArray.shuffle()`
+  which randomizes the array in place.
+* Add `kongUtilDom.createElementFromTemplate()`
+  which clones a `<template>` or other `Node`.
+
 ## 0.7.7 (230602)
 * Add `kongUtilDom.downloadURL()`
   which makes the browser download the given URL to a file.
