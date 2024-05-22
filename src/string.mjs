@@ -35,57 +35,57 @@ export function parseChineseNumber(string, forceString = false) {
         .replaceAll(/\s/g, '')
         .replace(/[點点奌]/, '.')
     ;
-    if('負负'.includes(str.charAt(0))) signed = '-';
-    else if(str.startsWith('正')) signed = '+';
+    if ('負负'.includes(str.charAt(0))) signed = '-';
+    else if (str.startsWith('正')) signed = '+';
 
-    if(signed) str = str.substring(1);
+    if (signed) str = str.substring(1);
     digitRegExps.forEach((re, d) => {
         str = str.replaceAll(re, d.toString());
     });
 
-    if(/^\d+(\.\d+)?$/.test(str)) str = signed + str;
+    if (/^\d+(\.\d+)?$/.test(str)) str = signed + str;
     else {
         let error = false, isFraction = false;
         let reverse = [], integer = [], fraction = [];
         let digit = null;
         str.split('').forEach(c => {
-            if(isFraction) return fraction.unshift(c);
+            if (isFraction) return fraction.unshift(c);
 
-            if('0123456789'.includes(c)) return digit = c;
+            if ('0123456789'.includes(c)) return digit = c;
 
             const ten = ['十拾什', '百佰', '千仟'].findIndex(ts => ts.includes(c)) + 1;
-            if(ten) {
+            if (ten) {
                 integer[ten] = digit ?? '1';
                 return digit = null;
             }
 
             const wan = ['萬万', '億亿', '兆', '京經经', '垓', '秭杼', '穰壤', '溝沟', '澗涧', '正', '載', '極']
                 .findIndex(ws => ws.includes(c)) + 1;
-            if(wan || c === '.') {
+            if (wan || c === '.') {
                 integer[0] = digit;
-                for(let i = 0; i < integer.length; ++i)
+                for (let i = 0; i < integer.length; ++i)
                     reverse[i + wan * 4] = integer[i];
                 digit = null;
             }
-            if(wan) return integer = [];
-            if(c === '.') return isFraction = true;
+            if (wan) return integer = [];
+            if (c === '.') return isFraction = true;
 
             error = true;
         });
-        if(error) return NaN;
+        if (error) return NaN;
 
-        if(isFraction) reverse.unshift(...fraction, '.');
+        if (isFraction) reverse.unshift(...fraction, '.');
         else {
             integer[0] = digit;
-            for(let i = 0; i < integer.length; ++i) reverse[i] = integer[i];
+            for (let i = 0; i < integer.length; ++i) reverse[i] = integer[i];
         }
 
-        for(let i = 0; i < reverse.length; ++i) // `Array.forEach()` and `Array.map()` do not iterate empty elements.
-            if(!reverse[i]) reverse[i] = '0';
+        for (let i = 0; i < reverse.length; ++i) // `Array.forEach()` and `Array.map()` do not iterate empty elements.
+            if (! reverse[i]) reverse[i] = '0';
         str = signed + reverse.reverse().join('');
     }
 
-    if(forceString) return str;
+    if (forceString) return str;
     return Number.isSafeInteger(parseInt(str)) ? parseFloat(str) : str;
     // MDN: JavaScript does not have the distinction of "floating point numbers" and "integers" on the language level.
 }
@@ -114,13 +114,13 @@ const digitRegExps = [
  */
 export function compareVersionNumbers(a, b) {
     [a, b] = [a, b].map(str => str.split("."));
-    for(let d in a) {
-        if(typeof b[d] === "undefined") return 1;
+    for (let d in a) {
+        if (typeof b[d] === "undefined") return 1;
         const ad = parseInt(a[d], 10), bd = parseInt(b[d], 10);
-        if(ad > bd) return 1;
-        if(ad < bd) return -1;
+        if (ad > bd) return 1;
+        if (ad < bd) return -1;
     }
-    if(a.length < b.length) return -1;
+    if (a.length < b.length) return -1;
     return 0;
 }
 
@@ -146,7 +146,7 @@ export function toCSV(dataArray, fieldNames, eol = '\r\n') {
     , fieldNames.map(csvEscape).join(',') + eol);
 }
 function csvEscape(text) {
-    if(!/[\x0a\x0d\x22\x2c]/.test(text)) return text;
+    if (! /[\x0a\x0d\x22\x2c]/.test(text)) return text;
     text = text.replaceAll('"', '""');
     return `"${text}"`;
 }
@@ -169,25 +169,25 @@ export function parseCSV(csv, hasHeader = true) {
     let quotes = 0, pos = 0, record = [];
     const allRecords = [];
     csv += '\n'; // make sure the last record will be pushed
-    for(let i = 0; i < csv.length; ++i) {
+    for (let i = 0; i < csv.length; ++i) {
         const char = csv.charAt(i);
-        if(char === '"') ++quotes;
-        if(quotes % 2) continue;
-        if(['\n', '\r', ','].includes(char)) {
+        if (char === '"') ++quotes;
+        if (quotes % 2) continue;
+        if (['\n', '\r', ','].includes(char)) {
             let value = csv.substring(pos, i);
-            if(value.startsWith('"')) value = value.slice(1, -1);
+            if (value.startsWith('"')) value = value.slice(1, -1);
             value = value.replaceAll('""', '"');
             pos = i + 1;
 
-            if(char === ',') record.push(value);
-            else if(record.length) {
+            if (char === ',') record.push(value);
+            else if (record.length) {
                 record.push(value);
                 allRecords.push(record);
                 record = [];
             }
         }
     }
-    if(!hasHeader) return allRecords;
+    if (! hasHeader) return allRecords;
 
     const fields = allRecords.shift();
     return allRecords.map(array =>
@@ -203,13 +203,13 @@ export function parseCSV(csv, hasHeader = true) {
  * @returns {Blob}
  */
 export function base64ToBlob(string, type) {
-    if(typeof type !== 'string') {
+    if (typeof type !== 'string') {
         type = string.substring(5, string.indexOf(';'));
         string = string.slice(type.length + 13);
     }
     const decoded = atob(string);
     const buffer = new Uint8Array(decoded.length);
-    for(let i = 0; i < decoded.length; ++i)
+    for (let i = 0; i < decoded.length; ++i)
         buffer[i] = decoded.charCodeAt(i);
     return new Blob([buffer], {type});
 }

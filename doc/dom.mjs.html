@@ -65,11 +65,11 @@ export * from "./core.mjs";
  *
  */
 export function $(s, b = document) {
-    if(!b?.querySelector) b = document;
-    if(typeof s === "string") return b.querySelector(s);
-    else if(s instanceof Array) return s.map(ss => $(ss, b));
+    if (!b?.querySelector) b = document;
+    if (typeof s === "string") return b.querySelector(s);
+    else if (s instanceof Array) return s.map(ss => $(ss, b));
     const r = {};
-    for(let name in s) r[name] = $(s[name], b);
+    for (let name in s) r[name] = $(s[name], b);
     return r;
 }
 
@@ -89,11 +89,11 @@ export function $(s, b = document) {
  *
  */
 export function $$(s, b = document) {
-    if(!b?.querySelectorAll) b = document;
-    if(typeof s === "string") return [...b.querySelectorAll(s)];
-    else if(s instanceof Array) return s.map(ss => $$(ss, b));
+    if (! b?.querySelectorAll) b = document;
+    if (typeof s === "string") return [...b.querySelectorAll(s)];
+    else if (s instanceof Array) return s.map(ss => $$(ss, b));
     const r = {};
-    for(let name in s) r[name] = $$(s[name], b);
+    for (let name in s) r[name] = $$(s[name], b);
     return r;
 }
 
@@ -139,8 +139,8 @@ export function $$(s, b = document) {
  */
 let parser;
 export function parseHTML(html, selectors = "body > *") {
-    if(typeof DOMParser === "undefined") throw ReferenceError("DOMParser is not defined");
-    if(!parser) parser = new DOMParser();
+    if (typeof DOMParser === "undefined") throw ReferenceError("DOMParser is not defined");
+    if (! parser) parser = new DOMParser();
     const doc = parser.parseFromString(html, "text/html");
     return (typeof selectors === "string") ? $(selectors, doc) : doc;
 }
@@ -166,17 +166,17 @@ export function getNodes(
      * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/NodeFilter }
      * @see {@link https://www.w3.org/TR/DOM-Level-2-Traversal-Range/traversal.html }
      */
-    if(typeof accept !== "function" &amp;&amp; typeof reject !== "function") {
-        if(accept instanceof Array) accept = accept.join(",");
-        if(reject instanceof Array) reject = reject.join(",");
+    if (typeof accept !== "function" &amp;&amp; typeof reject !== "function") {
+        if (accept instanceof Array) accept = accept.join(",");
+        if (reject instanceof Array) reject = reject.join(",");
         return $$(accept, base).filter(elem => !$$(reject, base).includes(elem));
     }
     accept = createNodeSelector(accept, base);
     reject = createNodeSelector(reject, base);
     const filter = {
         acceptNode: node => {
-            if(reject(node)) return NodeFilter.FILTER_REJECT;
-            if(accept(node)) return NodeFilter.FILTER_ACCEPT;
+            if (reject(node)) return NodeFilter.FILTER_REJECT;
+            if (accept(node)) return NodeFilter.FILTER_ACCEPT;
             return NodeFilter.FILTER_SKIP;
         }
     };
@@ -196,12 +196,12 @@ export function getNodes(
  * @returns {Function} tests a node and returns a boolean
  */
 function createNodeSelector(filterRule, base) {
-    if(typeof filterRule === "function") return filterRule;
-    if(typeof filterRule === "string") {
+    if (typeof filterRule === "function") return filterRule;
+    if (typeof filterRule === "string") {
         const elements = $$(filterRule, base);
         return node => elements.includes(node);
     }
-    if(filterRule instanceof Array) {
+    if (filterRule instanceof Array) {
         filterRule = filterRule.map(tag => tag.toUpperCase());
         return node => filterRule.includes(node.tagName);
     }
@@ -218,42 +218,42 @@ function createNodeSelector(filterRule, base) {
  * @returns {Element}
  */
 export function createElementFromJsonML(jsonml, namespace) {
-    if(typeof namespace !== 'string') namespace = null; // make this function safe for functions such as `Array.map()`.
-    if(typeof jsonml !== 'object') return document.createTextNode(jsonml);
-    if(jsonml instanceof Node) return jsonml.cloneNode(true);
+    if (typeof namespace !== 'string') namespace = null; // make this function safe for functions such as `Array.map()`.
+    if (typeof jsonml !== 'object') return document.createTextNode(jsonml);
+    if (jsonml instanceof Node) return jsonml.cloneNode(true);
 
     let [tag, attributes, ...children] = jsonml;
-    if(typeof jsonml[1] !== 'object' || jsonml[1] instanceof Array) {
+    if (typeof jsonml[1] !== 'object' || jsonml[1] instanceof Array) {
         attributes = {};
         [tag, ...children] = jsonml;
     }
 
-    if(tag === 'svg') namespace = 'http://www.w3.org/2000/svg';
+    if (tag === 'svg') namespace = 'http://www.w3.org/2000/svg';
     const ns = attributes.namespace ?? namespace;
     const elem = ns ? document.createElementNS(ns, tag) : document.createElement(tag);
 
-    for(let name in attributes) {
+    for (let name in attributes) {
         const value = attributes[name];
-        if(name.startsWith('on')) {
+        if (name.startsWith('on')) {
             listen(elem, name.substring(2).toLowerCase(), value);
             continue;
         }
-        switch(name) {
+        switch (name) {
             case 'class':
             case 'className': {
                 const cls = (typeof value === 'string') ? value.trim().split(/\s+/) : value;
-                if(cls[0]) elem.classList.add(...cls); // skip if empty string
+                if (cls[0]) elem.classList.add(...cls); // skip if empty string
                 break;
             }
             case 'css':
             case 'style': {
-                if(typeof value === 'string') elem.style.cssText = value;
-                else for(let sp in value) elem.style[camelize(sp)] = value[sp];
+                if (typeof value === 'string') elem.style.cssText = value;
+                else for (let sp in value) elem.style[camelize(sp)] = value[sp];
                 break;
             }
             case 'data':
             case 'dataset': {
-                for(let ds in value) elem.dataset[camelize(ds)] = value[ds];
+                for (let ds in value) elem.dataset[camelize(ds)] = value[ds];
                 break;
             }
             case 'namespace': break;

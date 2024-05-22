@@ -55,8 +55,8 @@ export async function everyAsync(callback, target = this) {
  */
 export async function filterAsync(callback, target = this) {
     const results = [];
-    for(let i = 0; i < target.length; ++i)
-        if(await callback(target[i], i, target))
+    for (let i = 0; i < target.length; ++i)
+        if (await callback(target[i], i, target))
             results.push(target[i]);
     return results;
 }
@@ -66,8 +66,8 @@ export async function filterAsync(callback, target = this) {
  * @returns {Promise.<*>}
  */
 export async function findAsync(callback, target = this, returnIndex) {
-    for(let i = 0; i < target.length; ++i)
-        if(await callback(target[i], i, target))
+    for (let i = 0; i < target.length; ++i)
+        if (await callback(target[i], i, target))
             return returnIndex ? i : target[i];
     return returnIndex ? -1 : undefined;
 }
@@ -85,8 +85,8 @@ export function findIndexAsync(cb, t) {
  * @returns {Promise.<*>}
  */
 export async function findLastAsync(callback, target = this, returnIndex) {
-    for(let i = target.length - 1; i >= 0; --i)
-        if(await callback(target[i], i, target))
+    for (let i = target.length - 1; i >= 0; --i)
+        if (await callback(target[i], i, target))
             return returnIndex ? i : target[i];
     return returnIndex ? -1 : undefined;
 }
@@ -113,7 +113,7 @@ export async function forEachAsync(callback, target = this) {
  */
 export async function mapAsync(callback, target = this, skipReturn) {
     const results = skipReturn ? undefined : [];
-    for(let i = 0; i < target.length; ++i) {
+    for (let i = 0; i < target.length; ++i) {
         const r = await callback(target[i], i, target);
         results?.push(r);
     }
@@ -126,12 +126,12 @@ export async function mapAsync(callback, target = this, skipReturn) {
  */
 export async function reduceAsync(callback, initial, target = this) {
     let acc = initial, startingIndex = 0;
-    if(typeof initial === "undefined") {
-        if(!target.length) throw new TypeError("Reduce of empty array with no initial value");
+    if (typeof initial === "undefined") {
+        if (!target.length) throw new TypeError("Reduce of empty array with no initial value");
         acc = target[0];
         startingIndex = 1;
     }
-    for(let i = startingIndex; i < target.length; ++i)
+    for (let i = startingIndex; i < target.length; ++i)
         acc = await callback(acc, target[i], i, target);
     return acc;
 }
@@ -142,12 +142,12 @@ export async function reduceAsync(callback, initial, target = this) {
  */
 export async function reduceRightAsync(callback, initial, target = this) {
     let acc = initial, startingIndex = target.length - 1;
-    if(typeof initial === "undefined") {
-        if(!target.length) throw new TypeError("Reduce of empty array with no initial value");
+    if (typeof initial === "undefined") {
+        if (!target.length) throw new TypeError("Reduce of empty array with no initial value");
         acc = target[startingIndex];
         --startingIndex;
     }
-    for(let i = startingIndex; i >= 0; --i)
+    for (let i = startingIndex; i >= 0; --i)
         acc = await callback(acc, target[i], i, target);
     return acc;
 }

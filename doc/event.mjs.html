@@ -41,7 +41,7 @@ export * from "./core.mjs";
  * @returns {void}
  */
 export function listen(target, ...args) {
-    if(typeof target === 'string') target = document.querySelector(target);
+    if (typeof target === 'string') target = document.querySelector(target);
     target.addEventListener(...args);
 };
 
@@ -53,7 +53,7 @@ export function listen(target, ...args) {
  * @returns {void}
  */
 export function unlisten(target, ...args) {
-    if(typeof target === 'string') target = document.querySelector(target);
+    if (typeof target === 'string') target = document.querySelector(target);
     target.removeEventListener(...args);
 };
 
@@ -67,9 +67,9 @@ export function unlisten(target, ...args) {
  * @param {boolean | Object} [options]
  */
 export function listens(targets, eventTypes, listeners, options) {
-    if(typeof targets === 'string') targets = document.querySelectorAll(targets);
-    if(typeof eventTypes === 'string') eventTypes = eventTypes.split(',').map(s => s.trim());
-    if(typeof listeners === 'function') listeners = [listeners];
+    if (typeof targets === 'string') targets = document.querySelectorAll(targets);
+    if (typeof eventTypes === 'string') eventTypes = eventTypes.split(',').map(s => s.trim());
+    if (typeof listeners === 'function') listeners = [listeners];
     targets.forEach(target => {
         eventTypes.forEach(eventType => {
             listeners.forEach(listener => {
@@ -89,9 +89,9 @@ export function listens(targets, eventTypes, listeners, options) {
  * @param {boolean | Object} [options]
  */
 export function unlistens(targets, eventTypes, listeners, options) {
-    if(typeof targets === 'string') targets = document.querySelectorAll(targets);
-    if(typeof eventTypes === 'string') eventTypes = eventTypes.split(',').map(s => s.trim());
-    if(typeof listeners === 'function') listeners = [listeners];
+    if (typeof targets === 'string') targets = document.querySelectorAll(targets);
+    if (typeof eventTypes === 'string') eventTypes = eventTypes.split(',').map(s => s.trim());
+    if (typeof listeners === 'function') listeners = [listeners];
     targets.forEach(target => {
         eventTypes.forEach(eventType => {
             listeners.forEach(listener => {
@@ -126,7 +126,7 @@ export function unlistens(targets, eventTypes, listeners, options) {
  */
 export function waitForEvent(target, type, options) {
     let timeout;
-    switch(typeof options) {
+    switch (typeof options) {
         case "undefined":   timeout = 0;                options = {};   break;
         case "number":      timeout = options;          options = {};   break;
         case "string":      timeout = parseInt(options);options = {};   break;
@@ -137,13 +137,13 @@ export function waitForEvent(target, type, options) {
     options.once = true;
     return new Promise((resolve, reject) => {
         const listener = event => {
-            if(options.preventDefault) event.preventDefault();
-            if(options.stopPropagation) event.stopPropagation();
-            if(options.stopImmediatePropagation) event.stopImmediatePropagation();
+            if (options.preventDefault) event.preventDefault();
+            if (options.stopPropagation) event.stopPropagation();
+            if (options.stopImmediatePropagation) event.stopImmediatePropagation();
             resolve();
         };
         listen(target, type, listener, options);
-        if(timeout > 0) setTimeout(() => {
+        if (timeout > 0) setTimeout(() => {
             unlisten(target, listener, options);
             const event = new Event("abort");
             target.dispatchEvent(event);

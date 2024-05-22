@@ -1,5 +1,9 @@
 # ChangeLog of kong-util
 
+## 0.7.10 (240522)
+* Add `kongUtilWeb.createFormData()`
+  whitch creates a new `FormData` from an object.
+
 ## 0.7.9 (231003)
 * Update `kongUtilDom.createElementFromTemplate()`
   whiche now clones only the first element for `<template>`.

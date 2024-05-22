@@ -16,7 +16,7 @@ export function promisify(func, moreThanOneData = false) {
     return (...args) => {
         return new Promise((resolve, reject) =>
             func(...args, (err, ...data) => {
-                if(err) return reject(err);
+                if (err) return reject(err);
                 resolve(moreThanOneData ? data : data[0]);
             })
         );
@@ -58,17 +58,17 @@ export function wait(ms, fulfill) {
  */
 export function waitFor(sth, timeout) {
     let exe;
-    if(sth instanceof Promise) exe = r => sth.then(r);
-    else if(sth instanceof Function) exe = r => sth(r);
+    if (sth instanceof Promise) exe = r => sth.then(r);
+    else if (sth instanceof Function) exe = r => sth(r);
     else {
-        if(sth instanceof EventTarget) return waitForEvent(...arguments);
+        if (sth instanceof EventTarget) return waitForEvent(...arguments);
         const {target, type, ...options} = sth;
         options.timeout = timeout;
         return waitForEvent(target, type, options);
     }
-    if(exe) return new Promise((resolve, reject) => {
+    if (exe) return new Promise((resolve, reject) => {
         setTimeout(exe, 0, resolve);
-        if(timeout > 0) setTimeout(reject, timeout, new Event("abort"));
+        if (timeout > 0) setTimeout(reject, timeout, new Event("abort"));
     });
 }
 

@@ -16,9 +16,9 @@ export * from './core.mjs';
  * @returns {Promise.<ImageBitmap>}
  */
 export async function readImage(source, option) {
-    if(source instanceof ImageBitmap) return source;
-    if(typeof source === 'string') {
-        if(/^https?:\/\//.test(source)) {
+    if (source instanceof ImageBitmap) return source;
+    if (typeof source === 'string') {
+        if (/^https?:\/\//.test(source)) {
             const res = await fetchStrict(source, option);
             source = await res.blob();
         }
@@ -35,14 +35,14 @@ export async function readImage(source, option) {
  * @returns {Promise.<*>}
  */
 export async function canvasTo(canvas, returnType, format, quality) {
-    switch(returnType) {
+    switch (returnType) {
         case 'canvas': return canvas;
         case 'dataURL': return canvas.toDataURL(format, quality);
         case 'bitmap': return await createImageBitmap(canvas);
         case 'blob': {
             return new Promise((resolve, reject) => {
                 canvas.toBlob(blob => {
-                    if(blob) return resolve(blob);
+                    if (blob) return resolve(blob);
                     reject("the image cannot be created");
                 }, format, quality);
             });
@@ -81,29 +81,29 @@ export async function resizeImage(source, settings) {
     const source_ratio = bitmap.width / bitmap.height;
 
     // Calculate width and height.
-    if(settings.scale > 0) {
+    if (settings.scale > 0) {
         width = bitmap.width * settings.scale;
         height = bitmap.height * settings.scale;
     }
-    else if(!settings.width || settings.width < 0) {
-        if(settings.fit !== 'scaleDown' || settings.height < bitmap.height) {
+    else if (! settings.width || settings.width < 0) {
+        if (settings.fit !== 'scaleDown' || settings.height < bitmap.height) {
             width = settings.height * source_ratio;
             height = settings.height;
         }
         // else: do not resize
     }
-    else if(!settings.height || settings.height < 0) {
-        if(settings.fit !== 'scaleDown' || settings.width < bitmap.width) {
+    else if (! settings.height || settings.height < 0) {
+        if (settings.fit !== 'scaleDown' || settings.width < bitmap.width) {
             width = settings.width;
             height = settings.width / source_ratio;
         }
         // else: do not resize
     }
     else { // Both `settings.width` and `settings.height` are given.
-        switch(settings.fit ?? 'contain') {
+        switch (settings.fit ?? 'contain') {
             case 'scaleDown':
             case 'contain': {
-                if(settings.width / settings.height > source_ratio) {
+                if (settings.width / settings.height > source_ratio) {
                     width = settings.height * source_ratio;
                     height = settings.height;
                 }
@@ -112,8 +112,8 @@ export async function resizeImage(source, settings) {
                     height = settings.width / source_ratio;
                 }
 
-                if(settings.fit !== 'scaleDown') break; // !!
-                if(width > bitmap.width || height > bitmap.height) {
+                if (settings.fit !== 'scaleDown') break; // !!
+                if (width > bitmap.width || height > bitmap.height) {
                     width = bitmap.width;
                     height = bitmap.height;
                 }
@@ -123,12 +123,12 @@ export async function resizeImage(source, settings) {
             case 'fill': {
                 width = settings.width;
                 height = settings.height;
-                if(settings.fit === 'fill') break; // !!
+                if (settings.fit === 'fill') break; // !!
 
                 // For `cover`, crop the source image.
                 let cx, cy, cw, ch; // stands for "cropped x", ...
                 const target_ratio = settings.width / settings.height;
-                if(target_ratio > source_ratio) {
+                if (target_ratio > source_ratio) {
                     cw = bitmap.width;
                     ch = cw / target_ratio;
                     cx = 0;
@@ -159,7 +159,7 @@ export async function resizeImage(source, settings) {
     context.drawImage(bitmap, 0, 0, width, height);
 
     let format = settings.format ?? 'png';
-    if(!format.startsWith('image/')) format = ('image/' + format).toLowerCase();
+    if (! format.startsWith('image/')) format = ('image/' + format).toLowerCase();
 
     return canvasTo(
         canvas,

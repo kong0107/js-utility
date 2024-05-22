@@ -16,7 +16,7 @@ export * from "./core.mjs";
  */
 export async function fetchStrict(...args) {
     const response = await fetch(...args);
-    if(response.ok) return response;
+    if (response.ok) return response;
     throw new ReferenceError(response.statusText);
 }
 
@@ -77,10 +77,23 @@ export function readFile(blob, type) {
     });
 }
 
+/**
+ * @func createFormData
+ * @desc Creates a new `FormData` from an object
+ * @param {Object} object
+ * @returns FormData
+ */
+export function createFormData(object) {
+    const fd = new FormData();
+    for (const key in object)
+        fd.append(key, object[key]);
+    return fd;
+}
+
 
 Object.assign(utilWeb, {
     fetchStrict, fetchJSON, fetchText, fetchDOM, fetchCSV,
-    readFile
+    readFile, createFormData
 });
 
 export default utilWeb;
