@@ -101,6 +101,30 @@ export function waitFor(sth, timeout) {
 }
 
 /**
+ * Keeps calling `asyncFunc` until it returns true to resolve; or timeout to reject.
+ * @param {Function} asyncFunc - a function returns a promise
+ * @param {number} checkInterval - in milliseconds
+ * @param {number} timeout - in milliseconds; non-positive means forever.
+ */
+export function waitUntilTrue(asyncFunc, checkInterval = 100, timeout = 0) {
+    return new Promise((resolve, reject) => {
+        if (asyncFunc()) return resolve();
+        const intervalID = setInterval(() => {
+            if (asyncFunc()) {
+                clearInterval(intervalID);
+                resolve();
+            }
+        }, checkInterval);
+        if (timeout > 0) {
+            setTimeout(() => {
+                clearInterval(intervalID);
+                reject();
+            }, timeout);
+        }
+    });
+}
+
+/**
  * Convert an async function by appending an argument represents time limit.
  * @param {Function} asyncFunc - a function returns a promise
  * @param {number} timeout - in milliseconds
@@ -119,7 +143,7 @@ export function addTimeLimit(asyncFunc, timeout) {
 
 
 Object.assign(utilAsync, {
-    promisify, wait, waitFor, addTimeLimit
+    promisify, wait, waitFor, waitUntilTrue, addTimeLimit
 });
 
 export default utilAsync;

@@ -1,5 +1,9 @@
 # ChangeLog of kong-util
 
+## 0.7.11 (240902)
+* Add `kongUtilAsync.waitUntilTrue()`
+  which keeps calling specified function until it returns true.
+
 ## 0.7.10 (240522)
 * Add `kongUtilWeb.createFormData()`
   whitch creates a new `FormData` from an object.

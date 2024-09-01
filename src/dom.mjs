@@ -351,6 +351,7 @@ Object.assign(utilDom, {
     $, $$, parseHTML, getNodes,
     createElementFromTemplate,
     createElementFromJsonML,
+    createElement,
     clearElement,
     isEventInElement,
     downloadURL, downloadData,
