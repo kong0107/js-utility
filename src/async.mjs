@@ -78,18 +78,21 @@ export function waitFor(sth, timeout) {
  * @param {number} checkInterval - in milliseconds
  * @param {number} timeout - in milliseconds; non-positive means forever.
  */
-export function waitUntilTrue(asyncFunc, checkInterval = 100, timeout = 0) {
-    return new Promise((resolve, reject) => {
-        if (asyncFunc()) return resolve();
-        const intervalID = setInterval(() => {
-            if (asyncFunc()) {
-                clearInterval(intervalID);
-                resolve();
-            }
-        }, checkInterval);
+export async function waitUntilTrue(asyncFunc, checkInterval = 100, timeout = 0) {
+    return new Promise(async (resolve, reject) => {
+        let result;
+        if (result = await asyncFunc()) return resolve(result);
+
+        let timeoutID;
+        const wrapper = async function () {
+            if (result = await asyncFunc()) return resolve(result);
+            timeoutID = setTimeout(wrapper, checkInterval);
+        };
+        timeoutID = setTimeout(wrapper, checkInterval);
+
         if (timeout > 0) {
             setTimeout(() => {
-                clearInterval(intervalID);
+                clearTimeout(timeoutID);
                 reject();
             }, timeout);
         }

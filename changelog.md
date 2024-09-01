@@ -1,8 +1,8 @@
 # ChangeLog of kong-util
 
-## 0.7.11 (240902)
+## 0.7.12 (240902)
 * Add `kongUtilAsync.waitUntilTrue()`
-  which keeps calling specified function until it returns true.
+  which keeps calling specified function until it resolves to non-false value.
 
 ## 0.7.10 (240522)
 * Add `kongUtilWeb.createFormData()`
