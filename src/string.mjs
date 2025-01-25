@@ -18,6 +18,17 @@ export function camelize(kebab) {
     );
 }
 
+/**
+ * @func kebabize
+ * @desc Convert camelCase string into kebab-case
+ * @see {@link https://stackoverflow.com/a/67243723/1998874} CC BY-SA 4.0
+ * @param {string} camel
+ * @returns {string}
+ */
+export function kebabize(camel) {
+    return camel.replace(/[A-Z]+(?![a-z])|[A-Z]/g, (m, p1) => (p1 ? "-" : "") + m.toLowerCase());
+}
+
 
 /**
  * @func parseChineseNumber
@@ -216,7 +227,7 @@ export function base64ToBlob(string, type) {
 
 
 Object.assign(utilString, {
-    camelize,
+    camelize, kebabize,
     parseChineseNumber,
     compareVersionNumbers,
     toCSV, parseCSV,

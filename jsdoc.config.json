@@ -10,5 +10,12 @@
         "default": {
             "includeDate": false
         }
+    },
+    "plugins": [
+      "plugins/markdown"
+    ],
+    "markdown": {
+        "tags": ["description", "param"],
+        "hardwrap": false
     }
 }

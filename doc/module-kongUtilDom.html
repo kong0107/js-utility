@@ -64,7 +64,7 @@
     
 
     
-    <h4 class="name" id="~$"><span class="type-signature">(inner) </span>$<span class="signature">(selectors, base<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {null|Element|Array|Object}</span></h4>
+    <h4 class="name" id="~$"><span class="type-signature">(inner) </span>$<span class="signature">(s, base<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {null|Element|Array.&lt;(null|Element)>|Object.&lt;(null|Element|Object)>}</span></h4>
     
 
     
@@ -72,7 +72,7 @@
 
 
 <div class="description">
-    Shortcut to `querySelector`, but different if not giving a string.
+    <p>Shortcut to <code>querySelector</code>, but different if not given a string.</p>
 </div>
 
 
@@ -112,7 +112,7 @@
 
         <tr>
             
-                <td class="name"><code>selectors</code></td>
+                <td class="name"><code>s</code></td>
             
 
             <td class="type">
@@ -121,10 +121,13 @@
 <span class="param-type">string</span>
 |
 
-<span class="param-type">Array</span>
+<span class="param-type">Array.&lt;string></span>
 |
 
 <span class="param-type">Object</span>
+|
+
+<span class="param-type">Element</span>
 
 
             
@@ -146,7 +149,12 @@
                 </td>
             
 
-            <td class="description last">one or more CSS selector string</td>
+            <td class="description last"><ul>
+<li><code>string</code>: leads this function works exactly as <code>querySelector</code>. The result would be <code>Element | null</code>.</li>
+<li><code>Array.&lt;string&gt;</code>: Each selector string in the array would be corresponding to the result <code>Array.&lt;Element|null&gt;</code>.</li>
+<li><code>Object.&lt;string|Object&gt;</code>: Each property would be corresponding to the result object, recursively.</li>
+<li><code>Element</code>: just returns itself.</li>
+</ul></td>
         </tr>
 
     
@@ -188,7 +196,8 @@
                 </td>
             
 
-            <td class="description last">if not an object having `querySelector` method, then it's ignored and `document` is used. This is useful if you wanna pass this function as the argument in `Array.map`.</td>
+            <td class="description last"><p>If not having <code>querySelector</code> method, then <code>document</code> is used.
+This is useful if you wanna pass this function as the argument in <code>Array.map</code>.</p></td>
         </tr>
 
     
@@ -255,10 +264,10 @@
 
 
 <h5>Returns:</h5>
-
-        
+<ul>
+        <li>
 <div class="param-desc">
-    element If `selectors` is a string, this function works exactly as `querySelector()`. If `selectors` is an array of strings, this returns an array with one element or null corresponding to each input selector. If `selectors` is an object, this returns an object with the same keys but values are the corresponding first found element. Nested arrays and objects are supported by recursion.
+    <p>if <code>s</code> is a string or Element</p>
 </div>
 
 
@@ -273,18 +282,52 @@
 |
 
 <span class="param-type">Element</span>
-|
-
-<span class="param-type">Array</span>
-|
-
-<span class="param-type">Object</span>
 
 
     </dd>
 </dl>
-
+</li>
     
+        <li>
+<div class="param-desc">
+    <p>if <code>s</code> is an Array</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;(null|Element)></span>
+
+
+    </dd>
+</dl>
+</li>
+    
+        <li>
+<div class="param-desc">
+    <p>if <code>s</code> is an Object</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object.&lt;(null|Element|Object)></span>
+
+
+    </dd>
+</dl>
+</li>
+    </ul>
 
 
 
@@ -311,7 +354,7 @@
     
 
     
-    <h4 class="name" id="~$$"><span class="type-signature">(inner) </span>$$<span class="signature">(selectors, base<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array|Object}</span></h4>
+    <h4 class="name" id="~$$"><span class="type-signature">(inner) </span>$$<span class="signature">(s, base<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array|Object}</span></h4>
     
 
     
@@ -319,7 +362,9 @@
 
 
 <div class="description">
-    Shortcut to `querySelectorAll` but returns an array instead of `NodeList`. Different if not giving a string, like `$` differs from `querySelector`; however, for selectors have no matches, empty array is returned instead of null.
+    <p>Shortcut to <code>querySelectorAll</code> but returns an array instead of <code>NodeList</code>.
+Different if not given a string, like <code>$</code> differs from <code>querySelector</code>;
+however, for selectors have no matches, empty array is returned instead of null.</p>
 </div>
 
 
@@ -359,7 +404,7 @@
 
         <tr>
             
-                <td class="name"><code>selectors</code></td>
+                <td class="name"><code>s</code></td>
             
 
             <td class="type">
@@ -368,7 +413,7 @@
 <span class="param-type">string</span>
 |
 
-<span class="param-type">Array</span>
+<span class="param-type">Array.&lt;string></span>
 |
 
 <span class="param-type">Object</span>
@@ -393,7 +438,7 @@
                 </td>
             
 
-            <td class="description last">one or more CSS selector string</td>
+            <td class="description last"><p>one or more CSS selector string</p></td>
         </tr>
 
     
@@ -435,7 +480,7 @@
                 </td>
             
 
-            <td class="description last">if not an object having `querySelector` method, then it's ignored and `document` is used.</td>
+            <td class="description last"><p>if not an object having <code>querySelector</code> method, then it's ignored and <code>document</code> is used.</p></td>
         </tr>
 
     
@@ -476,7 +521,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line49">line 49</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line51">line 51</a>
     </li></ul></dd>
     
 
@@ -547,7 +592,7 @@
 
 
 <div class="description">
-    call `Element.replaceChildren()` without any argument specified.
+    <p>call <code>Element.replaceChildren()</code> without any argument specified.</p>
 </div>
 
 
@@ -662,7 +707,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line277">line 277</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line257">line 257</a>
     </li></ul></dd>
     
 
@@ -731,7 +776,7 @@
 
 
 <div class="description">
-    my old JSON format to represent DOM; shall be replaced by `createElementFromJsonML`.
+    <p>my old JSON format to represent DOM; shall be replaced by <code>createElementFromJsonML</code>.</p>
 </div>
 
 
@@ -777,7 +822,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line266">line 266</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line246">line 246</a>
     </li></ul></dd>
     
 
@@ -828,7 +873,7 @@
 
 
 <div class="description">
-    Use JsonML to create an HTML element.
+    <p>Use JsonML to create an HTML element.</p>
 </div>
 
 
@@ -890,7 +935,7 @@
 
             
 
-            <td class="description last">see http://www.jsonml.org/</td>
+            <td class="description last"><p>see http://www.jsonml.org/</p></td>
         </tr>
 
     
@@ -923,7 +968,7 @@
 
             
 
-            <td class="description last">set this to use `createElementNS()`</td>
+            <td class="description last"><p>set this to use <code>createElementNS()</code></p></td>
         </tr>
 
     
@@ -964,7 +1009,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line184">line 184</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line186">line 186</a>
     </li></ul></dd>
     
 
@@ -1025,7 +1070,7 @@
     
 
     
-    <h4 class="name" id="~createElementFromTemplate"><span class="type-signature">(inner) </span>createElementFromTemplate<span class="signature">(template, template, template)</span><span class="type-signature"> &rarr; {Node}</span></h4>
+    <h4 class="name" id="~createElementFromTemplate"><span class="type-signature">(inner) </span>createElementFromTemplate<span class="signature">(template)</span><span class="type-signature"> &rarr; {Node}</span></h4>
     
 
     
@@ -1033,7 +1078,7 @@
 
 
 <div class="description">
-    Use `HTMLTemplateElement` to create an HTML element.
+    <p>Use <code>HTMLTemplateElement</code> to create an HTML element.</p>
 </div>
 
 
@@ -1076,51 +1121,11 @@
             
                 
 <span class="param-type">string</span>
+|
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">selector of the template</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>template</code></td>
-            
-
-            <td class="type">
-            
-                
 <span class="param-type">Node</span>
+|
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">the node to be cloned</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>template</code></td>
-            
-
-            <td class="type">
-            
-                
 <span class="param-type">HTMLTemplateElement</span>
 
 
@@ -1131,7 +1136,11 @@
 
             
 
-            <td class="description last">the template where the first element is to be cloned</td>
+            <td class="description last"><ul>
+<li>string: selector of the template element</li>
+<li>Node: the node to be cloned</li>
+<li>HTMLTemplateElement: the template where the first element is to be cloned</li>
+</ul></td>
         </tr>
 
     
@@ -1172,7 +1181,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line240">line 240</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line217">line 217</a>
     </li></ul></dd>
     
 
@@ -1241,7 +1250,7 @@
 
 
 <div class="description">
-    Download the given data.
+    <p>Download the given data.</p>
 </div>
 
 
@@ -1268,6 +1277,8 @@
         <th>Attributes</th>
         
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -1314,6 +1325,10 @@
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
             <td class="description last"></td>
         </tr>
@@ -1344,6 +1359,10 @@
                 </td>
             
 
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last"></td>
@@ -1377,6 +1396,12 @@
                 </td>
             
 
+            
+                <td class="default">
+                
+                    ''
+                
+                </td>
             
 
             <td class="description last"></td>
@@ -1420,7 +1445,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line322">line 322</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line302">line 302</a>
     </li></ul></dd>
     
 
@@ -1482,7 +1507,7 @@
 
 
 <div class="description">
-    Make the borowser download the given URL to the local filesystem.
+    <p>Make the borowser download the given URL to the local filesystem.</p>
 </div>
 
 
@@ -1601,7 +1626,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line308">line 308</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line288">line 288</a>
     </li></ul></dd>
     
 
@@ -1663,7 +1688,7 @@
 
 
 <div class="description">
-    Add some of above methods to `Element` class.
+    <p>Add some methods to <code>Element</code> class.</p>
 </div>
 
 
@@ -1707,7 +1732,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line338">line 338</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line507">line 507</a>
     </li></ul></dd>
     
 
@@ -1751,7 +1776,7 @@
 
 
 <div class="description">
-    Get nodes within the specified node.
+    <p>Get nodes within the specified node.</p>
 </div>
 
 
@@ -1829,7 +1854,7 @@
                 </td>
             
 
-            <td class="description last">fit nodes are included</td>
+            <td class="description last"><p>fit nodes are included</p></td>
         </tr>
 
     
@@ -1874,7 +1899,7 @@
                 </td>
             
 
-            <td class="description last">fit nodes are excluded</td>
+            <td class="description last"><p>fit nodes are excluded</p></td>
         </tr>
 
     
@@ -1916,7 +1941,7 @@
                 </td>
             
 
-            <td class="description last">root of the DOM tree to travere</td>
+            <td class="description last"><p>root of the DOM tree to travere</p></td>
         </tr>
 
     
@@ -1957,7 +1982,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line121">line 121</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -1986,7 +2011,7 @@
 
         
 <div class="param-desc">
-    nodes which fit `accept` but not within those fit `reject`
+    <p>nodes which fit <code>accept</code> but not within those fit <code>reject</code></p>
 </div>
 
 
@@ -2023,7 +2048,8 @@
 
 
 <div class="description">
-    Check wheather a mouse event happens inside an element, even its target is not the element. Could be assign to `Element.prototype`.
+    <p>Check wheather a mouse event happens inside an element, even its target is not the element.
+Could be assign to <code>Element.prototype</code>.</p>
 </div>
 
 
@@ -2171,7 +2197,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line291">line 291</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line271">line 271</a>
     </li></ul></dd>
     
 
@@ -2233,7 +2259,7 @@
 
 
 <div class="description">
-    Shortcut to `DOMParser.parseFromString` but returns the first element in `HTMLBodyElement` by default.
+    <p>Shortcut to <code>DOMParser.parseFromString</code> but returns the first element in <code>HTMLBodyElement</code> by default.</p>
 </div>
 
 
@@ -2340,7 +2366,9 @@
                 </td>
             
 
-            <td class="description last">If given but not a string or array of strings, the whole `HTMLDocument` is returned. Otherwise, the first element in the DOM tree matching `selectors` is returned; if no such elements, `null` is returned. Defaults to return the first element in `document.body`.</td>
+            <td class="description last"><p>If given but not a string or array of strings, the whole <code>HTMLDocument</code> is returned.
+Otherwise, the first element in the DOM tree matching <code>selectors</code> is returned; if no such elements, <code>null</code> is returned.
+Defaults to return the first element in <code>document.body</code>.</p></td>
         </tr>
 
     
@@ -2381,7 +2409,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line73">line 73</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line75">line 75</a>
     </li></ul></dd>
     
 
@@ -2410,7 +2438,12 @@
 
         
 <div class="param-desc">
-    node Incomplete HTML string may lead to unexpected result. Browsers may unexpectedly add essential tags such as `<html>`, `<head>`, and `<body>`, even given `html` string contains no such tags. It may also omit tags if the structure is not complete. For example, `<tr>` as the root node of the `html` string may cause browsers not creating elements but only the text nodes within them.
+    <p>Incomplete HTML string may lead to unexpected result.
+Browsers may unexpectedly add essential tags such as <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, and <code>&lt;body&gt;</code>,
+even given <code>html</code> string contains no such tags.</p>
+<p>It may also omit tags if the structure is not complete.
+For example, <code>&lt;tr&gt;</code> as the root node of the <code>html</code> string
+may cause browsers not creating elements but only the text nodes within them.</p>
 </div>
 
 
@@ -2454,6 +2487,672 @@
 
     <pre class="prettyprint"><code>/// returns null because `&lt;tr>` is not allowed to exist outsied `&lt;table>` and thus there is only a text node (which isn't an `Element`) in `&lt;body>`.
     parseHTML("&lt;tr>&lt;td>QQ&lt;/td>&lt;/tr>");</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~setAria"><span class="type-signature">(inner) </span>setAria<span class="signature">(s, attr, value<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {null|Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Set ARIA attribute of the first Element, if found any.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>s</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Element</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>CSS selector string, or an Element</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>attr</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>attribute name without <code>aria-</code> prefixed</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">null</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line361">line 361</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the first found Element, or null.</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">null</span>
+|
+
+<span class="param-type">Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~setAttributes"><span class="type-signature">(inner) </span>setAttributes<span class="signature">(s, attributes)</span><span class="type-signature"> &rarr; {null|Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Set attributes of an Element by an object as a map.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>s</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Element</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>CSS selector string, or an Element</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>attributes</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line492">line 492</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the first found Element, or null.</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">null</span>
+|
+
+<span class="param-type">Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~setText"><span class="type-signature">(inner) </span>setText<span class="signature">(s, text<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {null|Element}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Set <code>textContent</code> of the first Element, if found any. Useful if you are not sure about its existence.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>s</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">Element</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>CSS selector string, or an Element</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    ''
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line331">line 331</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>the first found Element, or null.</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">null</span>
+|
+
+<span class="param-type">Element</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
 
 
 

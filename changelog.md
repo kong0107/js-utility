@@ -1,5 +1,15 @@
 # ChangeLog of kong-util
 
+## 0.8.0 (250125)
+* Add `kongUtilString.kebabize()`
+  which converts a camelCase string into kebab-case style.
+* Add `kongUtilDom.setText()` and `Element::setText()`
+  which set `textContent` of the specified Element.
+* Add `kongUtilDom.setAria()` and `Element::setAria()`
+  which set ARIA attributes of the specified Element.
+* Add `kongUtilDom.setAttributes()` and `Element::set()`
+  which set attributes by an object as a map.
+
 ## 0.7.12 (240902)
 * Add `kongUtilAsync.waitUntilTrue()`
   which keeps calling specified function until it resolves to non-false value.

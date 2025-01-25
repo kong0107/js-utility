@@ -130,7 +130,7 @@
 
             
 
-            <td class="description last">base64 or data URL</td>
+            <td class="description last"><p>base64 or data URL</p></td>
         </tr>
 
     
@@ -163,7 +163,7 @@
 
             
 
-            <td class="description last">MIME type. Shall be omitted if `string` is a data URL.</td>
+            <td class="description last"><p>MIME type. Shall be omitted if <code>string</code> is a data URL.</p></td>
         </tr>
 
     
@@ -204,7 +204,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="string.mjs.html">string.mjs</a>, <a href="string.mjs.html#line199">line 199</a>
+        <a href="string.mjs.html">string.mjs</a>, <a href="string.mjs.html#line210">line 210</a>
     </li></ul></dd>
     
 
@@ -266,7 +266,7 @@
 
 
 <div class="description">
-    Convert kebab-case string into camelCase.
+    <p>Convert kebab-case string into camelCase.</p>
 </div>
 
 
@@ -421,7 +421,8 @@
 
 
 <div class="description">
-    This only compares dot-separated-integer strings. For more complicated cases, use `semver` or `compare-versions`.
+    <p>This only compares dot-separated-integer strings.
+For more complicated cases, use <code>semver</code> or <code>compare-versions</code>.</p>
 </div>
 
 
@@ -537,7 +538,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="string.mjs.html">string.mjs</a>, <a href="string.mjs.html#line106">line 106</a>
+        <a href="string.mjs.html">string.mjs</a>, <a href="string.mjs.html#line117">line 117</a>
     </li></ul></dd>
     
 
@@ -591,6 +592,168 @@
     
 
     
+    <h4 class="name" id="~kebabize"><span class="type-signature">(inner) </span>kebabize<span class="signature">(camel)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Convert camelCase string into kebab-case</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>camel</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="string.mjs.html">string.mjs</a>, <a href="string.mjs.html#line21">line 21</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://stackoverflow.com/a/67243723/1998874">https://stackoverflow.com/a/67243723/1998874</a> CC BY-SA 4.0</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="~parseChineseNumber"><span class="type-signature">(inner) </span>parseChineseNumber<span class="signature">(string, forceString<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {number|string|NaN}</span></h4>
     
 
@@ -599,7 +762,9 @@
 
 
 <div class="description">
-    Both traditional and simplified chinese numbers are supported. Not guaranteed to validate the string. Returns string if the number reaches `Number.MAX_SAFE_INTEGER` or `forceString` is given true.
+    <p>Both traditional and simplified chinese numbers are supported.
+Not guaranteed to validate the string.
+Returns string if the number reaches <code>Number.MAX_SAFE_INTEGER</code> or <code>forceString</code> is given true.</p>
 </div>
 
 
@@ -747,7 +912,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="string.mjs.html">string.mjs</a>, <a href="string.mjs.html#line22">line 22</a>
+        <a href="string.mjs.html">string.mjs</a>, <a href="string.mjs.html#line33">line 33</a>
     </li></ul></dd>
     
 
@@ -815,7 +980,7 @@
 
 
 <div class="description">
-    Parse valid MIME type `text/csv` string to array or object. Empty records are ignored.
+    <p>Parse valid MIME type <code>text/csv</code> string to array or object. Empty records are ignored.</p>
 </div>
 
 
@@ -922,7 +1087,7 @@
                 </td>
             
 
-            <td class="description last">If truthy, an array of objects with property names assigned by the first record is returned; if falsy, an array of arrays is returned.</td>
+            <td class="description last"><p>If truthy, an array of objects with property names assigned by the first record is returned; if falsy, an array of arrays is returned.</p></td>
         </tr>
 
     
@@ -963,7 +1128,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="string.mjs.html">string.mjs</a>, <a href="string.mjs.html#line155">line 155</a>
+        <a href="string.mjs.html">string.mjs</a>, <a href="string.mjs.html#line166">line 166</a>
     </li></ul></dd>
     
 
@@ -1034,7 +1199,7 @@
 
 
 <div class="description">
-    Convert an array of non-nested objects to a `text/csv` string with a header record.
+    <p>Convert an array of non-nested objects to a <code>text/csv</code> string with a header record.</p>
 </div>
 
 
@@ -1102,7 +1267,7 @@
                 </td>
             
 
-            <td class="description last">properties with keys not present in `fieldNames` would not be converted.</td>
+            <td class="description last"><p>properties with keys not present in <code>fieldNames</code> would not be converted.</p></td>
         </tr>
 
     
@@ -1137,7 +1302,7 @@
                 </td>
             
 
-            <td class="description last">Only fields listed here would be in the result.</td>
+            <td class="description last"><p>Only fields listed here would be in the result.</p></td>
         </tr>
 
     
@@ -1176,7 +1341,7 @@
                 </td>
             
 
-            <td class="description last">end of line, also appended to the returned string</td>
+            <td class="description last"><p>end of line, also appended to the returned string</p></td>
         </tr>
 
     
@@ -1217,7 +1382,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="string.mjs.html">string.mjs</a>, <a href="string.mjs.html#line128">line 128</a>
+        <a href="string.mjs.html">string.mjs</a>, <a href="string.mjs.html#line139">line 139</a>
     </li></ul></dd>
     
 

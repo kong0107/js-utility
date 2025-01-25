@@ -2,26 +2,27 @@
  * @module kongUtilDom
  */
 import utilDom from "./core.mjs";
-import {camelize} from "./string.mjs";
+import {camelize, kebabize} from "./string.mjs";
 
 export * from "./core.mjs";
 
 /**
  * @func $
- * @desc Shortcut to `querySelector`, but different if not giving a string.
- * @param {string | Array | Object} selectors - one or more CSS selector string
- * @param {Element | Document} [base = document] - if not an object having `querySelector` method, then it's ignored and `document` is used. This is useful if you wanna pass this function as the argument in `Array.map`.
- * @returns {null | Element | Array | Object} element
+ * @desc Shortcut to `querySelector`, but different if not given a string.
  *
- *  If `selectors` is a string, this function works exactly as `querySelector()`.
+ * @param {string | Array.<string> | Object | Element} s
+ *  - `string`: leads this function works exactly as `querySelector`. The result would be `Element | null`.
+ *  - `Array.<string>`: Each selector string in the array would be corresponding to the result `Array.<Element|null>`.
+ *  - `Object.<string|Object>`: Each property would be corresponding to the result object, recursively.
+ *  - `Element`: just returns itself.
  *
- *  If `selectors` is an array of strings, this returns
- *  an array with one element or null corresponding to each input selector.
+ * @param {Element | Document} [base = document]
+ *  If not having `querySelector` method, then `document` is used.
+ *  This is useful if you wanna pass this function as the argument in `Array.map`.
  *
- *  If `selectors` is an object, this returns
- *  an object with the same keys but values are the corresponding first found element.
- *
- *  Nested arrays and objects are supported by recursion.
+ * @returns {null | Element} if `s` is a string or Element
+ * @returns {Array.<null|Element>} if `s` is an Array
+ * @returns {Object.<null|Element|Object>} if `s` is an Object
  *
  * @example /// get the first button by a string
     $("button, [type=button], [type=submit]");
@@ -37,9 +38,10 @@ export * from "./core.mjs";
  *
  */
 export function $(s, b = document) {
-    if (!b?.querySelector) b = document;
+    if (! b?.querySelector) b = document;
+    if (s instanceof Element) return s;
     if (typeof s === "string") return b.querySelector(s);
-    else if (s instanceof Array) return s.map(ss => $(ss, b));
+    if (s instanceof Array) return s.map(ss => $(ss, b));
     const r = {};
     for (let name in s) r[name] = $(s[name], b);
     return r;
@@ -50,9 +52,9 @@ export function $(s, b = document) {
  * @func $$
  * @desc
  *  Shortcut to `querySelectorAll` but returns an array instead of `NodeList`.
- *  Different if not giving a string, like `$` differs from `querySelector`;
+ *  Different if not given a string, like `$` differs from `querySelector`;
  *  however, for selectors have no matches, empty array is returned instead of null.
- * @param {string | Array | Object} selectors - one or more CSS selector string
+ * @param {string | Array.<string> | Object} s - one or more CSS selector string
  * @param {Element | Document} [base = document] - if not an object having `querySelector` method, then it's ignored and `document` is used.
  * @returns {Array | Object}
  *
@@ -78,7 +80,7 @@ export function $$(s, b = document) {
  *  If given but not a string or array of strings, the whole `HTMLDocument` is returned.
  *  Otherwise, the first element in the DOM tree matching `selectors` is returned; if no such elements, `null` is returned.
  *  Defaults to return the first element in `document.body`.
- * @returns {HTMLDocument | Element | null} node
+ * @returns {HTMLDocument | Element | null}
  *
  *  Incomplete HTML string may lead to unexpected result.
  *  Browsers may unexpectedly add essential tags such as `<html>`, `<head>`, and `<body>`,
@@ -109,13 +111,13 @@ export function $$(s, b = document) {
     parseHTML("<tr><td>QQ</td></tr>");
  *
  */
-let parser;
 export function parseHTML(html, selectors = "body > *") {
     if (typeof DOMParser === "undefined") throw ReferenceError("DOMParser is not defined");
     if (! parser) parser = new DOMParser();
     const doc = parser.parseFromString(html, "text/html");
     return (typeof selectors === "string") ? $(selectors, doc) : doc;
 }
+let parser;
 
 
 /**
@@ -204,34 +206,9 @@ export function createElementFromJsonML(jsonml, namespace) {
     const ns = attributes.namespace ?? namespace;
     const elem = ns ? document.createElementNS(ns, tag) : document.createElement(tag);
 
-    for (let name in attributes) {
-        const value = attributes[name];
-        if (name.startsWith('on')) {
-            listen(elem, name.substring(2).toLowerCase(), value);
-            continue;
-        }
-        switch (name) {
-            case 'class':
-            case 'className': {
-                const cls = (typeof value === 'string') ? value.trim().split(/\s+/) : value;
-                if (cls[0]) elem.classList.add(...cls); // skip if empty string
-                break;
-            }
-            case 'css':
-            case 'style': {
-                if (typeof value === 'string') elem.style.cssText = value;
-                else for (let sp in value) elem.style[camelize(sp)] = value[sp];
-                break;
-            }
-            case 'data':
-            case 'dataset': {
-                for (let ds in value) elem.dataset[camelize(ds)] = value[ds];
-                break;
-            }
-            case 'namespace': break;
-            default: elem.setAttribute(name, value);
-        }
-    }
+    delete attributes.namespace;
+    setAttributesInElement(attributes, elem);
+
     elem.append(...children.map(c => createElementFromJsonML(c, ns)));
     return elem;
 }
@@ -241,9 +218,12 @@ export function createElementFromJsonML(jsonml, namespace) {
  * @func createElementFromTemplate
  * @desc Use `HTMLTemplateElement` to create an HTML element.
  * @see {@link https://developer.mozilla.org/zh-TW/docs/Web/HTML/Element/template }
- * @param {string} template - selector of the template
- * @param {Node} template - the node to be cloned
- * @param {HTMLTemplateElement} template - the template where the first element is to be cloned
+ *
+ * @param {string | Node | HTMLTemplateElement} template
+ *  - string: selector of the template element
+ *  - Node: the node to be cloned
+ *  - HTMLTemplateElement: the template where the first element is to be cloned
+ *
  * @returns {Node}
  */
 export function createElementFromTemplate(template) {
@@ -324,7 +304,7 @@ export function downloadURL(href, filename) {
  * @desc Download the given data.
  * @param {string | ArrayBuffer | TypedArray | DataView | Blob} data
  * @param {string} filename
- * @param {string} [mimeType]
+ * @param {string} [mimeType='']
  * @returns {string}
  */
 export function downloadData(data, filename, mimeType = '') {
@@ -336,15 +316,208 @@ export function downloadData(data, filename, mimeType = '') {
 
 
 /**
- * @func extendElementPrototype
- * @desc Add some of above methods to `Element` class.
+ * @private
+ * @func setTextInElement
+ * @desc Set `textContent` of the Element. Skip arguments to remove children.
+ * @param {string} [text='']
+ * @param {Element} [elem=this]
+ * @returns {undefined}
  */
-export const extendElementPrototype = () =>
-    Object.assign(Element.prototype, {
-        clear: clearElement,
-        hasEventIn: isEventInElement
-    })
-;
+function setTextInElement(text = '', elem = this) {
+    if (text) elem.textContent = text;
+    else elem.replaceChildren();
+}
+
+/**
+ * @func setText
+ * @desc Set `textContent` of the first Element, if found any. Useful if you are not sure about its existence.
+ * @param {string | Element} s CSS selector string, or an Element
+ * @param {string} [text='']
+ * @returns {null | Element} the first found Element, or null.
+ */
+export function setText(s, text) {
+    const elem = $(s);
+    if (elem === null) return null;
+    setTextInElement(text, elem);
+    return elem;
+}
+
+
+/**
+ * @private
+ * @func setAriaInElement
+ * @desc Set one of ARIA attribute
+ * @param {string} attr attribute name without `aria-` prefixed
+ * @param {string | null} [value=null]
+ * @param {Element} [elem=this]
+ * @returns {undefined}
+ */
+function setAriaInElement(attr, value = null, elem = this) {
+    if (attr != 'role' && ! attr.startsWith('aria-')) attr = `aria-${attr}`;
+    if (value === null) elem.removeAttribute(attr);
+    else elem.setAttribute(attr, value);
+}
+
+/**
+ * @func setAria
+ * @desc Set ARIA attribute of the first Element, if found any.
+ * @param {string | Element} s CSS selector string, or an Element
+ * @param {string} attr attribute name without `aria-` prefixed
+ * @param {string | null} [value=null]
+ * @returns {null | Element} the first found Element, or null.
+ */
+export function setAria(s, attr, value = null) {
+    const elem = $(s);
+    if (elem === null) return null;
+    setAriaInElement(attr, value, elem);
+    return elem;
+}
+
+
+/**
+ * @private
+ * @func setAttributesInElement
+ * @desc Set attributes of an Element by an object as a map.
+ * Attributes with namespace prefix are also supported.
+ * Attributes with null value in the first argument would be removed in the Element, except event listeners.
+ * Event listeners are added by "on*"" such as "onclick" (case-insensitive).
+ * CSS class could be assigned by string or {Array.<string>}.
+ * Inline style could be assigned by string or {Object.<string, string>}.
+ * Set `text` property of the first argument would assign the element's `textContent`, though it's not an attribute.
+ *
+ * @param {Object} attributes
+ * @param {Function} [attributes.onClick]
+ * @param {null | string | Array.<string>} [attributes.class]
+ * @param {null | string | Object.<string, (string|null)>} [attributes.style]
+ * @param {null | Object.<string, (string|null)>} [attributes.data]
+ * @param {null | Object.<string, (string|null)>} [attributes.aria]
+ * @param {Element} [elem=this]
+ * @returns {undefined}
+ */
+function setAttributesInElement(attributes, elem = this) {
+    const nameSpaces = {};
+    for (let name in attributes) {
+        if (name.startsWith('xmlns:')) {
+            nameSpaces[name.slice(6)] = attributes[name];
+            elem.setAttribute(name, attributes[name]);
+        }
+    }
+
+    for (let name in attributes) {
+        if (name.startsWith('xmlns:')) continue;
+        const value = attributes[name];
+
+        const pos = name.indexOf(':');
+        if (pos === -1) {
+            if (name.startsWith('on')) {
+                listen(elem, name.substring(2).toLowerCase(), value);
+                continue;
+            }
+            switch (name) {
+                case 'class': // for class name: either null, empty array, empty string leads to no class attribute.
+                case 'classname':
+                case 'className': {
+                    if (value?.length) {// this handles either null, array, string
+                        elem.setAttribute('class',
+                            (typeof value === 'string') ? value : value.join(' ')
+                        );
+                    }
+                    else elem.removeAttribute('class');
+                    break;
+                }
+                case 'css': // for style: null, string, and Object.<string, (string|null)> are acceptable.
+                case 'style': {
+                    if (! value) elem.removeAttribute('style');
+                    else if (typeof value === 'string') elem.style.cssText = value;
+                    else for (let sp in value) {
+                        /**
+                         * Empty value is different from property without setting.
+                         * So we might use `removeProperty()`, which uses kekbab-case.
+                         */
+                        const s = elem.style;
+                        const prop = kebabize(sp);
+                        if (value[sp] === null) s.removeProperty(prop);
+                        else if (value[sp].endsWith('!important'))
+                            s.setProperty(prop, value[sp].slice(0, -10).trim(), 'important');
+                        else s.setProperty(prop, value[sp]);
+                    }
+                    break;
+                }
+                case 'data': // for dataset: null and Object.<string, (string|null)> are acceptable.
+                case 'dataset': {
+                    const d = elem.dataset;
+                    if (value === null) // this delete the whole dataset
+                        for (let key in d) delete d[key];
+                    else for (let ds in value) {
+                        const key = camelize(ds);
+                        if (value[ds] === null) delete d[key];
+                        else d[key] = value[ds];
+                    }
+                    break;
+                }
+                case 'aria': {
+                    if (value === null) { // this delete all ARIA related attributes.
+                        [...elem.attributes].forEach(a => {
+                            if (a === 'role' || a.startsWith('aria')) elem.removeAttribute(a);
+                        });
+                    }
+                    else for (let aa in value) {
+                        const name = (aa === 'role') ? 'role' : `aria-${aa.toLowerCase()}`;
+                        if (value[aa] === null) elem.removeAttribute(name);
+                        else elem.setAttribute(name, value[aa]);
+                    }
+                    break;
+                }
+                case 'text': {
+                    setTextInElement(value, elem);
+                    break;
+                }
+                // case 'namespace': break; // shall has been deleted within createElementFromJsonML
+                default: {
+                    if (value === null) elem.removeAttribute(name);
+                    else elem.setAttribute(name, value);
+                }
+            }
+        }
+        else {
+            const prefix = name.slice(0, pos);
+            const ns = nameSpaces[prefix] ?? null;
+            if (value === null) elem.removeAttributeNS(ns, name);
+            else elem.setAttributeNS(ns, name, value);
+        }
+    }
+}
+
+
+/**
+ * @func setAttributes
+ * @desc Set attributes of an Element by an object as a map.
+ * @param {string | Element} s CSS selector string, or an Element
+ * @param {Object} attributes
+ * @returns {null | Element} the first found Element, or null.
+ */
+export function setAttributes(s, attributes) {
+    const elem = $(s);
+    if (elem === null) return null;
+    setAttributesInElement(attributes, elem);
+    return elem;
+}
+
+
+/**
+ * @func extendElementPrototype
+ * @desc Add some methods to `Element` class.
+ */
+export const extendElementPrototype = () => {
+    const p = Element.prototype;
+    Object.assign(p, {
+        clear: p.replaceChildren,
+        hasEventIn: isEventInElement,
+        setText: setTextInElement,
+        setAria: setAriaInElement,
+        set: setAttributesInElement
+    });
+};
 
 
 Object.assign(utilDom, {
@@ -355,6 +528,9 @@ Object.assign(utilDom, {
     clearElement,
     isEventInElement,
     downloadURL, downloadData,
+    setText,
+    setAria,
+    setAttributes,
     extendElementPrototype
 });
 
