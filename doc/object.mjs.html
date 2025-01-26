@@ -50,12 +50,46 @@ export function emulateArray(method, callback, target = this) {
     return keys[method](key => callback(target[key], key, target));
 }
 
+
+/**
+ * @func objectMap
+ * @param {Function} callback
+ * @param {Object} [target=this]
+ * @returns {Object.&lt;*>}
+ */
+export function objectMap(callback, target = this) {
+    const r = {};
+    Object.keys(target).forEach(key => {
+        r[key] = callback(target[key], key, target);
+    });
+    return r;
+}
+
+/**
+ * @func objectMapAsync
+ * @param {Function} callback
+ * @param {Object} [target=this]
+ * @param {boolean} [skipReturn=false]
+ * @returns {Promise.&lt;Object|undefined>}
+ */
+export async function objectMapAsync(callback, target = this, skipReturn = false) {
+    const results = {};
+    const keys = Object.keys(target);
+    for (let i = 0; i &lt; keys.length; ++i) {
+        const key = keys[i];
+        const r = await callback(target[key], key, target);
+        if (! skipReturn) results[key] = r;
+    }
+    if (! skipReturn) return results;
+}
+
+
 /**
  * @func objectReduce
  * @desc Emulate `Array.prototype.reduce`.
  * @param {Function} callback
  * @param {*} initial
- * @param {Object} target
+ * @param {Object} [target=this]
  * @returns {*} depends on `callback`
  */
 export function objectReduce(callback, initial, target = this) {
@@ -66,25 +100,30 @@ export function objectReduce(callback, initial, target = this) {
     );
 }
 
+
 /**
- * @func objectReduce
+ * @func objectReduceAsync
  * @desc Emulate `Array.prototype.reduce` in async way.
  * @param {Function} callback
  * @param {*} initial
- * @param {Object} target
+ * @param {Object} [target=this]
  * @returns {*} depends on `callback`
  */
 export async function objectReduceAsync(callback, initial, target = this) {
+    let acc = await initial;
     const keys = Object.keys(target);
-    return keys.reduce(
-        async(acc, key) => await callback(acc, target[key], key, target),
-        initial
-    );
+    for (let i = 0; i &lt; keys.length; ++i) {
+        const key = keys[i];
+        acc = await callback(acc, target[key], key, target);
+    }
+    return acc;
 }
 
 
 Object.assign(utilObject, {
-    emulateArray, objectReduce, objectReduceAsync
+    emulateArray,
+    objectMap, objectMapAsync,
+    objectReduce, objectReduceAsync
 });
 
 export default utilObject;

@@ -1,5 +1,14 @@
 # ChangeLog of kong-util
 
+## 0.8.1 (250126)
+* Update `README.md`
+* Add `kongObject.objectMap()` and `kongObject.objectMapAsync()`
+  which call functions to each properties in an object.
+* Fix `kongObject.objectReduceAsync()`
+  which did not wait for callback's resolution.
+* Fix `findIndexAsync`, `findLastIndexAsync`, `someAsync` in `kongArray`
+  which did not work in extended way.
+
 ## 0.8.0 (250125)
 * Add `kongUtilString.kebabize()`
   which converts a camelCase string into kebab-case style.
@@ -20,7 +29,7 @@
 
 ## 0.7.9 (231003)
 * Update `kongUtilDom.createElementFromTemplate()`
-  whiche now clones only the first element for `<template>`.
+  whiche now clones only the first element for `<template>` input.
 
 ## 0.7.8 (231003)
 * Add `kongUtilArray.shuffle()`

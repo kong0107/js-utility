@@ -161,7 +161,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
 
     
-    <h4 class="name" id="~everyAsync"><span class="type-signature">(inner) </span>everyAsync<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;boolean>}</span></h4>
+    <h4 class="name" id="~everyAsync"><span class="type-signature">(inner) </span>everyAsync<span class="signature">(callback, target<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;boolean>}</span></h4>
     
 
     
@@ -174,6 +174,110 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    this
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -209,7 +313,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line44">line 44</a>
+        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -315,7 +419,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line174">line 174</a>
+        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line204">line 204</a>
     </li></ul></dd>
     
 
@@ -351,7 +455,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
 
     
-    <h4 class="name" id="~filterAsync"><span class="type-signature">(inner) </span>filterAsync<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;Array>}</span></h4>
+    <h4 class="name" id="~filterAsync"><span class="type-signature">(inner) </span>filterAsync<span class="signature">(callback, target<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;Array>}</span></h4>
     
 
     
@@ -364,6 +468,110 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    this
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -399,7 +607,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line52">line 52</a>
+        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line55">line 55</a>
     </li></ul></dd>
     
 
@@ -453,7 +661,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
 
     
-    <h4 class="name" id="~findAsync"><span class="type-signature">(inner) </span>findAsync<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;*>}</span></h4>
+    <h4 class="name" id="~findAsync"><span class="type-signature">(inner) </span>findAsync<span class="signature">(callback, target<span class="signature-attributes">opt</span>, returnIndex<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;*>}</span></h4>
     
 
     
@@ -466,6 +674,149 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    this
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>returnIndex</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -501,7 +852,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line64">line 64</a>
+        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -555,7 +906,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
 
     
-    <h4 class="name" id="~findIndexAsync"><span class="type-signature">(inner) </span>findIndexAsync<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;integer>}</span></h4>
+    <h4 class="name" id="~findIndexAsync"><span class="type-signature">(inner) </span>findIndexAsync<span class="signature">(callback, target<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;integer>}</span></h4>
     
 
     
@@ -570,106 +921,108 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
 
 
 
-
-
-
-
-<dl class="details">
-
+    <h5>Parameters:</h5>
     
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line75">line 75</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
         
 
+        <th>Type</th>
 
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
         
-<span class="param-type">Promise.&lt;integer></span>
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
+        
 
-    </dd>
-</dl>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
 
+    <tbody>
     
 
-
-
-
-
-        
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
             
 
-    
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
 
     
-    <h4 class="name" id="~findLastAsync"><span class="type-signature">(inner) </span>findLastAsync<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;*>}</span></h4>
-    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    this
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
 
     
-
-
-
-
-
-
-
-
-
+    </tbody>
+</table>
 
 
 
@@ -741,7 +1094,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;*></span>
+<span class="param-type">Promise.&lt;integer></span>
 
 
     </dd>
@@ -759,7 +1112,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
 
     
-    <h4 class="name" id="~findLastIndexAsync"><span class="type-signature">(inner) </span>findLastIndexAsync<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;integer>}</span></h4>
+    <h4 class="name" id="~findLastAsync"><span class="type-signature">(inner) </span>findLastAsync<span class="signature">(callback, target<span class="signature-attributes">opt</span>, returnIndex<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;*>}</span></h4>
     
 
     
@@ -772,6 +1125,149 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    this
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>returnIndex</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -807,7 +1303,213 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line94">line 94</a>
+        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line93">line 93</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;*></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~findLastIndexAsync"><span class="type-signature">(inner) </span>findLastIndexAsync<span class="signature">(callback, target<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;integer>}</span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    this
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line107">line 107</a>
     </li></ul></dd>
     
 
@@ -861,7 +1563,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
 
     
-    <h4 class="name" id="~forEachAsync"><span class="type-signature">(inner) </span>forEachAsync<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;undefined>}</span></h4>
+    <h4 class="name" id="~forEachAsync"><span class="type-signature">(inner) </span>forEachAsync<span class="signature">(callback, target<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;undefined>}</span></h4>
     
 
     
@@ -874,6 +1576,110 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    this
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -909,7 +1715,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line102">line 102</a>
+        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line117">line 117</a>
     </li></ul></dd>
     
 
@@ -963,7 +1769,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
 
     
-    <h4 class="name" id="~mapAsync"><span class="type-signature">(inner) </span>mapAsync<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;Array>}</span></h4>
+    <h4 class="name" id="~mapAsync"><span class="type-signature">(inner) </span>mapAsync<span class="signature">(callback, target<span class="signature-attributes">opt</span>, skipReturn<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;Array>}</span></h4>
     
 
     
@@ -976,6 +1782,149 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    this
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>skipReturn</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1011,7 +1960,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line110">line 110</a>
+        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line127">line 127</a>
     </li></ul></dd>
     
 
@@ -1065,7 +2014,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
 
     
-    <h4 class="name" id="~mapToObject"><span class="type-signature">(inner) </span>mapToObject<span class="signature">(callback, target)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="~mapToObject"><span class="type-signature">(inner) </span>mapToObject<span class="signature">(callback, target<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -1093,7 +2042,11 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -1118,7 +2071,19 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last"></td>
@@ -1141,7 +2106,23 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    this
+                
+                </td>
             
 
             <td class="description last"></td>
@@ -1185,7 +2166,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line160">line 160</a>
+        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line190">line 190</a>
     </li></ul></dd>
     
 
@@ -1243,7 +2224,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
 
     
-    <h4 class="name" id="~reduceAsync"><span class="type-signature">(inner) </span>reduceAsync<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;*>}</span></h4>
+    <h4 class="name" id="~reduceAsync"><span class="type-signature">(inner) </span>reduceAsync<span class="signature">(callback, initial, target<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;*>}</span></h4>
     
 
     
@@ -1256,6 +2237,145 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>initial</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    this
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1291,7 +2411,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line123">line 123</a>
+        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line143">line 143</a>
     </li></ul></dd>
     
 
@@ -1345,7 +2465,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
 
     
-    <h4 class="name" id="~reduceRightAsync"><span class="type-signature">(inner) </span>reduceRightAsync<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;*>}</span></h4>
+    <h4 class="name" id="~reduceRightAsync"><span class="type-signature">(inner) </span>reduceRightAsync<span class="signature">(callback, initial, target<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;*>}</span></h4>
     
 
     
@@ -1358,6 +2478,145 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>initial</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    this
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1393,7 +2652,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line139">line 139</a>
+        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line162">line 162</a>
     </li></ul></dd>
     
 
@@ -1447,7 +2706,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
 
     
-    <h4 class="name" id="~shuffle"><span class="type-signature">(inner) </span>shuffle<span class="signature">()</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    <h4 class="name" id="~shuffle"><span class="type-signature">(inner) </span>shuffle<span class="signature">(target<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array}</span></h4>
     
 
     
@@ -1464,6 +2723,75 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    this
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1560,7 +2888,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
 
     
-    <h4 class="name" id="~someAsync"><span class="type-signature">(inner) </span>someAsync<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~someAsync"><span class="type-signature">(inner) </span>someAsync<span class="signature">(callback, target<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -1573,6 +2901,110 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    this
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1608,7 +3040,7 @@ consider static methods of <code>Promise</code>, such as <code>all</code>, <code
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line155">line 155</a>
+        <a href="array.mjs.html">array.mjs</a>, <a href="array.mjs.html#line181">line 181</a>
     </li></ul></dd>
     
 

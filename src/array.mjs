@@ -30,6 +30,7 @@ export * from "./core.mjs";
 /**
  * @func shuffle
  * @desc randomize the order of the array in place
+ * @param {Array} [target=this]
  * @see {@link https://shubo.io/javascript-random-shuffle/ }
  * @returns {Array}
  */
@@ -43,6 +44,8 @@ export function shuffle(target = this) {
 
 /**
  * @func everyAsync
+ * @param {Function} callback
+ * @param {Array} [target=this]
  * @returns {Promise.<boolean>}
  */
 export async function everyAsync(callback, target = this) {
@@ -51,6 +54,8 @@ export async function everyAsync(callback, target = this) {
 
 /**
  * @func filterAsync
+ * @param {Function} callback
+ * @param {Array} [target=this]
  * @returns {Promise.<Array>}
  */
 export async function filterAsync(callback, target = this) {
@@ -63,9 +68,12 @@ export async function filterAsync(callback, target = this) {
 
 /**
  * @func findAsync
+ * @param {Function} callback
+ * @param {Array} [target=this]
+ * @param {boolean} [returnIndex=false]
  * @returns {Promise.<*>}
  */
-export async function findAsync(callback, target = this, returnIndex) {
+export async function findAsync(callback, target = this, returnIndex = false) {
     for (let i = 0; i < target.length; ++i)
         if (await callback(target[i], i, target))
             return returnIndex ? i : target[i];
@@ -74,17 +82,22 @@ export async function findAsync(callback, target = this, returnIndex) {
 
 /**
  * @func findIndexAsync
+ * @param {Function} callback
+ * @param {Array} [target=this]
  * @returns {Promise.<integer>}
  */
-export function findIndexAsync(cb, t) {
-    return findAsync(cb, t, true);
+export function findIndexAsync(callback, target = this) {
+    return findAsync(callback, target, true);
 }
 
 /**
  * @func findLastAsync
+ * @param {Function} callback
+ * @param {Array} [target=this]
+ * @param {boolean} [returnIndex=false]
  * @returns {Promise.<*>}
  */
-export async function findLastAsync(callback, target = this, returnIndex) {
+export async function findLastAsync(callback, target = this, returnIndex = false) {
     for (let i = target.length - 1; i >= 0; --i)
         if (await callback(target[i], i, target))
             return returnIndex ? i : target[i];
@@ -93,14 +106,18 @@ export async function findLastAsync(callback, target = this, returnIndex) {
 
 /**
  * @func findLastIndexAsync
+ * @param {Function} callback
+ * @param {Array} [target=this]
  * @returns {Promise.<integer>}
  */
-export function findLastIndexAsync(cb, t) {
-    return findLastAsync(cb, t, true);
+export function findLastIndexAsync(callback, target = this) {
+    return findLastAsync(callback, target, true);
 }
 
 /**
  * @func forEachAsync
+ * @param {Function} callback
+ * @param {Array} [target=this]
  * @returns {Promise.<undefined>}
  */
 export async function forEachAsync(callback, target = this) {
@@ -109,9 +126,12 @@ export async function forEachAsync(callback, target = this) {
 
 /**
  * @func mapAsync
+ * @param {Function} callback
+ * @param {Array} [target=this]
+ * @param {boolean} [skipReturn=false]
  * @returns {Promise.<Array>}
  */
-export async function mapAsync(callback, target = this, skipReturn) {
+export async function mapAsync(callback, target = this, skipReturn = false) {
     const results = skipReturn ? undefined : [];
     for (let i = 0; i < target.length; ++i) {
         const r = await callback(target[i], i, target);
@@ -122,6 +142,9 @@ export async function mapAsync(callback, target = this, skipReturn) {
 
 /**
  * @func reduceAsync
+ * @param {Function} callback
+ * @param {*} initial
+ * @param {Array} [target=this]
  * @returns {Promise.<*>}
  */
 export async function reduceAsync(callback, initial, target = this) {
@@ -138,6 +161,9 @@ export async function reduceAsync(callback, initial, target = this) {
 
 /**
  * @func reduceRightAsync
+ * @param {Function} callback
+ * @param {*} initial
+ * @param {Array} [target=this]
  * @returns {Promise.<*>}
  */
 export async function reduceRightAsync(callback, initial, target = this) {
@@ -152,15 +178,19 @@ export async function reduceRightAsync(callback, initial, target = this) {
     return acc;
 }
 
-/** @func someAsync */
-export function someAsync(cb, t) {
-    return findIndexAsync(cb, t).then(r => r !== -1);
+/**
+ * @func someAsync
+ * @param {Function} callback
+ * @param {Array} [target=this]
+ */
+export async function someAsync(callback, target = this) {
+    return findIndexAsync(callback, target).then(r => r !== -1);
 }
 
 /**
  * @func mapToObject
  * @param {Function} callback
- * @param {Array} target
+ * @param {Array} [target=this]
  * @returns {Object} keys are the values of the array; values are what callback returns on each element.
  */
 export function mapToObject(callback, target = this) {
