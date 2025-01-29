@@ -1,5 +1,11 @@
 # ChangeLog of kong-util
 
+## 0.8.3 (250130)
+* Add `kongWeb.fetchEx()`
+  which is made from `fetchSrict()` but resolves even in HTTP error.
+  `body` of the request could be an `HTMLFormElement`.
+  This affects `fetchStrict()`.
+
 ## 0.8.2 (250129)
 * Update `kongWeb.fetchStrict()`
   which now supports a normal object to be request's `body`,

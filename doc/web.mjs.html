@@ -36,29 +36,31 @@ import {parseHTML} from "./dom.mjs";
 export * from "./core.mjs";
 
 /**
- * @func fetchStrict
- * @desc Similar to `fetch()` but
- *  1. rejects if HTTP error (e.g "404 not found").
- *  2. if `body` is a normal object (such as those created by `{}`), convert it into `URLSearchParams`.
- *  3. if `method` is set to 'GET' explicitly,
- *     and `body` is `URLSearchParams` or a normal object,
- *     convert the request into an URL with search param.
+ * @func fetchEx
+ * @desc Similar to `fetch()` but works different if `body` exists.
+ *  1. if `body` is a normal object (such as those created by `{}`), construct a `URLSearchParams` from it.
+ *  2. if `body` is an `HTMLFormElement`, construct a `FormData` from it.
+ *  3. if `body` is a normal object or a `URLSearchParams`,
+ *     and `method` is set to 'GET' explicitly,
+ *     convert the request into a URL with search param without,
+ *     and then make the request without body.
  *  4. if `body` exists without setting `method`, warn and request with POST method.
  * @param {string | URL | Request} resource
- * @param {Object} options
- * @returns {Promise.&lt;Response>}
+ * @param {RequestInit} [options]
  */
-export async function fetchStrict(resource, options) {
+export async function fetchEx(resource, options) {
     let body = resource.body || options?.body;
     if (body) {
-        if (body.constructor === Object) {
-            body = new URLSearchParams(body);
+        let newBody;
+        if (body.constructor === HTMLFormElement) newBody = new FormData(body);
+        else if (body.constructor === Object) newBody = new URLSearchParams(body);
+        if (newBody) {
+            body = newBody;
             if (resource.body) resource = new Request(resource, {body});
-            if (options.body) options.body = body;
+            if (options?.body) options.body = body;
         }
 
-        const method = resource.method || options?.method;
-        switch (method) {
+        switch (resource.method || options?.method) {
             case 'GET': {
                 if (body instanceof URLSearchParams) {
                     let url = resource.url ?? (resource + '');
@@ -75,7 +77,6 @@ export async function fetchStrict(resource, options) {
                         }
                         url = new URL(url);
                     }
-                    // const url = new URL(resource.url ?? (resource + ''));
                     for (const [key, value] of body.entries())
                         url.searchParams.set(key, value);
                     resource = resource.url ? (new Request(resource, {url, body: undefined})) : url;
@@ -87,26 +88,33 @@ export async function fetchStrict(resource, options) {
             case 'PUT': {
                 break;
             }
-            default: {
-                console.warn(
-                    'While using `fetch()` with `body`, `method` shall be set to "POST" or "PUT".'
-                    + ` You've wrongly set it to "${method}".`
-                );
+            case '': {
+                console.warn('While using `fetch()` with `body`, `method` shall be set to "POST" or "PUT".');
                 if (resource.url) resource = new Request(resource, {method: 'POST'});
                 if (typeof options === 'object') options.method = 'POST';
             }
+            default: {}
         }
     }
+    return await fetch(resource, options);
+}
 
-    const response = await fetch(resource, options);
+/**
+ * @func fetchStrict
+ * @desc Similar to `fetchEx()` but rejects if HTTP error (e.g "404 not found").
+ * @param {any[]} args - same as `fetchEx()`
+ * @returns {Promise.&lt;Response>}
+ */
+export async function fetchStrict(...args) {
+    const response = await fetchEx(...args);
     if (response.ok) return response;
     throw new ReferenceError(response.statusText);
 }
 
 /**
  * @func fetchJSON
- * @desc Download an JSON file and deserialize it.
- * @param {...any} args - same as `fetch()`
+ * @desc Download a JSON file and deserialize it.
+ * @param {...any} args - same as `fetchEx()`
  * @returns {Promise.&lt;Object>}
  */
 export function fetchJSON(...args) {
@@ -115,8 +123,8 @@ export function fetchJSON(...args) {
 
 /**
  * @func fetchText
- * @desc Download an plain text file and read it.
- * @param {...any} args - same as `fetch()`
+ * @desc Download a plain text file and read it.
+ * @param {...any} args - same as `fetchEx()`
  * @returns {Promise.&lt;string>}
  */
 export function fetchText(...args) {
@@ -126,7 +134,7 @@ export function fetchText(...args) {
 /**
  * @func fetchDOM
  * @desc Download an HTML file and parse it to `HTMLDocument`
- * @param {...any} args - same as `fetch()`
+ * @param {...any} args - same as `fetchEx()`
  * @returns {Promise.&lt;HTMLDocument>}
  */
 export function fetchDOM(...args) {
@@ -136,7 +144,7 @@ export function fetchDOM(...args) {
 /**
  * @func fetchCSV
  * @desc Download a CSV file and parse it to an array of objects
- * @param {...any} args - same as `fetch()`
+ * @param {...any} args - same as `fetchEx()`
  * @returns {Promise.&lt;Object>}
  */
 export function fetchCSV(...args) {
@@ -168,19 +176,18 @@ export function readFile(blob, type) {
  */
 export function createFormData(object) {
     const fd = new FormData();
-
     if (object instanceof URLSearchParams) {
         for (const [key, value] of object.entries())
             fd.append(key, value);
     }
     else for (const key in object) fd.append(key, object[key]);
-
     return fd;
 }
 
 
 Object.assign(utilWeb, {
-    fetchStrict, fetchJSON, fetchText, fetchDOM, fetchCSV,
+    fetchEx, fetchStrict,
+    fetchJSON, fetchText, fetchDOM, fetchCSV,
     readFile, createFormData
 });
 

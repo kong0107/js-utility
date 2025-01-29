@@ -168,7 +168,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line135">line 135</a>
+        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line143">line 143</a>
     </li></ul></dd>
     
 
@@ -286,7 +286,7 @@
 
             
 
-            <td class="description last"><p>same as <code>fetch()</code></p></td>
+            <td class="description last"><p>same as <code>fetchEx()</code></p></td>
         </tr>
 
     
@@ -327,7 +327,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line108">line 108</a>
+        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line116">line 116</a>
     </li></ul></dd>
     
 
@@ -453,7 +453,7 @@
 
             
 
-            <td class="description last"><p>same as <code>fetch()</code></p></td>
+            <td class="description last"><p>same as <code>fetchEx()</code></p></td>
         </tr>
 
     
@@ -494,7 +494,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line98">line 98</a>
+        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line106">line 106</a>
     </li></ul></dd>
     
 
@@ -548,7 +548,7 @@
     
 
     
-    <h4 class="name" id="~fetchJSON"><span class="type-signature">(inner) </span>fetchJSON<span class="signature">(&hellip;args)</span><span class="type-signature"> &rarr; {Promise.&lt;Object>}</span></h4>
+    <h4 class="name" id="~fetchEx"><span class="type-signature">(inner) </span>fetchEx<span class="signature">(resource, options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -556,7 +556,16 @@
 
 
 <div class="description">
-    <p>Download an JSON file and deserialize it.</p>
+    <p>Similar to <code>fetch()</code> but works different if <code>body</code> exists.</p>
+<ol>
+<li>if <code>body</code> is a normal object (such as those created by <code>{}</code>), construct a <code>URLSearchParams</code> from it.</li>
+<li>if <code>body</code> is an <code>HTMLFormElement</code>, construct a <code>FormData</code> from it.</li>
+<li>if <code>body</code> is a normal object or a <code>URLSearchParams</code>,
+and <code>method</code> is set to 'GET' explicitly,
+convert the request into a URL with search param without,
+and then make the request without body.</li>
+<li>if <code>body</code> exists without setting <code>method</code>, warn and request with POST method.</li>
+</ol>
 </div>
 
 
@@ -594,179 +603,6 @@
 
         <tr>
             
-                <td class="name"><code>args</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">any</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                    &lt;repeatable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>same as <code>fetch()</code></p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line78">line 78</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;Object></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~fetchStrict"><span class="type-signature">(inner) </span>fetchStrict<span class="signature">(resource, options)</span><span class="type-signature"> &rarr; {Promise.&lt;Response>}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Similar to <code>fetch()</code> but</p>
-<ol>
-<li>rejects if HTTP error (e.g &quot;404 not found&quot;).</li>
-<li>if <code>body</code> is a normal object (such as those created by <code>{}</code>), convert it into <code>URLSearchParams</code>.</li>
-<li>if <code>method</code> is set to 'GET' explicitly,
-and <code>body</code> is <code>URLSearchParams</code> or a normal object,
-convert the request into an URL with search param.</li>
-<li>if <code>body</code> exists without setting <code>method</code>, warn and request with POST method.</li>
-</ol>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
                 <td class="name"><code>resource</code></td>
             
 
@@ -786,6 +622,14 @@ convert the request into an URL with search param.</li>
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
@@ -802,12 +646,22 @@ convert the request into an URL with search param.</li>
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">RequestInit</span>
 
 
             
             </td>
 
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -878,24 +732,6 @@ convert the request into an URL with search param.</li>
 
 
 
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;Response></span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
@@ -907,7 +743,7 @@ convert the request into an URL with search param.</li>
     
 
     
-    <h4 class="name" id="~fetchText"><span class="type-signature">(inner) </span>fetchText<span class="signature">(&hellip;args)</span><span class="type-signature"> &rarr; {Promise.&lt;string>}</span></h4>
+    <h4 class="name" id="~fetchJSON"><span class="type-signature">(inner) </span>fetchJSON<span class="signature">(&hellip;args)</span><span class="type-signature"> &rarr; {Promise.&lt;Object>}</span></h4>
     
 
     
@@ -915,7 +751,7 @@ convert the request into an URL with search param.</li>
 
 
 <div class="description">
-    <p>Download an plain text file and read it.</p>
+    <p>Download a JSON file and deserialize it.</p>
 </div>
 
 
@@ -979,7 +815,7 @@ convert the request into an URL with search param.</li>
 
             
 
-            <td class="description last"><p>same as <code>fetch()</code></p></td>
+            <td class="description last"><p>same as <code>fetchEx()</code></p></td>
         </tr>
 
     
@@ -1020,7 +856,329 @@ convert the request into an URL with search param.</li>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line88">line 88</a>
+        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line86">line 86</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;Object></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~fetchStrict"><span class="type-signature">(inner) </span>fetchStrict<span class="signature">(args)</span><span class="type-signature"> &rarr; {Promise.&lt;Response>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Similar to <code>fetchEx()</code> but rejects if HTTP error (e.g &quot;404 not found&quot;).</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>args</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;any></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>same as <code>fetchEx()</code></p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line74">line 74</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;Response></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~fetchText"><span class="type-signature">(inner) </span>fetchText<span class="signature">(&hellip;args)</span><span class="type-signature"> &rarr; {Promise.&lt;string>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Download a plain text file and read it.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>args</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">any</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                    &lt;repeatable><br>
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>same as <code>fetchEx()</code></p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line96">line 96</a>
     </li></ul></dd>
     
 
@@ -1198,7 +1356,7 @@ convert the request into an URL with search param.</li>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line118">line 118</a>
+        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line126">line 126</a>
     </li></ul></dd>
     
 
