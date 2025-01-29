@@ -10,7 +10,7 @@ export * from "./core.mjs";
  * @desc Shortcut to `EventTarget.addEventListner`.
  * @param {EventTarget | string} target - target itself, or a CSS selector which matches an Element
  * @param  {...any} args - arguments for `addEventListener`
- * @returns {void}
+ * @returns {undefined}
  */
 export function listen(target, ...args) {
     if (typeof target === 'string') target = document.querySelector(target);
@@ -22,7 +22,7 @@ export function listen(target, ...args) {
  * @desc Shortcut to `EventTarget.removeEventListener`
  * @param {EventTarget | string} target
  * @param  {...any} args - arguments for `removeEventListener`
- * @returns {void}
+ * @returns {undefined}
  */
 export function unlisten(target, ...args) {
     if (typeof target === 'string') target = document.querySelector(target);
@@ -31,14 +31,15 @@ export function unlisten(target, ...args) {
 
 
 /**
- * @func listens
+ * @func listenMulti
  * @desc Add multi listener to multi events on multi targets
  * @param {string | NodeList | Array.<EventTarget> } targets
  * @param {string | Array.<string>} eventTypes
  * @param {Function | Array.<Function>} listeners
  * @param {boolean | Object} [options]
+ * @returns {undefined}
  */
-export function listens(targets, eventTypes, listeners, options) {
+export function listenMulti(targets, eventTypes, listeners, options) {
     if (typeof targets === 'string') targets = document.querySelectorAll(targets);
     if (typeof eventTypes === 'string') eventTypes = eventTypes.split(',').map(s => s.trim());
     if (typeof listeners === 'function') listeners = [listeners];
@@ -51,16 +52,26 @@ export function listens(targets, eventTypes, listeners, options) {
     });
 }
 
+/**
+ * @deprecated
+ * @func listens
+ */
+export function listens() {
+    console.warn('`listens()` is deprecated due to its name is too similar to `listen()`. Please change to `listenMulti()`, which has the same behavior.');
+    listenMulti(...arguments);
+}
+
 
 /**
- * @func unlistens
+ * @func unlistenMulti
  * @desc Remove multi listener to multi events on multi targets
  * @param {string | NodeList | Array.<EventTarget> } targets
  * @param {string | Array.<string>} eventTypes
  * @param {Function | Array.<Function>} listener
  * @param {boolean | Object} [options]
+ * @returns {undefined}
  */
-export function unlistens(targets, eventTypes, listeners, options) {
+export function unlistenMulti(targets, eventTypes, listeners, options) {
     if (typeof targets === 'string') targets = document.querySelectorAll(targets);
     if (typeof eventTypes === 'string') eventTypes = eventTypes.split(',').map(s => s.trim());
     if (typeof listeners === 'function') listeners = [listeners];
@@ -71,6 +82,15 @@ export function unlistens(targets, eventTypes, listeners, options) {
             });
         });
     });
+}
+
+/**
+ * @deprecated
+ * @func listens
+ */
+export function unlistens() {
+    console.warn('`unlistens()` is deprecated due to its name is too similar to `unlisten()`. Please change to `unlistenMulti()`, which has the same behavior.');
+    unlistenMulti(...arguments);
 }
 
 
@@ -132,7 +152,9 @@ export const extendEventTargetPrototype = () =>
     Object.assign(EventTarget.prototype, {
         listen: EventTarget.prototype.addEventListener,
         unlisten: EventTarget.prototype.removeEventListener,
-        waitFor: function(...args) { return waitForEvent(this, ...args); }
+        listenMulti: function() { listenMulti(this, ...arguments); },
+        unlistenMulti: function() { unlistenMulti(this, ...arguments); },
+        waitFor: function() { return waitForEvent(this, ...arguments); }
     })
 ;
 
@@ -140,6 +162,7 @@ export const extendEventTargetPrototype = () =>
 Object.assign(utilEvent, {
     listen, unlisten,
     listens, unlistens,
+    listenMulti, unlistenMulti,
     waitForEvent,
     extendEventTargetPrototype
 });

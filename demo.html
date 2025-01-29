@@ -41,6 +41,7 @@
         <ul>
             <li><a href="https://github.com/kong0107/kong-util/blob/gh-pages/demo.html">source code of this page</a></li>
             <li><a href="./doc">API documentation</a></li>
+            <li>Version: <span id="version"></span></li>
         </ul>
     </footer>
     <script>
@@ -94,7 +95,15 @@
                     "role": "presentation",
                     "aria": {"label": "分隔線"},
                     "data-foo-bar": "2000",
-                    "data": {"testHere": "xxx"}
+                    "data": {
+                        "testHere": "xxx",
+                        "trueDatasetValuesJustExist": true,
+                        "falseDatasetValuesDisappear": false,
+                        "nullDatasetValuesDisappear": null
+                    },
+                    "data-true-attr-values-exist": true,
+                    "data-false-attr-values-exist": false,
+                    "data-null-attr-values-exist": null
                 }],
                 ["svg", {
                         "class": "bi bi-pin-fill",
@@ -118,6 +127,10 @@
                 ]
             ]
         ));
+    </script>
+    <script>
+        fetchJSON('package.json', {method: 'GET', body: {'request-body': 'is auto-converted into search params in URL'}})
+        .then(obj => {setText('#version', obj.version)});
     </script>
 </body>
 </html>

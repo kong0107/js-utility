@@ -403,6 +403,21 @@ function setAttributesInElement(attributes, elem = this) {
         }
     }
 
+    if ('aria' in attributes) {
+        const value = attributes.aria;
+        attributes = Object.assign({}, attributes); // copy to avoid modification of origin argument
+        if (value === null) { // remove all ARIA attributes
+            [...elem.attributes].forEach(a => {
+                if (a === 'role' || a.startsWith('aria-')) elem.removeAttribute(a);
+            });
+        }
+        else for (let aa in value) { // treat them as normal attributes later
+            const name = (aa === 'role') ? 'role' : `aria-${aa.toLowerCase()}`;
+            attributes[name] = value[aa];
+        }
+        delete attributes.aria;
+    }
+
     for (let name in attributes) {
         if (name.startsWith('xmlns:')) continue;
         const value = attributes[name];
@@ -450,21 +465,9 @@ function setAttributesInElement(attributes, elem = this) {
                         for (let key in d) delete d[key];
                     else for (let ds in value) {
                         const key = camelize(ds);
-                        if (value[ds] === null) delete d[key];
+                        if (value[ds] === null || value[ds] === false) delete d[key];
+                        else if (value[ds] === true) d[key] = '';
                         else d[key] = value[ds];
-                    }
-                    break;
-                }
-                case 'aria': {
-                    if (value === null) { // this delete all ARIA related attributes.
-                        [...elem.attributes].forEach(a => {
-                            if (a === 'role' || a.startsWith('aria')) elem.removeAttribute(a);
-                        });
-                    }
-                    else for (let aa in value) {
-                        const name = (aa === 'role') ? 'role' : `aria-${aa.toLowerCase()}`;
-                        if (value[aa] === null) elem.removeAttribute(name);
-                        else elem.setAttribute(name, value[aa]);
                     }
                     break;
                 }
@@ -472,9 +475,11 @@ function setAttributesInElement(attributes, elem = this) {
                     setTextInElement(value, elem);
                     break;
                 }
+                // case 'aria': break; // shall has been delete before this for-loop
                 // case 'namespace': break; // shall has been deleted within createElementFromJsonML
                 default: {
-                    if (value === null) elem.removeAttribute(name);
+                    if (value === null || value === false) elem.removeAttribute(name);
+                    else if (value === true) elem.setAttribute(name, '');
                     else elem.setAttribute(name, value);
                 }
             }
@@ -482,7 +487,8 @@ function setAttributesInElement(attributes, elem = this) {
         else {
             const prefix = name.slice(0, pos);
             const ns = nameSpaces[prefix] ?? null;
-            if (value === null) elem.removeAttributeNS(ns, name);
+            if (value === null || value === false) elem.removeAttributeNS(ns, name);
+            else if (value === true) elem.setAttributeNS(ns, name, '');
             else elem.setAttributeNS(ns, name, value);
         }
     }

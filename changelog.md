@@ -1,5 +1,15 @@
 # ChangeLog of kong-util
 
+## 0.8.2 (250129)
+* Update `kongWeb.fetchStrict()`
+  which now supports a normal object to be request's `body`,
+  and GET is allowed to have `body` in some cases.
+* Rename `kongEvent.listens()` and `kongEvent.unlistens()`
+  into `listenMulti()` and `unlistenMulti()` respectively.
+* Update `kongDom.setAttributesInElement()`
+  which now treats boolean values into `setAttribute(attr, '')` or `removeAttribute(attr)`.
+  This affects `setAttributes` and `createElementFromJsonML`.
+
 ## 0.8.1 (250126)
 * Update `README.md`
 * Add `kongObject.objectMap()` and `kongObject.objectMapAsync()`

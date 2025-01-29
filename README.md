@@ -74,7 +74,7 @@ Or, simply `kongUtil.use()` (without any argument) would lead all its methods gl
 ```javascript
 kongUtil.use();
 wait(100).then(() => console.log("xxx"));
-$("body").append("some text"); // `$` is a shortcut to `document.querySelector`
+$("body").append("some text"); // `$` works as `document.querySelector` if assigned one string.
 ```
 
 **Warning**: Some function names may conflict with other library, such as `$` in jQuery.
@@ -176,7 +176,7 @@ createElementFromJsonML(
     ]
 );
 
-// sets attribute of an Element
+// sets attributes of an Element
 setAttributes('#my-button', {
     type: "button",
     style: "border: 1px solid red",
@@ -204,7 +204,7 @@ function foo1() {console.log('aaa');}
 listen('#my-button', 'click', foo1);
 unlisten('#my-button', 'click', foo1);
 
-listens('button', 'click', foo1); // applies to all <button>s
+listenMulti('button', 'click', foo1); // applies to all <button>s
 
 // after prototype extended
 $('#my-button').listen('click', foo1); // alias to `addEventListener`
@@ -250,14 +250,18 @@ objectMap(x => x*x, {a: 2, b: 3});
 ### utilWeb
 
 ```js
+const params = {x: 3, y: 4};
+
 // old way
-fetch(url4)
+fetch(url4, {method: 'POST', body: new URLSearchParams(params)})
 .then(res => {
     if (response.ok) return response;
     throw new ReferenceError(response.statusText);
 })
-.then(res => res.json());
+.then(res => res.json())
+.then(obj => { /* ... */ });
 
 // new way
-fetchJSON(url4);
+fetchJSON(url4, {method: 'POST', body: params})
+.then(obj => { /* ... */ });
 ```

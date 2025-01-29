@@ -115,6 +115,9 @@
             
                 
 <span class="param-type">Object</span>
+|
+
+<span class="param-type">URLSearchParams</span>
 
 
             
@@ -165,7 +168,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line80">line 80</a>
+        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line135">line 135</a>
     </li></ul></dd>
     
 
@@ -324,7 +327,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line53">line 53</a>
+        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line108">line 108</a>
     </li></ul></dd>
     
 
@@ -491,7 +494,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line43">line 43</a>
+        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -658,7 +661,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line23">line 23</a>
+        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line78">line 78</a>
     </li></ul></dd>
     
 
@@ -720,7 +723,15 @@
 
 
 <div class="description">
-    <p>Same as <code>fetch()</code> but rejects if HTTP error (e.g &quot;404 not found&quot;)</p>
+    <p>Similar to <code>fetch()</code> but</p>
+<ol>
+<li>rejects if HTTP error (e.g &quot;404 not found&quot;).</li>
+<li>if <code>body</code> is a normal object (such as those created by <code>{}</code>), convert it into <code>URLSearchParams</code>.</li>
+<li>if <code>method</code> is set to 'GET' explicitly,
+and <code>body</code> is <code>URLSearchParams</code> or a normal object,
+convert the request into an URL with search param.</li>
+<li>if <code>body</code> exists without setting <code>method</code>, warn and request with POST method.</li>
+</ol>
 </div>
 
 
@@ -801,7 +812,7 @@
 
             
 
-            <td class="description last"><p>same as <code>fetch()</code></p></td>
+            <td class="description last"></td>
         </tr>
 
     
@@ -1009,7 +1020,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line33">line 33</a>
+        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line88">line 88</a>
     </li></ul></dd>
     
 
@@ -1187,7 +1198,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line63">line 63</a>
+        <a href="web.mjs.html">web.mjs</a>, <a href="web.mjs.html#line118">line 118</a>
     </li></ul></dd>
     
 
