@@ -551,6 +551,22 @@ export const extendElementPrototype = () => {
         setAria: setAriaInElement,
         set: setAttributesInElement
     });
+    [
+        'after',
+        'append',
+        'before',
+        'prepend',
+        'replaceChildren',
+        'replaceWith'
+    ].forEach(method => {
+        const origin = p[method];
+        p[method] = function () {
+            const nodes = [...arguments].map(node => {
+                return (node instanceof Array) ? createElementFromJsonML(node) : node;
+            });
+            return origin.apply(this, nodes);
+        };
+    });
 };
 
 

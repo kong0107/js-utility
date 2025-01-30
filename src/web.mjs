@@ -35,20 +35,10 @@ export async function fetchEx(resource, options) {
         switch (resource.method || options?.method) {
             case 'GET': {
                 if (body instanceof URLSearchParams) {
-                    let url = resource.url ?? (resource + '');
-                    try {
-                        url = new URL(url); // full url
-                    }
-                    catch (err) { // path only
-                        if (url.startsWith('/')) { // abs path
-                            url = (new URL(document.baseURI)).origin + url;
-                        }
-                        else { // relative path
-                            const pos = document.baseURI.lastIndexOf('/');
-                            url = document.baseURI.slice(0, pos + 1) + url;
-                        }
-                        url = new URL(url);
-                    }
+                    const url = new URL(
+                        resource.url ?? (resource + ''),
+                        document?.baseURI
+                    );
                     for (const [key, value] of body.entries())
                         url.searchParams.set(key, value);
                     resource = resource.url ? (new Request(resource, {url, body: undefined})) : url;

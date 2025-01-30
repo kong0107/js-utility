@@ -76,7 +76,8 @@
         // HTML strings may be parsed into DOM object with one function
     </script>
     <script>
-        $("#sec2").append(createElementFromJsonML(
+        extendElementPrototype();
+        $("#sec2").append(
             ['div', {style: 'border: 3px dashed gray; margin-bottom: 2em; padding: 0 .5em;'},
                 ['p', 'This utility also supports JsonML.'],
                 ['p',
@@ -126,7 +127,7 @@
                     ]
                 ]
             ]
-        ));
+        );
     </script>
     <script>
         fetchJSON('package.json', {method: 'GET', body: {'request-body': 'is auto-converted into search params in URL'}})

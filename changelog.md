@@ -1,5 +1,9 @@
 # ChangeLog of kong-util
 
+## 0.8.4 (250130)
+* Extend `Element`'s native methods which have strings or nodes as arguments
+  to support JsonML inputs after calling `extendElementPrototype()`.
+
 ## 0.8.3 (250130)
 * Add `kongWeb.fetchEx()`
   which is made from `fetchSrict()` but resolves even in HTTP error.
