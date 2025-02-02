@@ -226,12 +226,30 @@ export function base64ToBlob(string, type) {
 }
 
 
+/**
+ * @func modifyURLBySearchParams
+ * @param {string | URL | Location} url
+ * @param {string | URLSearchParams | FormData} searchParams
+ * @returns {URL}
+ * @example /// returns 'https://example.com/?page=3&foo=4'
+ *  modifyURLBySearchParams('https://example.com/?page=2', {page: 3, foo: 4}).toString();
+ */
+export function modifyURLBySearchParams(url, searchParams) {
+    if (! (url instanceof URL)) url = new URL(url, document?.baseURI);
+    if (! (searchParams instanceof URLSearchParams)) searchParams = new URLSearchParams(searchParams);
+    for (const [key, value] of searchParams.entries())
+        url.searchParams.set(key, value);
+    return url;
+}
+
+
 Object.assign(utilString, {
     camelize, kebabize,
     parseChineseNumber,
     compareVersionNumbers,
     toCSV, parseCSV,
-    base64ToBlob
+    base64ToBlob,
+    modifyURLBySearchParams
 });
 
 export default utilString;

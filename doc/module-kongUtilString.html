@@ -754,6 +754,197 @@ For more complicated cases, use <code>semver</code> or <code>compare-versions</c
     
 
     
+    <h4 class="name" id="~modifyURLBySearchParams"><span class="type-signature">(inner) </span>modifyURLBySearchParams<span class="signature">(url, searchParams)</span><span class="type-signature"> &rarr; {URL}</span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">URL</span>
+|
+
+<span class="param-type">Location</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>searchParams</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">URLSearchParams</span>
+|
+
+<span class="param-type">FormData</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="string.mjs.html">string.mjs</a>, <a href="string.mjs.html#line229">line 229</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">URL</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>/// returns 'https://example.com/?page=3&amp;foo=4' modifyURLBySearchParams('https://example.com/?page=2', {page: 3, foo: 4}).toString();</code></pre>
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="~parseChineseNumber"><span class="type-signature">(inner) </span>parseChineseNumber<span class="signature">(string, forceString<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {number|string|NaN}</span></h4>
     
 

@@ -132,6 +132,8 @@
     <script>
         fetchJSON('package.json', {method: 'GET', body: {'request-body': 'is auto-converted into search params in URL'}})
         .then(obj => {setText('#version', obj.version)});
+
+        console.log(modifyURLBySearchParams(location.href + '?page=2', {page: 3, foo: 'bar'}).toString());
     </script>
 </body>
 </html>

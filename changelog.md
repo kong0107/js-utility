@@ -1,5 +1,9 @@
 # ChangeLog of kong-util
 
+## 0.8.5 (250202)
+* Add `kongString.modifyURLBySearchParams()`
+  which sets `searchParams` of a `URL` or URL string.
+
 ## 0.8.4 (250130)
 * Extend `Element`'s native methods which have strings or nodes as arguments
   to support JsonML inputs after calling `extendElementPrototype()`.
