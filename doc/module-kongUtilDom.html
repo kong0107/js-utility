@@ -707,7 +707,7 @@ however, for selectors have no matches, empty array is returned instead of null.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line257">line 257</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line282">line 282</a>
     </li></ul></dd>
     
 
@@ -822,7 +822,7 @@ however, for selectors have no matches, empty array is returned instead of null.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line246">line 246</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line271">line 271</a>
     </li></ul></dd>
     
 
@@ -865,7 +865,7 @@ however, for selectors have no matches, empty array is returned instead of null.
     
 
     
-    <h4 class="name" id="~createElementFromJsonML"><span class="type-signature">(inner) </span>createElementFromJsonML<span class="signature">(jsonml, namespace<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Element}</span></h4>
+    <h4 class="name" id="~createElementFromJsonML"><span class="type-signature">(inner) </span>createElementFromJsonML<span class="signature">(jsonml, jsonml, jsonml, namespace<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Element|TextNode}</span></h4>
     
 
     
@@ -936,6 +936,74 @@ however, for selectors have no matches, empty array is returned instead of null.
             
 
             <td class="description last"><p>see http://www.jsonml.org/</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>jsonml</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>returns a TextNode</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>jsonml</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">null</span>
+|
+
+<span class="param-type">undefined</span>
+|
+
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>returns an empty TextNode</p></td>
         </tr>
 
     
@@ -1053,6 +1121,9 @@ however, for selectors have no matches, empty array is returned instead of null.
     <dd>
         
 <span class="param-type">Element</span>
+|
+
+<span class="param-type">TextNode</span>
 
 
     </dd>
@@ -1181,7 +1252,7 @@ however, for selectors have no matches, empty array is returned instead of null.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line217">line 217</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line242">line 242</a>
     </li></ul></dd>
     
 
@@ -1445,7 +1516,7 @@ however, for selectors have no matches, empty array is returned instead of null.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line302">line 302</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line327">line 327</a>
     </li></ul></dd>
     
 
@@ -1626,7 +1697,7 @@ however, for selectors have no matches, empty array is returned instead of null.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line288">line 288</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line313">line 313</a>
     </li></ul></dd>
     
 
@@ -1732,7 +1803,7 @@ however, for selectors have no matches, empty array is returned instead of null.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line513">line 513</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line540">line 540</a>
     </li></ul></dd>
     
 
@@ -2197,7 +2268,7 @@ Could be assign to <code>Element.prototype</code>.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line271">line 271</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line296">line 296</a>
     </li></ul></dd>
     
 
@@ -2693,7 +2764,7 @@ may cause browsers not creating elements but only the text nodes within them.</p
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line361">line 361</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line386">line 386</a>
     </li></ul></dd>
     
 
@@ -2881,7 +2952,7 @@ may cause browsers not creating elements but only the text nodes within them.</p
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line498">line 498</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line525">line 525</a>
     </li></ul></dd>
     
 
@@ -3101,7 +3172,7 @@ may cause browsers not creating elements but only the text nodes within them.</p
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line331">line 331</a>
+        <a href="dom.mjs.html">dom.mjs</a>, <a href="dom.mjs.html#line356">line 356</a>
     </li></ul></dd>
     
 

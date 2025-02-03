@@ -1,5 +1,10 @@
 # ChangeLog of kong-util
 
+## 0.8.6 (250204)
+* Update `kongDom.createElementFromJsonML()`
+  which now treat `null`, `undefined`, and `boolean` as empty string
+  and merge adjacent text nodes.
+
 ## 0.8.5 (250202)
 * Add `kongString.modifyURLBySearchParams()`
   which sets `searchParams` of a `URL` or URL string.

@@ -79,13 +79,13 @@
         extendElementPrototype();
         $("#sec2").append(
             ['div', {style: 'border: 3px dashed gray; margin-bottom: 2em; padding: 0 .5em;'},
-                ['p', 'This utility also supports JsonML.'],
+                ['p', 'This utility also supports JsonML.', true, false, null, undefined],
                 ['p',
                     ['a', {href: 'http://www.jsonml.org/'},
                         ['ruby',
                             'JsonML',
                             ['rp', '('],
-                            ['rt', 'JSON Markup Language'],
+                            ['rt', 'JSON ', 'Markup Language'],
                             ['rp', ')']
                         ]
                     ],

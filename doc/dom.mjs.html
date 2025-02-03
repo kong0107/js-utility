@@ -216,13 +216,22 @@ function createNodeSelector(filterRule, base) {
  * @desc Use JsonML to create an HTML element.
  * @see {@link http://www.jsonml.org/ }
  * @param {Array} jsonml - see http://www.jsonml.org/
+ * @param {string} jsonml - returns a TextNode
+ * @param {null | undefined | boolean} jsonml - returns an empty TextNode
  * @param {string} [namespace] - set this to use `createElementNS()`
- * @returns {Element}
+ * @returns {Element | TextNode}
  */
 export function createElementFromJsonML(jsonml, namespace) {
     if (typeof namespace !== 'string') namespace = null; // make this function safe for functions such as `Array.map()`.
-    if (typeof jsonml !== 'object') return document.createTextNode(jsonml);
-    if (jsonml instanceof Node) return jsonml.cloneNode(true);
+
+    if (jsonml instanceof Node)
+        return jsonml.cloneNode(true);
+
+    if (jsonml === null || jsonml === undefined || typeof jsonml === 'boolean')
+        return document.createTextNode('');
+
+    if (! (jsonml instanceof Array))
+        return document.createTextNode(jsonml);
 
     let [tag, attributes, ...children] = jsonml;
     if (typeof jsonml[1] !== 'object' || jsonml[1] instanceof Array) {
@@ -237,7 +246,23 @@ export function createElementFromJsonML(jsonml, namespace) {
     delete attributes.namespace;
     setAttributesInElement(attributes, elem);
 
-    elem.append(...children.map(c => createElementFromJsonML(c, ns)));
+    children = children
+        .reduce((acc, cur) => { // filter out empty node and merge text nodes
+            if (cur === null || cur === undefined || typeof cur === 'boolean' || cur === '') return acc;
+            if (acc.length) {
+                const last = acc.length - 1;
+                if (typeof acc[last] === 'string' &amp;&amp; typeof cur === 'string') {
+                    acc[last] += cur;
+                    return acc;
+                }
+            }
+            acc.push(cur);
+            return acc;
+        }, [])
+        .map(c => createElementFromJsonML(c, ns))
+    ;
+
+    elem.append(...children);
     return elem;
 }
 
@@ -423,6 +448,8 @@ export function setAria(s, attr, value = null) {
  * @returns {undefined}
  */
 function setAttributesInElement(attributes, elem = this) {
+    // if (attributes === null) return;
+
     const nameSpaces = {};
     for (let name in attributes) {
         if (name.startsWith('xmlns:')) {
