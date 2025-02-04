@@ -34,6 +34,32 @@ import {camelize, kebabize} from "./string.mjs";
 
 export * from "./core.mjs";
 
+
+/**
+ * @typedef {Array} JsonML
+ * @desc JSON Markup Language structure
+ * @see {@link http://www.jsonml.org/ }
+ * @property {string} 0 - HTML tag to create
+ * @property {Object} 1 - attributes those to be set to the HTML element
+ * @property {JsonML | string} [2] - first child of the element created
+ * @property {JsonML | string} [3] - second child of the element created
+ */
+
+/**
+ * @typedef {(undefined|null|false)} NullLike
+ */
+
+/**
+ * @private
+ * @func isLikeNull
+ * @param {*} variable
+ * @returns {boolean}
+ */
+function isLikeNull(variable) {
+    return variable === undefined || variable === null || variable === false;
+}
+
+
 /**
  * @func $
  * @desc Shortcut to `querySelector`, but different if not given a string.
@@ -213,11 +239,9 @@ function createNodeSelector(filterRule, base) {
 
 /**
  * @func createElementFromJsonML
- * @desc Use JsonML to create an HTML element.
- * @see {@link http://www.jsonml.org/ }
- * @param {Array} jsonml - see http://www.jsonml.org/
- * @param {string} jsonml - returns a TextNode
- * @param {null | undefined | boolean} jsonml - returns an empty TextNode
+ * @desc Use JsonML to create an HTML element. For attributes setting, see `setAttributes`.
+ * @see {@link setAttributes}
+ * @param {JsonML} jsonml
  * @param {string} [namespace] - set this to use `createElementNS()`
  * @returns {Element | TextNode}
  */
@@ -386,7 +410,7 @@ function setTextInElement(text = '', elem = this) {
  * @desc Set `textContent` of the first Element, if found any. Useful if you are not sure about its existence.
  * @param {string | Element} s CSS selector string, or an Element
  * @param {string} [text='']
- * @returns {null | Element} the first found Element, or null.
+ * @returns {null | Element} the first found Element, or null if not found.
  */
 export function setText(s, text) {
     const elem = $(s);
@@ -400,23 +424,23 @@ export function setText(s, text) {
  * @private
  * @func setAriaInElement
  * @desc Set one of ARIA attribute
- * @param {string} attr attribute name without `aria-` prefixed
- * @param {string | null} [value=null]
+ * @param {string} attr
+ * @param {NullLike | true | string} [value=null]
  * @param {Element} [elem=this]
  * @returns {undefined}
  */
 function setAriaInElement(attr, value = null, elem = this) {
     if (attr != 'role' &amp;&amp; ! attr.startsWith('aria-')) attr = `aria-${attr}`;
-    if (value === null) elem.removeAttribute(attr);
-    else elem.setAttribute(attr, value);
+    if (isLikeNull(value)) elem.removeAttribute(attr);
+    else elem.setAttribute(attr, (value === true) ? '' : value);
 }
 
 /**
  * @func setAria
  * @desc Set ARIA attribute of the first Element, if found any.
  * @param {string | Element} s CSS selector string, or an Element
- * @param {string} attr attribute name without `aria-` prefixed
- * @param {string | null} [value=null]
+ * @param {string} attr ARIA attribute name, `aria-` is auto-prefixed.
+ * @param {NullLike | true | string} [value=null] NullLike value removes the attribute; true set it as empty string; others treated as string value.
  * @returns {null | Element} the first found Element, or null.
  */
 export function setAria(s, attr, value = null) {
@@ -430,25 +454,12 @@ export function setAria(s, attr, value = null) {
 /**
  * @private
  * @func setAttributesInElement
- * @desc Set attributes of an Element by an object as a map.
- * Attributes with namespace prefix are also supported.
- * Attributes with null value in the first argument would be removed in the Element, except event listeners.
- * Event listeners are added by "on*"" such as "onclick" (case-insensitive).
- * CSS class could be assigned by string or {Array.&lt;string>}.
- * Inline style could be assigned by string or {Object.&lt;string, string>}.
- * Set `text` property of the first argument would assign the element's `textContent`, though it's not an attribute.
- *
  * @param {Object} attributes
- * @param {Function} [attributes.onClick]
- * @param {null | string | Array.&lt;string>} [attributes.class]
- * @param {null | string | Object.&lt;string, (string|null)>} [attributes.style]
- * @param {null | Object.&lt;string, (string|null)>} [attributes.data]
- * @param {null | Object.&lt;string, (string|null)>} [attributes.aria]
  * @param {Element} [elem=this]
  * @returns {undefined}
  */
 function setAttributesInElement(attributes, elem = this) {
-    // if (attributes === null) return;
+    if (isLikeNull(attributes)) return;
 
     const nameSpaces = {};
     for (let name in attributes) {
@@ -461,7 +472,7 @@ function setAttributesInElement(attributes, elem = this) {
     if ('aria' in attributes) {
         const value = attributes.aria;
         attributes = Object.assign({}, attributes); // copy to avoid modification of origin argument
-        if (value === null) { // remove all ARIA attributes
+        if (isLikeNull(value)) { // remove all ARIA attributes
             [...elem.attributes].forEach(a => {
                 if (a === 'role' || a.startsWith('aria-')) elem.removeAttribute(a);
             });
@@ -478,73 +489,73 @@ function setAttributesInElement(attributes, elem = this) {
         const value = attributes[name];
 
         const pos = name.indexOf(':');
-        if (pos === -1) {
-            if (name.startsWith('on')) {
-                listen(elem, name.substring(2).toLowerCase(), value);
-                continue;
-            }
-            switch (name) {
-                case 'class': // for class name: either null, empty array, empty string leads to no class attribute.
-                case 'classname':
-                case 'className': {
-                    if (value?.length) {// this handles either null, array, string
-                        elem.setAttribute('class',
-                            (typeof value === 'string') ? value : value.join(' ')
-                        );
-                    }
-                    else elem.removeAttribute('class');
-                    break;
-                }
-                case 'css': // for style: null, string, and Object.&lt;string, (string|null)> are acceptable.
-                case 'style': {
-                    if (! value) elem.removeAttribute('style');
-                    else if (typeof value === 'string') elem.style.cssText = value;
-                    else for (let sp in value) {
-                        /**
-                         * Empty value is different from property without setting.
-                         * So we might use `removeProperty()`, which uses kekbab-case.
-                         */
-                        const s = elem.style;
-                        const prop = kebabize(sp);
-                        if (value[sp] === null) s.removeProperty(prop);
-                        else if (value[sp].endsWith('!important'))
-                            s.setProperty(prop, value[sp].slice(0, -10).trim(), 'important');
-                        else s.setProperty(prop, value[sp]);
-                    }
-                    break;
-                }
-                case 'data': // for dataset: null and Object.&lt;string, (string|null)> are acceptable.
-                case 'dataset': {
-                    const d = elem.dataset;
-                    if (value === null) // this delete the whole dataset
-                        for (let key in d) delete d[key];
-                    else for (let ds in value) {
-                        const key = camelize(ds);
-                        if (value[ds] === null || value[ds] === false) delete d[key];
-                        else if (value[ds] === true) d[key] = '';
-                        else d[key] = value[ds];
-                    }
-                    break;
-                }
-                case 'text': {
-                    setTextInElement(value, elem);
-                    break;
-                }
-                // case 'aria': break; // shall has been delete before this for-loop
-                // case 'namespace': break; // shall has been deleted within createElementFromJsonML
-                default: {
-                    if (value === null || value === false) elem.removeAttribute(name);
-                    else if (value === true) elem.setAttribute(name, '');
-                    else elem.setAttribute(name, value);
-                }
-            }
-        }
-        else {
+        if (pos !== -1) {
             const prefix = name.slice(0, pos);
             const ns = nameSpaces[prefix] ?? null;
-            if (value === null || value === false) elem.removeAttributeNS(ns, name);
+            if (isLikeNull(value)) elem.removeAttributeNS(ns, name);
             else if (value === true) elem.setAttributeNS(ns, name, '');
             else elem.setAttributeNS(ns, name, value);
+            continue;
+        }
+
+        name = name.toLowerCase();
+        if (name.startsWith('on')) {
+            listen(elem, name.slice(2), value);
+            continue;
+        }
+        switch (name) {
+            case 'class': // for class name: either undefined, null, empty array, empty string leads to no class attribute.
+            case 'classname': {
+                if (value?.length) {// this handles either null, array, string
+                    elem.setAttribute('class',
+                        (typeof value === 'string') ? value : value.join(' ')
+                    );
+                }
+                else elem.removeAttribute('class');
+                break;
+            }
+            case 'css': // for style: undefined, null, string, and Object.&lt;string, (string|null)> are acceptable.
+            case 'style': {
+                if (! value) elem.removeAttribute('style');
+                else if (typeof value === 'string') elem.style.cssText = value;
+                else for (let sp in value) {
+                    /**
+                     * Empty value is different from property without setting.
+                     * So we might use `removeProperty()`, which uses kekbab-case.
+                     */
+                    const s = elem.style;
+                    const prop = kebabize(sp);
+                    if (isLikeNull(value[sp])) s.removeProperty(prop);
+                    else if (value[sp].endsWith('!important'))
+                        s.setProperty(prop, value[sp].slice(0, -10).trim(), 'important');
+                    else s.setProperty(prop, value[sp]);
+                }
+                break;
+            }
+            case 'data': // for dataset: undefined, null and Object.&lt;string, (string|null|undefined)> are acceptable.
+            case 'dataset': {
+                const d = elem.dataset;
+                if (isLikeNull(value)) // this delete the whole dataset
+                    for (let key in d) delete d[key];
+                else for (let ds in value) {
+                    const key = camelize(ds);
+                    if (isLikeNull(value[ds])) delete d[key];
+                    else if (value[ds] === true) d[key] = '';
+                    else d[key] = value[ds];
+                }
+                break;
+            }
+            case 'text': {
+                setTextInElement(value, elem);
+                break;
+            }
+            // case 'aria': break; // shall has been delete before this for-loop
+            // case 'namespace': break; // shall has been deleted within createElementFromJsonML
+            default: {
+                if (isLikeNull(value)) elem.removeAttribute(name);
+                else if (value === true) elem.setAttribute(name, '');
+                else elem.setAttribute(name, value);
+            }
         }
     }
 }
@@ -553,9 +564,49 @@ function setAttributesInElement(attributes, elem = this) {
 /**
  * @func setAttributes
  * @desc Set attributes of an Element by an object as a map.
+ *
+ * Attributes with namespace prefix are also supported.
+ *
+ * Attributes with undefined, null, or false value in the first argument would be removed in the Element, except event listeners.
+ *
+ * Event listeners are added by "on*"" such as "onclick" (case-insensitive).
+ *
+ * CSS class could be assigned by string or `Array.&lt;string>`.
+ *
+ * Inline style could be assigned by string or `Object.&lt;string>`.
+ *
+ * Set `text` property of the first argument would assign the element's `textContent`, though it's not an attribute.
+ *
  * @param {string | Element} s CSS selector string, or an Element
  * @param {Object} attributes
- * @returns {null | Element} the first found Element, or null.
+ * @param {Function} [attributes.onClick]
+ * @param {NullLike | string | Array.&lt;string>} [attributes.class]
+ * @param {NullLike | string | Object.&lt;string, (string|NullLike)>} [attributes.style]
+ * @param {NullLike | Object.&lt;string, (string|NullLike)>} [attributes.data]
+ * @param {NullLike | Object.&lt;string, (string|NullLike)>} [attributes.aria]
+ * @returns {null | Element} the first found Element, or null if not found.
+ *
+ * @example /// set body background to red
+    setAttributes('#some-input', {
+        type: 'text',
+        value: 'my string'
+    });
+ *
+ * @example /// set body background to red and text to white
+    setAttributes('body', {style: 'background-color: red; color: white'});
+ *
+ * @example /// set body background to red
+    setAttributes('body', {style: {
+        backgroundColor: 'red',
+        color: 'white'
+    }});
+ *
+ * @example /// set body class
+    setAttributes('body', {class: 'my-class your-class'});
+ *
+ * @example /// set body class
+    setAttributes('body', {class: ['my-class', 'your-class']});
+ *
  */
 export function setAttributes(s, attributes) {
     const elem = $(s);

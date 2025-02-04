@@ -1,8 +1,19 @@
 # ChangeLog of kong-util
 
+## future (0.9.0 expected)
+* Assign old `kongDom.createElement` to `createElementFromJsonML` instead of showing warning message only.
+* Remove `kongDom.clearElement`, `kongDom.setAria`.
+
+## 0.8.7 (250204)
+* Update `kongDom.setAttributes()`
+  which now removes the specified attribute if `undefined` is assigned.
+  This affects `createElementFromJsonML`.
+* Improve documentation.
+  Add `@typedef JsonML` and `@typedef NullLike` into `kongDom`.
+
 ## 0.8.6 (250204)
 * Update `kongDom.createElementFromJsonML()`
-  which now treat `null`, `undefined`, and `boolean` as empty string
+  which now treats `null`, `undefined`, and `boolean` as empty string
   and merge adjacent text nodes.
 
 ## 0.8.5 (250202)
